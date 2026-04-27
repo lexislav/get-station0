@@ -1,0 +1,17 @@
+{
+    "name": "lexislav/station0-skeleton",
+    "description": "Station0 CMS project skeleton — use with composer create-project.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "lexislav/station0": "^0.2"
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

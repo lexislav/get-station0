@@ -1,0 +1,7 @@
+Title: Home
+Published: true
+---
+
+# Welcome
+
+This is your Station0 site. Edit this page in `site/content/pages/page.txt`.

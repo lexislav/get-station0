@@ -1,0 +1,4 @@
+fields:
+  body:
+    type: textarea
+    label: Text (Markdown)
