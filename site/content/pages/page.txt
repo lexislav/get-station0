@@ -2,6 +2,16 @@ Title: Home
 Published: true
 ---
 
-# Welcome
+# Welcome to Station0
 
-This is your Station0 site. Edit this page in `site/content/pages/page.txt`.
+A lightweight flat-file CMS. Pages live as plain `.txt` files — no database migrations, fully Git-friendly.
+
+## Features
+
+- **Markdown** content with front matter
+- **Block-based** page composition via YAML
+- **Nested pages** with clean URLs (`/about/team`)
+- **Admin panel** with page editor and user management
+- Twig templates with full layout inheritance
+
+Browse the demo pages: [About](/about) · [Work](/work)

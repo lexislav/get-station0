@@ -1,0 +1,11 @@
+Title: History
+Published: true
+---
+
+# History
+
+**2024** — Station0 started as a personal project to replace a bloated CMS.
+
+**2025** — Open-sourced as `lexislav/station0`. Available via Composer.
+
+**Today** — You're reading this. Welcome aboard.

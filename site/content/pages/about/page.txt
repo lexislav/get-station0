@@ -1,0 +1,13 @@
+Title: About
+Published: true
+---
+
+# About
+
+This page uses plain **Markdown** — the simplest content format in Station0.
+
+Front matter (the part above `---`) sets the title, published state, and any custom fields you need. Everything below is rendered as Markdown.
+
+Sub-pages:
+- [Our team](/about/team)
+- [History](/about/history)

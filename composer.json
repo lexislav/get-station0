@@ -3,8 +3,11 @@
     "description": "Station0 CMS project skeleton — use with composer create-project.",
     "type": "project",
     "license": "MIT",
+    "repositories": [
+        {"type": "path", "url": "../station0"}
+    ],
     "require": {
-        "lexislav/station0": "^0.2"
+        "lexislav/station0": "*@dev"
     },
     "scripts": {
         "post-create-project-cmd": [

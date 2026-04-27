@@ -8,6 +8,16 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+<header class="site-header">
+    <a class="brand" href="/">{{ app.name }}</a>
+    <nav class="site-nav">
+        <a href="/about">About</a>
+        <a href="/work">Work</a>
+        <a href="{{ app.adminPath }}">Admin</a>
+    </nav>
+</header>
+<main class="container">
+    {% block body %}{% endblock %}
+</main>
 </body>
 </html>

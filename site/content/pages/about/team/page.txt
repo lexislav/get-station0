@@ -1,0 +1,15 @@
+Title: Our Team
+Published: true
+---
+
+# Our Team
+
+Meet the people behind the project.
+
+## Alice
+
+Lead developer. Loves flat files and hates unnecessary databases.
+
+## Bob
+
+Designer. Believes every CMS should get out of the way.

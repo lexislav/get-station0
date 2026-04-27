@@ -1,0 +1,5 @@
+<div class="gallery gallery--cols-{{ block.columns | default(3) }}">
+    {% for image in block.images | default([]) %}
+        <img src="{{ image.src }}" alt="{{ image.alt | default('') }}">
+    {% endfor %}
+</div>

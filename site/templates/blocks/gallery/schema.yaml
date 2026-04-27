@@ -1,0 +1,15 @@
+fields:
+  columns:
+    type: number
+    label: Columns
+    default: 3
+  images:
+    type: list
+    label: Images
+    item:
+      src:
+        type: text
+        label: URL
+      alt:
+        type: text
+        label: Alt text
