@@ -1,3 +1,4 @@
+label: Gallery
 fields:
   columns:
     type: number
@@ -8,8 +9,8 @@ fields:
     label: Images
     item:
       src:
-        type: text
-        label: URL
+        type: image
+        label: Image
       alt:
         type: text
         label: Alt text
