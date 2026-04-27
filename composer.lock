@@ -723,16 +723,16 @@
         },
         {
             "name": "lexislav/station0",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexislav/station0.git",
-                "reference": "f7d9645ed73bac8abbf1aea059be520e5c7074a6"
+                "reference": "72b7848974ffc0a692e63b0ce618c48c5a32d027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexislav/station0/zipball/f7d9645ed73bac8abbf1aea059be520e5c7074a6",
-                "reference": "f7d9645ed73bac8abbf1aea059be520e5c7074a6",
+                "url": "https://api.github.com/repos/lexislav/station0/zipball/72b7848974ffc0a692e63b0ce618c48c5a32d027",
+                "reference": "72b7848974ffc0a692e63b0ce618c48c5a32d027",
                 "shasum": ""
             },
             "require": {
@@ -770,9 +770,9 @@
             "description": "Grand zero flat file CMS — core library.",
             "support": {
                 "issues": "https://github.com/lexislav/station0/issues",
-                "source": "https://github.com/lexislav/station0/tree/v0.2.0"
+                "source": "https://github.com/lexislav/station0/tree/v0.2.1"
             },
-            "time": "2026-04-27T20:17:59+00:00"
+            "time": "2026-04-27T20:48:56+00:00"
         },
         {
             "name": "monolog/monolog",
