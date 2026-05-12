@@ -11,8 +11,9 @@
 <header class="site-header">
     <a class="brand" href="/">{{ app.name }}</a>
     <nav class="site-nav">
-        <a href="/about">About</a>
-        <a href="/work">Work</a>
+        {% for p in top_level_pages() %}
+            <a href="{{ p.urlPath }}">{{ p.title }}</a>
+        {% endfor %}
         <a href="{{ app.adminPath }}">Admin</a>
     </nav>
 </header>
