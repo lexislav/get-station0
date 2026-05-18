@@ -13,6 +13,4 @@ Updated: 2026-04-28 13:55:55
 
     **Today** — You're reading this. Welcome aboard.
 - type: gallery
-  images:
-    - src: /uploads/6715896b8f477dc8.png
-      alt: ''
+  images: []

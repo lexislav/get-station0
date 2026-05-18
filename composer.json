@@ -4,7 +4,7 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "lexislav/station0": "^0.2"
+        "lexislav/station0": "^0.4"
     },
     "scripts": {
         "post-create-project-cmd": [

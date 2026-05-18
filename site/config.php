@@ -21,7 +21,6 @@ return function (string $station0Root, string $siteRoot, string $projectRoot = '
             'uploads'        => $projectRoot . '/public/uploads',
             'projectRoot'    => $projectRoot,
         ],
-        'uploadsUrl' => '/uploads',
         'mail' => [
             'host'       => $_ENV['MAIL_HOST']      ?? 'localhost',
             'port'       => (int) ($_ENV['MAIL_PORT']  ?? 587),
