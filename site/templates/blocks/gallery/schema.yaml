@@ -10,7 +10,10 @@ fields:
     item:
       src:
         type: image
-        label: Image
+        label: Obrázek
+      caption:
+        type: text
+        label: Popisek (Caption)
       alt:
         type: text
-        label: Alt text
+        label: Alternativní text (alt)

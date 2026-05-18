@@ -1,5 +1,10 @@
 <div class="gallery gallery--cols-{{ block.columns | default(3) }}">
     {% for image in block.images | default([]) %}
-        <img src="{{ image.src }}" alt="{{ image.alt | default('') }}">
+        <figure class="gallery__item">
+            <img src="{{ image.src }}" alt="{{ image.alt | default('') }}">
+            {% if image.caption | default('') %}
+                <figcaption>{{ image.caption }}</figcaption>
+            {% endif %}
+        </figure>
     {% endfor %}
 </div>
