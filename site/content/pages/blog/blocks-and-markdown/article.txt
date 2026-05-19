@@ -1,0 +1,38 @@
+Title: Blocks and Markdown
+Template: article
+Published: true
+PublishedAt: 2026-05-12 14:30
+Author: Station0 Team
+Updated: 2026-05-19 16:57:33
+Sort: 20
+---
+
+A page body can be **plain Markdown** (like this article) or a structured
+**YAML block list** for richer layouts.
+
+## Plain Markdown
+
+The simplest option. Write headings, lists, links, images — it renders as one
+text block. Great for articles and prose.
+
+## Block composition
+
+For landing pages, compose typed blocks in the admin page builder:
+
+```yaml
+- type: text
+  body: |
+    ## Intro
+    Some Markdown here.
+
+- type: gallery
+  columns: 3
+  images:
+    - src: photo.jpg
+      caption: A photo
+```
+
+Each block type lives in `site/templates/blocks/{type}/` with a `schema.yaml`
+(fields shown in the admin) and a `template.twig` (how it renders).
+
+Back to the [Blog](/blog) · Next: [Organizing content](/blog/organizing-content).

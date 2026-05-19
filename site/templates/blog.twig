@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article>
+    <h1>{{ page.title }}</h1>
+    <div class="content">{{ content|raw }}</div>
+
+    <ul class="article-list">
+        {% for child in child_pages(page.urlPath) %}
+            <li>
+                <a href="{{ child.urlPath }}">{{ child.title }}</a>
+                {% if child.publishedAt %}
+                    <span class="muted"> — {{ child.publishedAt|date('j. n. Y') }}</span>
+                {% endif %}
+            </li>
+        {% else %}
+            <li class="muted">Zatím žádné články.</li>
+        {% endfor %}
+    </ul>
+</article>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article class="article">
+    <p class="article-back"><a href="/blog">← Blog</a></p>
+    <h1>{{ page.title }}</h1>
+    {% if page.publishedAt %}
+        <p class="article-meta">{{ page.publishedAt|date('j. n. Y') }}{% if page.author %} · {{ page.author }}{% endif %}</p>
+    {% endif %}
+    <div class="content">{{ content|raw }}</div>
+</article>
+{% endblock %}

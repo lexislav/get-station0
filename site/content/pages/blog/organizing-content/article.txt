@@ -1,0 +1,36 @@
+Title: Organizing content with streams
+Template: article
+Published: true
+PublishedAt: 2026-05-15 11:15
+Author: Station0 Team
+Updated: 2026-05-19 16:57:33
+Sort: 30
+---
+
+Pages in Station0 are hierarchical — `/about/team` lives under `/about`. But a
+blog or news section is a **content stream**: a flat list of same-shaped items
+under one parent.
+
+## Template-based child constraints
+
+A parent page can declare which child templates it accepts:
+
+```
+Title: Blog
+Template: blog
+AllowedChildTemplates: article
+---
+```
+
+With this set, the admin only lets you create `article` pages under `/blog`.
+Creating a plain `page` child — or dragging an unrelated page into the stream —
+is rejected with a clear error. Leave the field empty and there is no
+restriction (the default for every existing page).
+
+## Why constrain?
+
+- Keeps a stream **consistent** — every entry renders the same way.
+- Makes the structure **self-documenting** for editors.
+- Prevents accidental mixing of unrelated content.
+
+Back to the [Blog](/blog).
