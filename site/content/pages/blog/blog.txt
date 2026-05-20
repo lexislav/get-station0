@@ -1,14 +1,16 @@
 Title: Blog
 Template: blog
 Published: true
-Updated: 2026-05-20 13:12:57
+Updated: 2026-05-20 21:47:29
 Sort: 20
 AllowedChildTemplates: article
 ---
 
-A demo **content stream**. This page uses the `blog` template and declares
-`AllowedChildTemplates: article` in its front matter — so only pages using the
-`article` template can be created beneath it. Try adding a plain `page` child in
-the admin and you'll get a clear error.
+- type: text
+  body: |-
+    A demo **content stream**. This page uses the `blog` template and declares
+    `AllowedChildTemplates: article` in its front matter — so only pages using the
+    `article` template can be created beneath it. Try adding a plain `page` child in
+    the admin and you'll get a clear error.
 
-Articles below are listed automatically via the `child_pages()` Twig helper.
+    Articles below are listed automatically via the `child_pages()` Twig helper.

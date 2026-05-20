@@ -1,7 +1,7 @@
 Title: Work
 Template: blocks
 Published: true
-Updated: 2026-05-20 13:12:57
+Updated: 2026-05-20 21:51:56
 Sort: 10
 ---
 
@@ -15,10 +15,13 @@ Sort: 10
 - type: gallery
   images:
     - src: https://placehold.co/600x400?text=Project+1
+      caption: 600x400
       alt: Project 1
     - src: https://placehold.co/600x400?text=Project+2
+      caption: 600x400
       alt: Project 2
     - src: https://placehold.co/600x400?text=Project+3
+      caption: 600x400
       alt: Project 3
 - type: text
   body: |-

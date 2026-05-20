@@ -1,7 +1,7 @@
 Title: Our Team
 Published: true
-Updated: 2026-05-12 22:29:12
-Sort: 10
+Updated: 2026-05-20 21:37:45
+Sort: 20
 ---
 
 # Our Team
