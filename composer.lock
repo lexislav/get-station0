@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89ac5636db6ac49970a2aaa1ad4f3782",
+    "content-hash": "22d4e7cf9914e8fb2a6f5859ec8cb2fa",
     "packages": [
         {
             "name": "delight-im/auth",
@@ -723,17 +723,11 @@
         },
         {
             "name": "lexislav/station0",
-            "version": "v0.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lexislav/station0.git",
-                "reference": "72b7848974ffc0a692e63b0ce618c48c5a32d027"
-            },
+            "version": "dev-main",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lexislav/station0/zipball/72b7848974ffc0a692e63b0ce618c48c5a32d027",
-                "reference": "72b7848974ffc0a692e63b0ce618c48c5a32d027",
-                "shasum": ""
+                "type": "path",
+                "url": "../station0",
+                "reference": "85dc16cafef7c5c149420a70428391cdcc2767d1"
             },
             "require": {
                 "delight-im/auth": "^9.0",
@@ -763,16 +757,13 @@
                     "Station0\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Grand zero flat file CMS — core library.",
-            "support": {
-                "issues": "https://github.com/lexislav/station0/issues",
-                "source": "https://github.com/lexislav/station0/tree/v0.2.1"
-            },
-            "time": "2026-04-27T20:48:56+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "monolog/monolog",
@@ -2813,7 +2804,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "lexislav/station0": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},

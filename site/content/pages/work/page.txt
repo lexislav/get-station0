@@ -1,18 +1,18 @@
 Title: Work
-Published: true
 Template: blocks
+Published: true
+Updated: 2026-05-20 13:12:57
+Sort: 10
 ---
 
 - type: text
-  body: |
+  body: |-
     # Selected Work
 
     This page uses **block-based content** — the body is a YAML list of typed blocks
     instead of plain Markdown. Each block type has its own template in
     `site/templates/blocks/{type}/template.twig`.
-
 - type: gallery
-  columns: 3
   images:
     - src: https://placehold.co/600x400?text=Project+1
       alt: Project 1
@@ -20,13 +20,12 @@ Template: blocks
       alt: Project 2
     - src: https://placehold.co/600x400?text=Project+3
       alt: Project 3
-
 - type: text
-  body: |
+  body: |-
     ## How blocks work
 
     Add a new block type by creating a directory under `site/templates/blocks/{type}/`
     with two files:
 
-    - `schema.yaml` — field definitions shown in the admin editor
-    - `template.twig` — Twig template rendering the block
+    * `schema.yaml` — field definitions shown in the admin editor
+    * `template.twig` — Twig template rendering the block

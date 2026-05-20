@@ -1,6 +1,7 @@
 Title: Blog
 Template: blog
 Published: true
+Updated: 2026-05-20 13:12:57
 Sort: 20
 AllowedChildTemplates: article
 ---

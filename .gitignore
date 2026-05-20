@@ -10,3 +10,4 @@
 !/public/uploads/.htaccess
 .env
 .DS_Store
+.claude/worktrees/
