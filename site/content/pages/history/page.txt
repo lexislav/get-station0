@@ -15,5 +15,5 @@ Sort: 30
     **Today** — You're reading this. Welcome aboard.
 - type: gallery
   images:
-    - src: /uploads/6715896b8f477dc8.png
+    - src: 6715896b8f477dc8.png
       alt: ''

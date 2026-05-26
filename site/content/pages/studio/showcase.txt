@@ -1,0 +1,9 @@
+Title: Studio
+Template: showcase
+Published: true
+Sort: 40
+---
+
+We are an independent design studio specialising in identity, editorial, and digital product design.
+Below you'll find some reusable content blocks pulled from the **shared-blocks** collection —
+the same blocks can appear on any page without duplicating content.

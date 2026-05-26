@@ -1,0 +1,8 @@
+Title: New Arrivals
+Published: true
+Sort: 20
+Subtitle: Fresh from the studio — just landed in our collection
+Cta_text: Explore Now
+Cta_url: /history
+Color: #2a6eb5
+---

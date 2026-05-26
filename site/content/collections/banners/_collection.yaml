@@ -1,0 +1,14 @@
+label: Banners
+fields:
+  subtitle:
+    type: text
+    label: Subtitle
+  cta_text:
+    type: text
+    label: CTA Button Label
+  cta_url:
+    type: text
+    label: CTA URL
+  color:
+    type: color
+    label: Accent Color

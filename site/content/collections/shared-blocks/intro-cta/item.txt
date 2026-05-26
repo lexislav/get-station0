@@ -1,0 +1,12 @@
+Title: Intro CTA
+Published: true
+Sort: 10
+---
+
+- type: text
+  body: |
+    ## Ready to start a project?
+
+    We work with clients across Europe and beyond — from early-stage
+    product design to full brand identities. [Get in touch](/blog) and
+    tell us what you're building.

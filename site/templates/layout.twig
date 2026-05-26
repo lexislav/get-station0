@@ -8,6 +8,29 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+{# ── Banners — loaded from the "banners" collection ──────────────────── #}
+{% set banners = collection('banners') %}
+{% if banners %}
+<div class="site-banners">
+    {% for banner in banners %}
+    <div class="site-banner" style="{% if banner.extra.color %}border-left-color:{{ banner.extra.color }};{% endif %}">
+        <div class="site-banner-inner">
+            <strong>{{ banner.title }}</strong>
+            {% if banner.extra.subtitle %}
+                <span class="site-banner-subtitle">{{ banner.extra.subtitle }}</span>
+            {% endif %}
+            {% if banner.extra.cta_url %}
+                <a class="site-banner-cta" href="{{ banner.extra.cta_url }}"
+                   {% if banner.extra.color %}style="color:{{ banner.extra.color }}"{% endif %}>
+                    {{ banner.extra.cta_text ?? 'Learn more' }} →
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <header class="site-header">
     <a class="brand" href="/">{{ app.name }}</a>
     <nav class="site-nav">

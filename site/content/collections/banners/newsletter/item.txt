@@ -1,0 +1,8 @@
+Title: Join Our Newsletter
+Published: false
+Sort: 30
+Subtitle: Get updates on new work, behind-the-scenes, and more
+Cta_text: Subscribe
+Cta_url: /blog
+Color: #4a9e6b
+---

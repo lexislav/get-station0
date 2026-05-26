@@ -14,6 +14,7 @@ The CMS core library is `lexislav/station0` — installed into `vendor/` and upd
 | `public/` | Web root — `index.php`, assets, uploads |
 | `site/config.php` | App config factory (`fn($station0Root, $siteRoot, $projectRoot): array`) |
 | `site/content/pages/` | Flat-file pages (`page.txt` per directory) |
+| `site/content/collections/` | Headless collections — no public URL (banners, shared blocks, etc.) |
 | `site/templates/` | Twig templates + block definitions |
 | `writable/` | Cache, sessions, logs, `db.sqlite` (gitignored at runtime) |
 
@@ -63,7 +64,7 @@ Published: true
 - type: gallery
   columns: 3
   images:
-    - src: /uploads/photo.jpg
+    - src: photo.jpg
       alt: Photo
 ```
 
@@ -79,13 +80,35 @@ The `image` type renders an upload button in the admin (accepts jpg, png, gif, w
 
 ## Demo pages
 
-| URL | Demonstrates |
-|---|---|
-| `/` | Plain Markdown homepage |
-| `/about` | Markdown with links to sub-pages |
-| `/about/team` | Nested URL (`/about/team`) |
-| `/about/history` | Nested URL (`/about/history`) |
-| `/work` | Block-based page: `text` + `gallery` blocks, `Template: blocks` |
+| URL | Template | Demonstrates |
+|---|---|---|
+| `/` | `page` | Plain Markdown homepage |
+| `/history` | `blocks` | Block-based page: `text` + `gallery` blocks, page-local image asset |
+| `/history/about` | `page` | Nested URL, plain Markdown |
+| `/history/team` | `page` | Nested URL, plain Markdown |
+| `/work` | `blocks` | Block-based page with external image URLs |
+| `/blog` | `blog` | Content stream listing child pages via `child_pages()` |
+| `/blog/editing-basics` | `article` | Article child with `PublishedAt` + `Author` front-matter fields |
+| `/blog/blocks-and-markdown` | `article` | Article child |
+| `/blog/organizing-content` | `article` | Article child, demonstrates `AllowedChildTemplates` |
+| `/studio` | `showcase` | Demonstrates `collection()` and `render_collection_item()` |
+
+The `blog` page declares `AllowedChildTemplates: article` — only `article`-template pages can be created as its children.
+
+## Collections
+
+Headless content stores in `site/content/collections/`. Each collection is a directory with an optional `_collection.yaml` schema and item subdirectories containing `item.txt` files.
+
+**Demo collections:**
+- `banners` — schema-driven (subtitle, cta_text, cta_url, color). Rendered in `layout.twig` above the header. Items: `summer-sale`, `new-arrivals` (published); `newsletter` (draft — toggle in admin to test).
+- `shared-blocks` — free-form body (YAML blocks). Loaded in `showcase.twig` via `collection_item()` and `collection()`.
+
+**Twig API:**
+```twig
+collection('banners')                      {# all published items #}
+collection_item('shared-blocks', 'intro-cta')  {# single item by slug #}
+render_collection_item(item)               {# render item body as HTML #}
+```
 
 ## Environment variables
 

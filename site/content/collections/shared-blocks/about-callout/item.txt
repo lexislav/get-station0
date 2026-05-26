@@ -1,0 +1,12 @@
+Title: About Callout
+Published: true
+Sort: 20
+---
+
+- type: text
+  body: |
+    ## A small studio with a big portfolio
+
+    Founded in 2018, we've helped over 50 clients tell their stories through
+    thoughtful design and honest craft. Our work spans print, digital, and
+    spatial — always rooted in clear thinking.

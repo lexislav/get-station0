@@ -1,0 +1,8 @@
+Title: Summer Sale
+Published: true
+Sort: 10
+Subtitle: Up to 40% off selected items — this week only
+Cta_text: Shop the Sale
+Cta_url: /work
+Color: #e8a020
+---

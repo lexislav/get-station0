@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article>
+    <h1>{{ page.title }}</h1>
+    <div class="content">{{ content|raw }}</div>
+
+    {# ── Pull a named shared block from the "shared-blocks" collection ── #}
+    {% set cta = collection_item('shared-blocks', 'intro-cta') %}
+    {% if cta %}
+        <div class="shared-block">
+            {{ render_collection_item(cta) }}
+        </div>
+    {% endif %}
+
+    {# ── Loop over the full "shared-blocks" collection ── #}
+    {% set blocks = collection('shared-blocks') %}
+    {% if blocks|length > 1 %}
+        <h2 style="margin-top:2.5rem;">More from the studio</h2>
+        {% for block in blocks %}
+            {% if block.slug != 'intro-cta' %}
+                <div class="shared-block">
+                    {{ render_collection_item(block) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</article>
+{% endblock %}

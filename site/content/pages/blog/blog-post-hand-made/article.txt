@@ -1,0 +1,8 @@
+Title: Blog post hand made
+Template: article
+Published: true
+Updated: 2026-05-22 13:39:40
+---
+
+- type: text
+  body: Well, well, this is hand made blog post
