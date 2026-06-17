@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3c57b0e3dd94aa81b964a8570b538d6",
+    "content-hash": "cc2c9071e77c7deedc017fc072d604d3",
     "packages": [
         {
             "name": "delight-im/auth",
@@ -723,16 +723,16 @@
         },
         {
             "name": "lexislav/station0",
-            "version": "v0.4.3",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexislav/station0.git",
-                "reference": "d079eba104f3762e8334d90b13ac53547d6b635a"
+                "reference": "84e3172b8f41a69c01c008d127ccdd555a123302"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexislav/station0/zipball/d079eba104f3762e8334d90b13ac53547d6b635a",
-                "reference": "d079eba104f3762e8334d90b13ac53547d6b635a",
+                "url": "https://api.github.com/repos/lexislav/station0/zipball/84e3172b8f41a69c01c008d127ccdd555a123302",
+                "reference": "84e3172b8f41a69c01c008d127ccdd555a123302",
                 "shasum": ""
             },
             "require": {
@@ -770,9 +770,9 @@
             "description": "Grand zero flat file CMS — core library.",
             "support": {
                 "issues": "https://github.com/lexislav/station0/issues",
-                "source": "https://github.com/lexislav/station0/tree/v0.4.3"
+                "source": "https://github.com/lexislav/station0/tree/v0.7.0"
             },
-            "time": "2026-05-18T17:01:39+00:00"
+            "time": "2026-06-13T19:09:16+00:00"
         },
         {
             "name": "monolog/monolog",

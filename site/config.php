@@ -11,11 +11,21 @@ return function (
 
     return [
         "name" => "Station0",
-        "admin_locale" => "cs",
         "baseUrl" => $_ENV["BASE_URL"] ?? "http://localhost:8080",
         "debug" => filter_var($_ENV["DEBUG"] ?? false, FILTER_VALIDATE_BOOLEAN),
         "adminPath" => rtrim($_ENV["ADMIN_PATH"] ?? "/admin", "/"),
-        "admin_locale" => "cs", // 'en' or 'cs'
+
+        // Admin UI language (station0 >= 0.5). Shipped translations: 'en', 'cs'.
+        // Unknown locales and missing keys fall back to the English base.
+        "admin_locale" => $_ENV["ADMIN_LOCALE"] ?? "cs",
+
+        // Admin editor preferences (station0 >= 0.7).
+        // blockCollapse: 'remember' (default) | 'expanded' | 'collapsed' —
+        // initial collapse state of block editors on the page edit screen.
+        "admin" => [
+            "blockCollapse" => $_ENV["ADMIN_BLOCK_COLLAPSE"] ?? "remember",
+        ],
+
         "paths" => [
             "content" => $siteRoot . "/content",
             "templates" => $siteRoot . "/templates",

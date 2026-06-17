@@ -75,8 +75,9 @@ Each block type lives in `site/templates/blocks/{type}/`:
 - `schema.yaml` — field definitions for the admin editor
 - `template.twig` — Twig template rendering the block
 
-Fields are a dict keyed by name. Supported types: `text`, `textarea`, `image`, `number`, `select`, `boolean`, `list`.
+Fields are a dict keyed by name. Supported types: `text`, `textarea`, `image`, `file`, `number`, `select`, `boolean`, `list`.
 The `image` type renders an upload button in the admin (accepts jpg, png, gif, webp, svg).
+The `file` type (station0 >= 0.5) renders a generic upload button for non-image attachments.
 
 ## Demo pages
 
