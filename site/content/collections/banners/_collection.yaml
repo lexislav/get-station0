@@ -1,4 +1,5 @@
 label: Banners
+group: Marketing
 fields:
   subtitle:
     type: text
