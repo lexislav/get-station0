@@ -10,8 +10,8 @@ A lightweight flat-file CMS. Pages live as plain `.txt` files — no database mi
 
 - **Markdown** content with front matter
 - **Block-based** page composition via YAML
-- **Nested pages** with clean URLs (`/about/team`)
+- **Nested pages** with clean URLs (`/history/team`)
 - **Admin panel** with page editor and user management
 - Twig templates with full layout inheritance
 
-Browse the demo pages: [About](/about) · [Work](/work)
+Browse the demo pages: [History](/history) · [About](/history/about) · [Work](/work)
