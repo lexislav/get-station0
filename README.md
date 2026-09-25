@@ -532,6 +532,63 @@ Create users in the admin (*Users*) or from the command line. Password reset by 
 
 ---
 
+## Site tasks & hooks
+
+Your own scripts — imports, syncs, exports — live in `site/tasks/`, one PHP
+file per task (the file name is the task name; files starting with `_` are
+ignored, see `site/tasks/_example.php`). They run from the command line and
+from the admin (**Tasks** tab: parameter form, file upload, live output,
+run history).
+
+```php
+<?php // site/tasks/import-products.php
+use Station0\Service\TaskContext;
+
+return [
+    'label'  => 'Import products',
+    'roles'  => ['editor'],            // who may run it in the admin; admins always may
+    'params' => [
+        'file'    => ['type' => 'file', 'label' => 'CSV', 'required' => true],
+        'dry_run' => ['type' => 'boolean', 'label' => 'Dry run'],
+    ],
+    'run' => function (TaskContext $task): int {
+        foreach (file($task->param('file')) as $line) {
+            // … $task->collections()->save($item);
+        }
+        $task->success('Done.');        // info / warn / error; plain echo works too
+        return 0;
+    },
+];
+```
+
+```bash
+php vendor/bin/console task:list
+php vendor/bin/console task:run import-products --file=products.csv --dry_run
+```
+
+- Param types: `text`, `textarea`, `number`, `boolean`, `select` (incl. `options_from`), `file`.
+- `$task` gives you `param()`, `pages()`, `collections()`, `cache()`, `config()`, `event()`.
+- Admin runs start **in the background** and the page shows the output as it
+  comes. Configure how in `site/config.php` → `tasks` (`runner`, `php`); on
+  hosting without `exec()` it falls back to running within the request.
+- A task never runs twice at once. Runs are logged in `writable/logs/tasks/`.
+
+**Hooks** — a task can run automatically when content changes in the admin:
+
+```php
+'on' => ['page.saved:/blog', 'collection.item.*:products'],
+'run' => function (TaskContext $task) {
+    $task->event('event');   // e.g. 'collection.item.saved'
+    $task->event('slug');    // payload: path / collection / slug / title / created …
+},
+```
+
+Events: `page.saved`, `page.moved`, `page.deleted`, `collection.item.saved`,
+`collection.item.deleted`. The filter after `:` is a page path (the page and
+everything below it) or a collection name; `*` wildcards work (`page.*`).
+
+---
+
 ## Configuration
 
 `.env` (copied from `.env.example`):
@@ -546,6 +603,8 @@ Create users in the admin (*Users*) or from the command line. Password reset by 
 | `ADMIN_BLOCK_COLLAPSE` | `remember` | Initial block state in the editor: `remember`, `expanded`, `collapsed` |
 | `SITE_PATH` | `./site` | Move `site/` elsewhere (absolute path) |
 | `MAIL_*` | | SMTP for password-reset e-mails |
+| `TASKS_RUNNER` | `auto` | How site tasks run in the background: `auto`, `spawn`, `fastcgi`, `inline` |
+| `TASKS_PHP` | | PHP CLI binary for `spawn` (detected when empty) |
 
 The site name (`name`), paths and session settings are set in `site/config.php`.
 
@@ -560,6 +619,8 @@ php vendor/bin/console user:create <username> <email> [admin|editor]
 php vendor/bin/console user:reset-password <email>
 php vendor/bin/console cache:clear
 php vendor/bin/console assets:relink --dry-run   # convert old absolute /media links to page-local names
+php vendor/bin/console task:list                 # site tasks (site/tasks/)
+php vendor/bin/console task:run <name> [--param=value]
 ```
 
 ---

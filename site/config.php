@@ -26,6 +26,18 @@ return function (
             "blockCollapse" => $_ENV["ADMIN_BLOCK_COLLAPSE"] ?? "remember",
         ],
 
+        // Site tasks (station0 >= 0.8) — scripts in site/tasks/*.php.
+        // runner: how admin / hook runs start in the background:
+        //   'auto' (default) = spawn → fastcgi → inline
+        //   'spawn'   detached `php vendor/bin/console task:worker` (needs exec())
+        //   'fastcgi' after the response, in the same PHP-FPM worker
+        //   'inline'  synchronously, within the request
+        // php: PHP CLI binary for 'spawn' (detected when empty).
+        "tasks" => [
+            "runner" => $_ENV["TASKS_RUNNER"] ?? "auto",
+            "php" => $_ENV["TASKS_PHP"] ?? "",
+        ],
+
         "paths" => [
             "content" => $siteRoot . "/content",
             "templates" => $siteRoot . "/templates",
