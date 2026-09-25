@@ -1,7 +1,20 @@
-<div class="gallery gallery--cols-{{ block.columns | default(3) }}">
+{#
+  Thumbnails (station0 >= 0.7.8): each image is served resized, and clicking
+  it opens the original. The cells are 200px tall with `object-fit: cover`;
+  `sizes` tells the browser how wide one cell is inside the 720px container
+  (1rem gaps), so it picks the smallest thumbnail that still looks sharp.
+#}
+{% set cols = block.columns|default(3) %}
+{% set slot = ((672 - (cols - 1) * 16) / cols)|round %}
+<div class="gallery gallery--cols-{{ cols }}">
     {% for image in block.images | default([]) %}
         <figure class="gallery__item">
-            <img src="{{ image.src }}" alt="{{ image.alt | default('') }}">
+            <a href="{{ image.src }}">
+                <img src="{{ image.src | thumb(800) }}"
+                     srcset="{{ image.src | thumb_srcset([400, 800, 1200, 1600]) }}"
+                     sizes="(min-width: 720px) {{ slot }}px, calc((100vw - 3rem) / {{ cols }})"
+                     alt="{{ image.alt | default('') }}" loading="lazy" decoding="async">
+            </a>
             {% if image.caption | default('') %}
                 <figcaption>{{ image.caption }}</figcaption>
             {% endif %}

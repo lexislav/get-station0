@@ -4,6 +4,8 @@
 /writable/sessions/*
 /writable/logs/*
 /writable/db.sqlite
+/writable/thumbs.key
+/public/thumb/
 /public/uploads/*
 !/writable/cache/.gitkeep
 !/writable/sessions/.gitkeep

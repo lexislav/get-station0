@@ -218,7 +218,12 @@ fields:
 {# template.twig — block values are under `block` #}
 <div class="gallery gallery--cols-{{ block.columns|default(3) }}">
     {% for image in block.images|default([]) %}
-        <img src="{{ image.src }}" alt="{{ image.alt|default('') }}">
+        <a href="{{ image.src }}">
+            <img src="{{ image.src|thumb(800) }}"
+                 srcset="{{ image.src|thumb_srcset([400, 800, 1200, 1600]) }}"
+                 sizes="(min-width: 720px) 213px, 33vw"
+                 alt="{{ image.alt|default('') }}" loading="lazy">
+        </a>
     {% endfor %}
 </div>
 ```
@@ -428,6 +433,32 @@ Uploaded files are stored **next to the page** they belong to, in the page's dir
 - Collection items store their files in their own directories: `/media/_collections/<collection>/<item>/<file>`.
 - A new page must be **saved once** before files can be uploaded to it.
 - Absolute URLs (`https://…`, `/…`) are left untouched, so external images work too.
+
+### Thumbnails
+
+*(station0 ≥ 0.7.8)* Don't send a 5 MB photo into a 200px gallery cell. The `thumb` filter turns a `/media/…` URL into a resized copy, which is generated on the first request and cached:
+
+```twig
+<img src="{{ image.src|thumb(600) }}">                        {# at most 600px wide #}
+<img src="{{ image.src|thumb(300, 300, 'cover') }}">          {# cropped to fill 300×300 #}
+<img src="{{ image.src|thumb(800) }}"
+     srcset="{{ image.src|thumb_srcset([400, 800, 1200]) }}"
+     sizes="(min-width: 720px) 720px, 100vw">                {# browser picks the size #}
+```
+
+- Images are never enlarged. SVG, GIF and external URLs come back unchanged, so the filter is safe on any image value.
+- Markdown images in text blocks are thumbnailed automatically (at most 1200px wide), and the admin shows small previews.
+- Options in `site/config.php` (all optional):
+
+  ```php
+  'thumbs' => [
+      'format'   => 'webp', // serve thumbnails as WebP
+      'markdown' => 1200,   // max width of Markdown images; 0 = originals
+      'static'   => true,   // save thumbnails to public/thumb/ for the web server
+  ],
+  ```
+
+- `php vendor/bin/console thumbs:warm` generates thumbnails for all published pages in advance (the site must be running). `thumbs:clear` deletes the generated thumbnails.
 
 ---
 
