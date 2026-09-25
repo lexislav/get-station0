@@ -16,6 +16,7 @@ The CMS core library is `lexislav/station0` — installed into `vendor/` and upd
 | `site/content/pages/` | Flat-file pages (`page.txt` per directory) |
 | `site/content/collections/` | Headless collections — no public URL (banners, shared blocks, etc.) |
 | `site/templates/` | Twig templates + block definitions |
+| `site/tasks/` | Site tasks — own scripts runnable from console / admin, optional hooks (`on`); see station0 CLAUDE.md |
 | `writable/` | Cache, sessions, logs, `db.sqlite` (gitignored at runtime) |
 
 ## Running locally
@@ -128,3 +129,4 @@ MAIL_HOST=...
 - `composer update` updates the CMS core; your `site/` content is never touched.
 - `php vendor/bin/console user:create <username> <email> [role]` creates users from CLI.
 - Always start the dev server from the skeleton root — path resolution depends on `getcwd()`.
+- Site tasks: `php vendor/bin/console task:list` / `task:run <name>`; background admin runs spawn `task:worker` with cwd = project root.
