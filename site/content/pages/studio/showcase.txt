@@ -3,6 +3,7 @@ Template: showcase
 Published: true
 Updated: 2026-05-28 12:29:31
 Sort: 40
+Group: Marketing
 ---
 
 We are an independent design studio specialising in identity, editorial, and digital product design.

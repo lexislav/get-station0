@@ -93,9 +93,11 @@ The `file` type (station0 >= 0.5) renders a generic upload button for non-image 
 | `/blog/editing-basics` | `article` | Article child with `PublishedAt` + `Author` front-matter fields |
 | `/blog/blocks-and-markdown` | `article` | Article child |
 | `/blog/organizing-content` | `article` | Article child, demonstrates `AllowedChildTemplates` |
-| `/studio` | `showcase` | Demonstrates `collection()` and `render_collection_item()` |
+| `/studio` | `showcase` | Demonstrates `collection()` and `render_collection_item()`; `Group: Marketing` puts it in the Marketing admin tab |
 
 The `blog` page declares `AllowedChildTemplates: article` — only `article`-template pages can be created as its children.
+
+Admin menu groups: `Group: <Name>` in page front matter (page + subtree) and `group: <Name>` in `_collection.yaml` share one tab per group. Group settings (label, icon, roles, order) live in `site/content/_groups.yaml` — the **Marketing** group holds `/studio` and the `banners` collection.
 
 ## Collections
 
