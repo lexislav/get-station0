@@ -352,7 +352,7 @@ AllowedChildTemplates: article
 ```
 
 - New children of `/blog` can only use the `article` template (several templates: `article, event`).
-- The admin gets a **Streams** tab for quick access to stream entries.
+- The admin gets a **Streams** tab for quick access to stream entries (a stream put into a [menu group](#admin-menu-groups) shows up in its group's tab instead).
 - The parent template lists its children:
 
 ```twig
@@ -372,7 +372,6 @@ AllowedChildTemplates: article
 
 ```
 site/content/collections/
-├── _groups.yaml                 ← optional: admin menu groups
 └── banners/
     ├── _collection.yaml         ← optional schema
     └── summer-sale/
@@ -413,7 +412,22 @@ Collection field values are available as `item.extra.<field>`.
 
 ### Admin menu groups
 
-`group: <Name>` moves a collection out of the generic *Collections* tab into its own admin tab. The optional `site/content/collections/_groups.yaml` sets each group's label, icon, the roles that can see it, and the tab order:
+*(station0 ≥ 0.8.2 for pages)* A group is an own tab in the admin menu. It can hold collections, page sections, or both:
+
+- **Collections:** `group: <Name>` in `_collection.yaml` moves the collection out of the generic *Collections* tab into the group's tab.
+- **Pages:** `Group: <Name>` in a page's front matter puts that page **and everything below it** into the group's tab. The tab shows the subtree (drag & drop works as in the page tree; a stream shows all its entries). The pages stay in the page tree too, marked with a group badge. A page further down with its own `Group:` starts a separate group.
+
+```
+# site/content/pages/studio/showcase.txt
+Title: Studio
+Template: showcase
+Group: Marketing
+---
+```
+
+In this starter kit the **Marketing** tab holds the `/studio` page and the `banners` collection.
+
+The optional `site/content/_groups.yaml` sets each group's label, icon, the roles that can see it, and the tab order:
 
 ```yaml
 marketing:            # group id = slug of the group name
@@ -421,6 +435,8 @@ marketing:            # group id = slug of the group name
   icon: "📣"
   roles: [admin]      # admins always have access
 ```
+
+For collections, `roles` is enforced (other users get a 403). For pages it only hides the tab; the pages can still be edited from the page tree.
 
 ---
 
