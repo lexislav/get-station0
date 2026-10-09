@@ -19,6 +19,10 @@ return function (
         // Unknown locales and missing keys fall back to the English base.
         "admin_locale" => $_ENV["ADMIN_LOCALE"] ?? "cs",
 
+        // Site timezone (station0 >= 0.9). Front-matter datetimes (PublishedAt,
+        // PublishAt, ExpireAt) are stored and read in this zone.
+        "timezone" => $_ENV["TIMEZONE"] ?? "Europe/Prague",
+
         // Admin editor preferences (station0 >= 0.7).
         // blockCollapse: 'remember' (default) | 'expanded' | 'collapsed' —
         // initial collapse state of block editors on the page edit screen.
