@@ -19,6 +19,10 @@ return function (
         // Unknown locales and missing keys fall back to the English base.
         "admin_locale" => $_ENV["ADMIN_LOCALE"] ?? "cs",
 
+        // Site timezone (station0 >= 0.9). Front-matter datetimes (PublishedAt,
+        // PublishAt, ExpireAt) are stored and read in this zone.
+        "timezone" => $_ENV["TIMEZONE"] ?? "Europe/Prague",
+
         // Admin editor preferences (station0 >= 0.7).
         // blockCollapse: 'remember' (default) | 'expanded' | 'collapsed' —
         // initial collapse state of block editors on the page edit screen.
@@ -37,6 +41,17 @@ return function (
             "runner" => $_ENV["TASKS_RUNNER"] ?? "auto",
             "php" => $_ENV["TASKS_PHP"] ?? "",
         ],
+
+        // Members-only access (station0 >= 0.9) — off unless 'mode' => 'members'
+        // or a page says `Access: members`. See the station0 README.
+        // "access" => [
+        //     "mode" => "members",          // 'public' (default) | 'members'
+        //     "public" => ["/"],            // always-public paths; `*` = prefix
+        //     "redirect" => "/",            // anonymous visitors of gated pages go here
+        //     "media" => true,              // also gate /media + /thumb
+        //     "loginPath" => "/login",      // member sign-in (site template login.twig)
+        //     "rememberDays" => 365,
+        // ],
 
         "paths" => [
             "content" => $siteRoot . "/content",

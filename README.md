@@ -109,7 +109,7 @@ A content file is **front matter**, then `---`, then the **body**:
 ```
 Title: Editing content the flat-file way
 Template: article
-Published: true
+Status: published
 PublishedAt: 2026-05-10 09:00
 Author: Station0 Team
 Sort: 10
@@ -123,8 +123,11 @@ The body: Markdown, or a YAML list of blocks (see below).
 | `Title` | Page title (required) |
 | `Metatitle` | Optional `<title>` override |
 | `Template` | Template name (also implied by the file name) |
-| `Published` | `true` / `false`. Drafts are hidden on the site but visible in the admin. |
-| `PublishedAt` | `Y-m-d H:i`. A future date schedules the page. |
+| `Status` | `draft` / `published` / `archived` (older files: `Published: true/false`). Drafts are 404 on the site, archived pages 410 Gone; all stay in the admin. |
+| `PublishAt` / `ExpireAt` | `Y-m-d H:i` in the site `timezone`. A published page is scheduled until `PublishAt` and gone (410) from `ExpireAt`. |
+| `PublishedAt` | `Y-m-d H:i`. The date shown to readers (and used for sorting). In older files without `PublishAt`, a future date still schedules the page. |
+| `Listing` | `listed` (default) / `nav-hidden` (live, not in menus) / `unlisted` (live, URL only — not in menus or `child_pages()`) |
+| `Cascade` | `false` = when this page is not live, its subpages stay live. By default a hidden page hides its whole subtree. |
 | `Author`, `Updated` | Informational; `Updated` is set on save |
 | `Sort` | Order among siblings (lower first; otherwise alphabetical). Drag & drop in the admin sets it. |
 | `AllowedChildTemplates` | Turns the page into a **stream** (see below) |
@@ -132,6 +135,8 @@ The body: Markdown, or a YAML list of blocks (see below).
 Any other key you add (for example `Subtitle: …`) is kept and available in Twig as `page.extra.subtitle`. Keys are case-insensitive and lower-cased on read. For fields that editors should manage, use [page fields](#page-fields).
 
 You can edit these files by hand, commit them, or deploy them with Git. The admin reads and writes the same files.
+
+Signed-in editors can open pages that are not public yet: they render with a "not public" bar on top. The full visibility reference lives in the library: [docs/visibility.md](https://github.com/lexislav/station0/blob/main/docs/visibility.md).
 
 ---
 
@@ -157,7 +162,8 @@ Every page template receives:
 
 | Variable | Content |
 |---|---|
-| `page` | The page: `title`, `metatitle`, `urlPath`, `slug`, `template`, `published`, `publishedAt`, `author`, `updated`, `sort`, `extra` |
+| `page` | The page: `title`, `metatitle`, `urlPath`, `slug`, `template`, `status`, `state`, `isLive`, `inNav`, `listing`, `publishedAt`, `publishAt`, `expireAt`, `author`, `updated`, `sort`, `extra` |
+| `preview` | `true` while a signed-in editor views a page that is not public |
 | `content` | The rendered body as HTML (Markdown or blocks), printed with `|raw` |
 | `fields` | The template's [page fields](#page-fields): typed, with image URLs resolved |
 | `app` | `app.name`, `app.baseUrl`, `app.adminPath` |
@@ -362,7 +368,7 @@ AllowedChildTemplates: article
 {% endfor %}
 ```
 
-`child_pages()` returns only live pages (published and not scheduled for the future), in `Sort` order.
+`child_pages()` returns only live pages (published, not scheduled or expired, under live parents) in `Sort` order, including `nav-hidden` ones but not `unlisted` ones (`child_pages(path, true)` includes those too).
 
 ---
 
@@ -524,16 +530,18 @@ product:
 
 | Function | Returns |
 |---|---|
-| `top_level_pages()` | Live first-level pages (for the main navigation) |
-| `child_pages('/blog')` | Live direct children of a page, sorted |
+| `top_level_pages()` | Live first-level pages for the main navigation (skips `nav-hidden` / `unlisted`); same as `nav_pages('/')` |
+| `nav_pages('/services')` | Live children for a submenu (skips `nav-hidden` / `unlisted`) |
+| `child_pages('/blog')` | Live direct children of a page, sorted (skips `unlisted`; `child_pages('/blog', true)` includes them) |
+| `page('/path')` | A live page by path, or `null` |
 | `page_fields(page)` | Typed, resolved page fields of any page |
-| `collection('name')` | Published items of a collection |
-| `collection_item('name', 'slug')` | One item, or `null` |
+| `collection('name')` | Live items of a collection (published, not scheduled / expired) |
+| `collection_item('name', 'slug')` | One live item, or `null` |
 | `render_collection_item(item)` | The item body as HTML |
 
 Globals: `app.name`, `app.baseUrl`, `app.adminPath`.
 
-Rendered page and block HTML is cached in `writable/cache/`. The cache is cleared automatically whenever content is saved in the admin. After editing files by hand, run `php vendor/bin/console cache:clear`.
+Rendered page and block HTML is cached in `writable/cache/`. The cache is cleared automatically whenever content is saved in the admin, and when a scheduled `PublishAt` / `ExpireAt` passes. After editing files by hand, run `php vendor/bin/console cache:clear`.
 
 ---
 

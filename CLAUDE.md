@@ -46,17 +46,33 @@ Pages live in `site/content/pages/{slug}/page.txt`:
 ```
 Title: Page title
 Template: page
-Published: true
+Status: published          # draft | published | archived (legacy: Published: true|false)
+PublishAt: 2026-06-01 09:00  # optional — scheduled until then (site timezone)
+ExpireAt: 2026-09-30 23:59   # optional — 410 Gone from then on
+PublishedAt: 2026-06-01    # optional — date shown to readers / sorting
+Listing: nav-hidden        # optional — listed | nav-hidden | unlisted
+Cascade: false             # optional — when not live, keep subpages live
 ---
 Markdown body
 ```
+
+Visibility rules (station0 ≥ 0.9, reference: `vendor/lexislav/station0/docs/visibility.md`):
+
+- A page is live only when its own state is live and every ancestor is live
+  (homepage excluded; ancestors with `Cascade: false` don't hide their subtree).
+- Draft / scheduled / under a hidden parent → 404; archived / expired → 410
+  (`site/templates/410.twig`).
+- Menus: `top_level_pages()` / `nav_pages(path)` skip `nav-hidden` and
+  `unlisted`; listings: `child_pages(path)` skips `unlisted` only.
+- Signed-in editors see non-live pages with a "not public" bar (`preview` var).
+- Dates are naive `Y-m-d H:i` in `config['timezone']` (`TIMEZONE` env).
 
 Or block-based (YAML list in body):
 
 ```
 Title: Work
 Template: blocks
-Published: true
+Status: published
 ---
 
 - type: text
