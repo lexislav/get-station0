@@ -42,6 +42,17 @@ return function (
             "php" => $_ENV["TASKS_PHP"] ?? "",
         ],
 
+        // Members-only access (station0 >= 0.9) — off unless 'mode' => 'members'
+        // or a page says `Access: members`. See the station0 README.
+        // "access" => [
+        //     "mode" => "members",          // 'public' (default) | 'members'
+        //     "public" => ["/"],            // always-public paths; `*` = prefix
+        //     "redirect" => "/",            // anonymous visitors of gated pages go here
+        //     "media" => true,              // also gate /media + /thumb
+        //     "loginPath" => "/login",      // member sign-in (site template login.twig)
+        //     "rememberDays" => 365,
+        // ],
+
         "paths" => [
             "content" => $siteRoot . "/content",
             "templates" => $siteRoot . "/templates",
