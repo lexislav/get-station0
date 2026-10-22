@@ -1,6 +1,6 @@
 # get-station0
 
-Starter kit for **[Station0](https://github.com/lexislav/station0)**, a lightweight flat-file CMS for PHP 8.2+.
+Starter kit for **[Station0](https://github.com/lexislav/station0)**, a lightweight flat-file CMS for PHP 8.4+.
 
 Your pages are plain text files in `site/content/`. There are no database migrations and the whole site is Git-friendly. SQLite is used only for admin logins. Editors get a friendly admin with a block-based page builder, and web designers work with plain Twig templates and a few YAML files.
 
@@ -29,7 +29,7 @@ This repository is the **project skeleton**. The CMS itself (`lexislav/station0`
 
 ## Quick start
 
-**Requirements:** PHP ≥ 8.2 with the `pdo_sqlite` extension, and Composer.
+**Requirements:** PHP ≥ 8.4.1 with the `pdo_sqlite` extension, and Composer.
 
 ```bash
 composer create-project lexislav/get-station0 mysite
@@ -682,7 +682,7 @@ location / {
 location ~ \.php$ {
     include fastcgi_params;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    fastcgi_pass unix:/run/php/php8.4-fpm.sock;
 }
 ```
 
