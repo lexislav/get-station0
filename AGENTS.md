@@ -29,7 +29,7 @@ same files. SQLite (`writable/db.sqlite`) holds only user accounts.
 
 | Path | What |
 |---|---|
-| `site/config.php` | Config factory `fn($station0Root, $siteRoot, $projectRoot): array` — name, timezone, paths, `access`, `thumbs`, `tasks`, mail |
+| `site/config.php` | Config factory `fn($station0Root, $siteRoot, $projectRoot): array` — name, timezone, paths, `access`, `thumbs`, `tasks`, `plugins`, mail |
 | `.env` | `BASE_URL`, `DEBUG`, `ADMIN_PATH`, `HTTPS`, `ADMIN_LOCALE` (`en`/`cs`), `TIMEZONE`, `MAIL_*`, `TASKS_*` |
 | `site/content/pages/` | Page tree — one directory per page |
 | `site/content/collections/` | Headless content (no URL) |
@@ -307,6 +307,15 @@ php vendor/bin/console task:run <name> --param=value --flag
 
 Hooks: `'on' => ['page.saved:/blog', 'collection.item.*:products']`.
 
+## Plugins *(≥ 0.10, experimental)*
+
+Optional features are enabled in `site/config.php` under `"plugins"`: a short
+name loads a plugin bundled with Station0, a class name one from a Composer
+package; unlisted plugins are never loaded. Don't write a plugin for a single
+site — site actions, tasks and templates cover that; plugins are for features
+shared between sites. `php vendor/bin/console plugins:list` shows what is
+enabled; failures are in `writable/logs/app.log` (`Plugin '…' skipped`).
+
 ## Recipes
 
 - **New page type:** `site/templates/<t>.twig` (+ optional `<t>.blocks.yaml`
@@ -338,6 +347,7 @@ Hooks: `'on' => ['page.saved:/blog', 'collection.item.*:products']`.
 
 - [README.md](README.md) — full, human-oriented guide (same topics, more examples).
 - `vendor/lexislav/station0/docs/visibility.md` — publication, scheduling, inheritance.
+- `vendor/lexislav/station0/docs/plugins.md` — plugin config and API.
 - `vendor/lexislav/station0/README.md` — library README (select options, thumbnails, access, actions in depth).
 - `vendor/lexislav/station0/CHANGELOG.md` — what each version added.
 - `vendor/lexislav/station0/CLAUDE.md` — core internals; only needed when a

@@ -663,6 +663,18 @@ everything below it) or a collection name; `*` wildcards work (`page.*`).
 
 The site name (`name`), paths and session settings are set in `site/config.php`.
 
+### Plugins
+
+*(station0 ≥ 0.10, experimental)* Optional features are turned on in `site/config.php`. A plugin that is not listed is never loaded:
+
+```php
+"plugins" => [
+    \Acme\Station0Sitemap\Plugin::class => [],   // from a Composer package
+],
+```
+
+A short name (e.g. `'redirects'`) loads a plugin bundled with Station0. Plugins can add admin tabs, routes, console commands, and panels on the page edit form. `php vendor/bin/console plugins:list` shows what is enabled. Details: [docs/plugins.md](https://github.com/lexislav/station0/blob/main/docs/plugins.md).
+
 ---
 
 ## Command line
@@ -679,6 +691,7 @@ php vendor/bin/console thumbs:clear              # delete generated thumbnails
 php vendor/bin/console collections:retitle [name] [--dry-run]   # rebuild computed collection titles (station0 ≥ 0.10)
 php vendor/bin/console task:list                 # site tasks (site/tasks/)
 php vendor/bin/console task:run <name> [--param=value]
+php vendor/bin/console plugins:list              # enabled plugins, their commands (station0 ≥ 0.10)
 ```
 
 ---
