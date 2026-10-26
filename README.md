@@ -416,6 +416,37 @@ Without a schema, items are free-form (title + body).
 
 Collection field values are available as `item.extra.<field>`.
 
+### Computed titles
+
+*(station0 ≥ 0.10)* Instead of typing every item's title, a collection can build it from its fields. Any text around the placeholders is kept:
+
+```yaml
+# _collection.yaml
+label: People
+title: "{name} {surname}"            # the title input is filled in and locked
+fields:
+  name:    { type: text, label: Name }
+  surname: { type: text, label: Surname }
+```
+
+```yaml
+title:
+  from: "{brand} – {model} ({year})"
+  input: editable                    # readonly (default) | editable | hidden
+```
+
+| `input` | What the editor sees |
+|---|---|
+| `readonly` | The title fills itself in while the fields are typed, and can't be changed. |
+| `hidden` | No title input, only a line showing the result. |
+| `editable` | The title fills itself in until the editor types their own. A typed title is kept even when the fields change later; clearing it (or the *Use built title* button) makes it follow the fields again. |
+
+- Placeholders are field names, plus `{slug}` and `{collection}`.
+- If a field is empty, the separator next to it is dropped: `{brand} - {model}` without a model gives `Škoda`, and an empty `({year})` disappears.
+- A select field gives its stored value (the item slug or page path), an image its filename.
+- The title is saved into the item like a typed one, so `item.title` works everywhere as before. New items get their slug from it.
+- Existing items get the built title on their next save, or all at once with `php vendor/bin/console collections:retitle [name] [--dry-run]`.
+
 ### Admin menu groups
 
 *(station0 ≥ 0.8.2 for pages)* A group is an own tab in the admin menu. It can hold collections, page sections, or both:
@@ -643,6 +674,9 @@ php vendor/bin/console user:create <username> <email> [admin|editor]
 php vendor/bin/console user:reset-password <email>
 php vendor/bin/console cache:clear
 php vendor/bin/console assets:relink --dry-run   # convert old absolute /media links to page-local names
+php vendor/bin/console thumbs:warm [baseUrl]      # pre-generate thumbnails (site must be running)
+php vendor/bin/console thumbs:clear              # delete generated thumbnails
+php vendor/bin/console collections:retitle [name] [--dry-run]   # rebuild computed collection titles (station0 ≥ 0.10)
 php vendor/bin/console task:list                 # site tasks (site/tasks/)
 php vendor/bin/console task:run <name> [--param=value]
 ```
@@ -684,6 +718,13 @@ location ~ \.php$ {
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_pass unix:/run/php/php8.4-fpm.sock;
 }
+```
+
+**Security headers:** the admin (`/admin/…`) already sends headers that stop other sites from framing it (`X-Frame-Options`, `Content-Security-Policy: frame-ancestors`, plus `Referrer-Policy` and `X-Content-Type-Options`). Public pages get none from Station0. Add the ones you want in the web server, for example on Apache with `mod_headers`:
+
+```apache
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
 ```
 
 **Backups:** `site/` holds your content and templates, and `writable/db.sqlite` holds your users. Keeping `site/` in Git is the easiest backup.
