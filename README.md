@@ -669,11 +669,14 @@ The site name (`name`), paths and session settings are set in `site/config.php`.
 
 ```php
 "plugins" => [
+    "redirects" => [],                            // bundled with Station0
     \Acme\Station0Sitemap\Plugin::class => [],   // from a Composer package
 ],
 ```
 
-A short name (e.g. `'redirects'`) loads a plugin bundled with Station0. Plugins can add admin tabs, routes, console commands, and panels on the page edit form. `php vendor/bin/console plugins:list` shows what is enabled. Details: [docs/plugins.md](https://github.com/lexislav/station0/blob/main/docs/plugins.md).
+**Redirects** *(station0 ≥ 0.10.1)*: `"redirects" => []` turns on the bundled redirect manager. When an editor renames a page's slug or moves it in the tree, the old URL and every URL below it get a 301 to the new place automatically. You can add your own rules in `site/content/_redirects.yaml` or in the admin's **Redirects** tab, which also has a log of 404s. Each page's edit form lists the old URLs that lead to it. Details: [docs/redirects.md](https://github.com/lexislav/station0/blob/main/docs/redirects.md).
+
+A short name loads a plugin bundled with Station0. Plugins can add admin tabs, routes, console commands, and panels on the page edit form. `php vendor/bin/console plugins:list` shows what is enabled. Details: [docs/plugins.md](https://github.com/lexislav/station0/blob/main/docs/plugins.md).
 
 ---
 

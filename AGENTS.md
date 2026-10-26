@@ -316,6 +316,12 @@ site — site actions, tasks and templates cover that; plugins are for features
 shared between sites. `php vendor/bin/console plugins:list` shows what is
 enabled; failures are in `writable/logs/app.log` (`Plugin '…' skipped`).
 
+Bundled: `"redirects" => []` *(≥ 0.10.1)* — automatic 301s on slug change /
+move, rules in `site/content/_redirects.yaml` (exact, `{slug}` / `{path*}`
+patterns, regex, 410), 404 log. Redirect old URLs with a rule there rather
+than with a page or a site action. See
+`vendor/lexislav/station0/docs/redirects.md`.
+
 ## Recipes
 
 - **New page type:** `site/templates/<t>.twig` (+ optional `<t>.blocks.yaml`
@@ -348,6 +354,7 @@ enabled; failures are in `writable/logs/app.log` (`Plugin '…' skipped`).
 - [README.md](README.md) — full, human-oriented guide (same topics, more examples).
 - `vendor/lexislav/station0/docs/visibility.md` — publication, scheduling, inheritance.
 - `vendor/lexislav/station0/docs/plugins.md` — plugin config and API.
+- `vendor/lexislav/station0/docs/redirects.md` — the redirect manager.
 - `vendor/lexislav/station0/README.md` — library README (select options, thumbnails, access, actions in depth).
 - `vendor/lexislav/station0/CHANGELOG.md` — what each version added.
 - `vendor/lexislav/station0/CLAUDE.md` — core internals; only needed when a

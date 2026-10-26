@@ -57,6 +57,10 @@ return function (
         // that is not listed is never loaded. Short name = bundled with station0,
         // otherwise the class of a Composer package. See station0 docs/plugins.md.
         // "plugins" => [
+        //     // Redirect manager (station0 >= 0.10.1): 301s when a page is renamed
+        //     // or moved, rules in site/content/_redirects.yaml, 404 log.
+        //     // See station0 docs/redirects.md.
+        //     "redirects" => [],
         //     \Acme\Station0Sitemap\Plugin::class => [],
         // ],
 
