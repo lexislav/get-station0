@@ -41,7 +41,8 @@ Summary: The bundled redirects plugin keeps old URLs working — automatically w
     ## Admin and console
 
     The **Redirects** tab lists the rules, tests a URL, and shows the **404
-    log** with a *Create redirect* button. From the console:
+    log** — kept in SQLite, with filters, sorting and a suggested target per
+    path, so *Redirect* fixes a broken link in one click *(≥ 0.10.2)*. From the console:
 
     ```
     php vendor/bin/console redirects:list

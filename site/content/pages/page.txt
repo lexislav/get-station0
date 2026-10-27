@@ -7,7 +7,9 @@ Metatitle: Station0 — a flat-file CMS that explains itself
 **Station0** is a flat-file CMS built on Slim 4 and Twig 3. Every page of this
 site is a plain text file in `site/content/pages/`, every look is a Twig
 template in `site/templates/`, and the admin at [/admin](/admin) edits the same
-files. A database (SQLite) holds only user accounts.
+files. No content goes into a database: a small SQLite file holds only
+runtime data — user accounts, member sign-ins, rate limits and the 404 log
+of the [redirects plugin](/guide/redirects).
 
 This demo site documents itself: each page explains the feature it is built
 with, and the [Guide](/guide) walks through all of them in order.

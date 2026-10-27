@@ -6,7 +6,9 @@ is in [README.md](README.md).
 
 Station0 is a flat-file CMS on Slim 4 + Twig 3. Content is plain text in
 `site/content/`, templates are Twig in `site/templates/`, the admin edits the
-same files. SQLite (`writable/db.sqlite`) holds only user accounts.
+same files. SQLite (`writable/db.sqlite`) holds no content — only runtime
+data: user accounts, member sign-ins and links, rate limits, plugin
+migrations and (redirects plugin) the 404 log and hit counts.
 
 ## Ground rules
 

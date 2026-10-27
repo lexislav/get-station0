@@ -5,8 +5,10 @@ Summary: Who can do what in the admin. Three fixed roles — admin, editor, memb
 ---
 - type: text
   body: |
-    User accounts are the only thing Station0 keeps in a database
-    (`writable/db.sqlite`). Every account has one **role**. There are three,
+    User accounts live in the SQLite database `writable/db.sqlite`, next to
+    other runtime data (member sign-ins, rate limits, the 404 log of the
+    redirects plugin) — never content. Back it up with `site/`. Every
+    account has one **role**. There are three,
     and they are fixed — a site can't define its own.
 
     | Role | Who it's for | Admin access |
