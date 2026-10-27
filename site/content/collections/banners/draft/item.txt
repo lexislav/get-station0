@@ -1,0 +1,8 @@
+Title: Draft banner
+Status: draft
+Sort: 30
+Subtitle: You don't see this one on the site: it is a draft. Publish it in the admin and it appears.
+Cta_text: Admin
+Cta_url: /admin
+Color: #dc2626
+---

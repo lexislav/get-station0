@@ -1,0 +1,16 @@
+{# `block.person` is a slug from the people collection. #}
+{% set p = collection_item('people', block.person) %}
+{% if p %}
+<div class="person">
+    {% if p.extra.photo %}
+        {# Collection item files live under /media/_collections/<name>/<slug>/ #}
+        <img src="{{ ('/media/_collections/people/' ~ p.slug ~ '/' ~ p.extra.photo)|thumb(160, 160, 'cover') }}" alt="" width="80" height="80">
+    {% endif %}
+    <div>
+        <strong>{{ p.title }}</strong>
+        {% if p.extra.role %}<span class="muted"> · {{ p.extra.role }}</span>{% endif %}
+        {% if render_collection_item(p)|trim %}<div class="person__bio">{{ render_collection_item(p) }}</div>{% endif %}
+        {% if block.note %}<p class="muted">{{ block.note }}</p>{% endif %}
+    </div>
+</div>
+{% endif %}

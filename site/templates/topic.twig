@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · Guide · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article>
+    <p class="crumb"><a href="/guide">← Guide</a></p>
+    <h1>{{ page.title }}</h1>
+    {% if fields.summary %}<p class="lead">{{ fields.summary }}</p>{% endif %}
+    {% if fields.demo %}<p><a class="button" href="{{ fields.demo }}">See it live: {{ fields.demo }} →</a></p>{% endif %}
+
+    <div class="content">{{ content|raw }}</div>
+
+    {# child_pages() skips `unlisted` pages; nav_pages() also skips `nav-hidden` ones. #}
+    {% set children = child_pages(page.urlPath) %}
+    {% if children %}
+        <h2>Pages in this section</h2>
+        <ul>
+            {% for c in children %}
+                <li><a href="{{ c.urlPath }}">{{ c.title }}</a>{% if not c.inNav %} <span class="muted">(nav-hidden — not in nav_pages())</span>{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {# Previous / next topic, from the parent's children. #}
+    {% set siblings = child_pages('/guide') %}
+    {% for s in siblings %}
+        {% if s.urlPath == page.urlPath %}
+            <nav class="pager">
+                {% if not loop.first %}{% set prev = siblings[loop.index0 - 1] %}<a href="{{ prev.urlPath }}">← {{ prev.title }}</a>{% else %}<span></span>{% endif %}
+                {% if not loop.last %}{% set next = siblings[loop.index0 + 1] %}<a href="{{ next.urlPath }}">{{ next.title }} →</a>{% endif %}
+            </nav>
+        {% endif %}
+    {% endfor %}
+</article>
+{% endblock %}

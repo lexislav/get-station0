@@ -42,27 +42,27 @@ return function (
             "php" => $_ENV["TASKS_PHP"] ?? "",
         ],
 
-        // Members-only access (station0 >= 0.9) — off unless 'mode' => 'members'
-        // or a page says `Access: members`. See the station0 README.
-        // "access" => [
-        //     "mode" => "members",          // 'public' (default) | 'members'
-        //     "public" => ["/"],            // always-public paths; `*` = prefix
-        //     "redirect" => "/",            // anonymous visitors of gated pages go here
-        //     "media" => true,              // also gate /media + /thumb
-        //     "loginPath" => "/login",      // member sign-in (site template login.twig)
-        //     "rememberDays" => 365,
-        // ],
+        // Members-only access (station0 >= 0.9). The site stays public
+        // ('mode' => 'public'); only pages with `Access: members` in their
+        // front matter (here /members) need a signed-in visitor. See
+        // /guide/members and the station0 README.
+        "access" => [
+            "mode" => "public",           // 'public' (default) | 'members' = gate the whole site
+            "redirect" => "/login",       // anonymous visitors of gated pages go here
+            "loginPath" => "/login",      // member sign-in (site template login.twig)
+            "rememberDays" => 365,
+        ],
 
         // Plugins (station0 >= 0.10, experimental) — optional features; a plugin
         // that is not listed is never loaded. Short name = bundled with station0,
         // otherwise the class of a Composer package. See station0 docs/plugins.md.
-        // "plugins" => [
-        //     // Redirect manager (station0 >= 0.10.1): 301s when a page is renamed
-        //     // or moved, rules in site/content/_redirects.yaml, 404 log.
-        //     // See station0 docs/redirects.md.
-        //     "redirects" => [],
-        //     \Acme\Station0Sitemap\Plugin::class => [],
-        // ],
+        "plugins" => [
+            // Redirect manager (station0 >= 0.10.1): 301s when a page is renamed
+            // or moved, rules in site/content/_redirects.yaml, 404 log.
+            // See /guide/redirects and station0 docs/redirects.md.
+            "redirects" => [],
+            // \Acme\Station0Sitemap\Plugin::class => [],
+        ],
 
         "paths" => [
             "content" => $siteRoot . "/content",

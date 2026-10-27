@@ -1,0 +1,10 @@
+Title: Ada Novak
+Status: published
+Sort: 10
+Name: Ada
+Surname: Novak
+Role: Developer
+Photo: photo.jpg
+Email: ada@example.com
+---
+Writes templates and site actions. Thinks every CMS should be a folder of text files.

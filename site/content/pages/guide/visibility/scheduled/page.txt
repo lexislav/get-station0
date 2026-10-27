@@ -1,0 +1,6 @@
+Title: Scheduled
+Status: published
+PublishAt: 2030-01-01 09:00
+Sort: 20
+---
+This page is **scheduled**: it is published, but `PublishAt` is in the future, so it goes live on 1 January 2030 at 9:00 (site timezone). Until then visitors get a 404.

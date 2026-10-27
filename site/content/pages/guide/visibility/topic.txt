@@ -1,0 +1,53 @@
+Title: Visibility
+Status: published
+Sort: 20
+Summary: Draft, published or archived; scheduled from and until a date; listed, hidden from menus or reachable by link only.
+---
+- type: text
+  body: |
+    Whether a page is on the public site depends on two independent things.
+
+    **Publication** — is it live?
+
+    - `Status: draft` — not public. Answers **404**.
+    - `Status: published` — live, unless a date says otherwise:
+      - `PublishAt` in the future → *scheduled*, **404** until then;
+      - `ExpireAt` in the past → *expired*, **410 Gone**.
+    - `Status: archived` — taken down for good, **410 Gone**.
+
+    A page is live only when **all its parents** are live too. Put
+    `Cascade: false` on a parent to hide just the parent and keep its
+    subpages online (a blog index under maintenance, say).
+
+    **Listing** — where does a live page appear?
+
+    - `Listing: listed` (default) — everywhere.
+    - `Listing: nav-hidden` — left out of menus (`top_level_pages()`,
+      `nav_pages()`), still in lists (`child_pages()`).
+    - `Listing: unlisted` — only reachable by its URL or `page('/path')`.
+
+    Dates are in the site's timezone (`TIMEZONE` in `.env`). The cache
+    expires by itself when a scheduled date passes.
+
+    ## Try it
+
+    Each page below this one shows one case. Open the links in a private
+    window: as a signed-in editor you see a **preview** with a "not public"
+    bar instead of the 404 / 410.
+
+    | Page | Front matter | Visitors get |
+    |---|---|---|
+    | [Draft](/guide/visibility/draft) | `Status: draft` | 404 |
+    | [Scheduled](/guide/visibility/scheduled) | `PublishAt: 2030-01-01 09:00` | 404 until 2030 |
+    | [Expired](/guide/visibility/expired) | `ExpireAt: 2026-01-01 00:00` | 410 |
+    | [Archived](/guide/visibility/archived) | `Status: archived` | 410 |
+    | [Unlisted](/guide/visibility/unlisted) | `Listing: unlisted` | 200, but in no list below |
+    | [Nav-hidden](/guide/visibility/nav-hidden) | `Listing: nav-hidden` | 200, listed below, never in a menu |
+    | [Hidden section › child](/guide/visibility/hidden-section/child) | parent is a draft | 404 — the parent hides it |
+    | [Paused index › child](/guide/visibility/paused-index/child) | parent is a draft with `Cascade: false` | 200 — only the parent is hidden |
+
+    The admin shows the state of every page as a badge in the *Structure*
+    tree, and the Visibility fieldset of the edit form sets all of it.
+
+    The list under "Pages in this section" is `child_pages()`: the draft,
+    scheduled, expired, archived and unlisted pages are missing from it.

@@ -1,0 +1,13 @@
+# Shows the `image` field type: stored as a bare filename next to the page,
+# delivered to the template as a /media/… URL.
+label: Quote
+fields:
+  text:
+    type: textarea
+    label: Quote
+  author:
+    type: text
+    label: Author
+  photo:
+    type: image
+    label: Photo

@@ -1,0 +1,71 @@
+Title: Media
+Status: published
+Sort: 70
+Summary: Files live next to the page that uses them. Images are resized on demand into signed, cached thumbnails.
+---
+- type: text
+  body: |
+    Upload an image in the admin and it lands **in the page's folder**:
+
+    ```
+    site/content/pages/guide/media/
+      topic.txt
+      dunes.jpg      ← the 2400×1600 original
+      lake.jpg
+      forest.jpg
+    ```
+
+    The content stores only the **bare file name** (`dunes.jpg`). Station0
+    turns it into `/media/guide/media/dunes.jpg` when it renders, so a page
+    can be renamed or moved and its images go with it. (The homepage's files
+    are under `/media/~/…`, collection items' under `/media/_collections/…`.)
+
+    Images: jpg, png, gif, webp, svg, up to 8 MB. Other documents (pdf, …)
+    go through `file` fields.
+
+    ## Thumbnails
+
+    Never send a 2400 px original to a 300 px slot. In Twig:
+
+    ```twig
+    <img src="{{ image|thumb(800) }}">                    {# max 800 px wide #}
+    <img src="{{ image|thumb(400, 400, 'cover') }}">      {# cropped square #}
+    <img srcset="{{ image|thumb_srcset([400, 800, 1200]) }}" sizes="…">
+    ```
+
+    `thumb` only builds a signed URL like `/thumb/800x0/3f9c…/guide/media/dunes.jpg`;
+    the image is resized on the first request and cached. It never upscales.
+    The gallery below uses `thumb_srcset`, so your browser picks the smallest
+    file that looks sharp — click an image to open the original.
+
+- type: gallery
+  columns: 3
+  images:
+    - src: dunes.jpg
+      alt: Orange gradient
+      caption: dunes.jpg
+    - src: lake.jpg
+      alt: Blue gradient
+      caption: lake.jpg
+    - src: forest.jpg
+      alt: Green gradient
+      caption: forest.jpg — portrait, cropped by CSS
+
+- type: text
+  body: |
+    ## Images in Markdown
+
+    A Markdown image with a bare name is resolved and thumbnailed too
+    (to 1200 px, with a 2× `srcset` and `loading="lazy"`):
+
+    ```markdown
+    ![Lake](lake.jpg)
+    ```
+
+    ![Lake](lake.jpg)
+
+    ## Housekeeping
+
+    - `php vendor/bin/console thumbs:clear` — delete generated thumbnails.
+    - `php vendor/bin/console thumbs:warm` — pre-generate them for every page.
+    - Absolute URLs (`https://…`) pass through unchanged and are not resized.

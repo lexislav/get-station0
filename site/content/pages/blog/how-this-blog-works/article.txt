@@ -1,0 +1,47 @@
+Title: How this blog works
+Status: published
+PublishedAt: 2026-10-20 09:00
+Author: Clara Weiss
+Sort: 10
+Perex: Articles are pages with the article template — a date, an author, a perex field and a body of blocks.
+Categories:
+  - category: how-to
+  - category: behind-the-scenes
+---
+- type: text
+  body: |-
+    Every article is a folder under `site/content/pages/blog/` with an
+    `article.txt` file. Its front matter:
+
+    ```
+    Title: How this blog works
+    Status: published
+    PublishedAt: 2026-10-20 09:00
+    Author: Clara Weiss
+    Perex: Articles are pages with the article template — …
+    ---
+    ```
+
+    - `PublishedAt` is the date shown to readers.
+    - `Author` is shown next to it.
+    - `Perex` is a page field declared in `article.blocks.yaml`; the blog
+      list shows it under the title.
+    - `Categories` is a list of selects filled from the `blog-categories`
+      collection — the coloured badges. Click one to see the
+      [articles of that category](/blog/categories).
+- type: quote
+  text: Save an article in the admin and the "Log blog saves" task runs by itself.
+  author: The task hook in site/tasks/log-blog-saves.php
+- type: callout
+  tone: tip
+  title: Scheduling
+  body: |
+    Set `PublishAt` to a future date and the article goes live by itself —
+    like [the one coming in 2030](/blog/coming-soon), which you can open only
+    because you are signed in. See [Visibility](/guide/visibility).
+
+- type: related
+  heading: Read next
+  pages:
+    - path: /blog/editing-basics
+    - path: /guide/streams

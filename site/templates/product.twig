@@ -1,0 +1,56 @@
+{#
+  `fields` = this page's typed page fields from product.blocks.yaml:
+  numbers are numbers, booleans are booleans, image/file names are /media/… URLs.
+#}
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · Shop · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article class="product"{% if fields.accent %} style="--card-accent: {{ fields.accent }}"{% endif %}>
+    <p class="crumb"><a href="/shop">← Shop</a></p>
+    <h1>{{ page.title }}</h1>
+    {% if fields.subtitle %}<p class="lead">{{ fields.subtitle }}</p>{% endif %}
+
+    {% if fields.hero %}
+        <img class="product__hero" src="{{ fields.hero|thumb(1200) }}"
+             srcset="{{ fields.hero|thumb_srcset([600, 1200]) }}" sizes="(min-width: 760px) 720px, 100vw" alt="">
+    {% endif %}
+
+    <p class="price">{{ fields.price|number_format(2, '.', ' ') }} €
+        <span class="badge">{{ fields.in_stock ? 'In stock' : 'Sold out' }}</span>
+        {% set cat = fields.category ? collection_item('categories', fields.category) : null %}
+        {% if cat %}<span class="badge" style="background: {{ cat.extra.color ?? '#eee' }}">{{ cat.title }}</span>{% endif %}
+    </p>
+
+    <div class="content">{{ content|raw }}</div>
+
+    {% if fields.specs %}
+        <h2>Specifications</h2>
+        <table class="specs">
+            {% for s in fields.specs %}<tr><th>{{ s.label }}</th><td>{{ s.value }}</td></tr>{% endfor %}
+        </table>
+    {% endif %}
+
+    {% if fields.datasheet %}<p><a href="{{ fields.datasheet }}">Download the datasheet</a></p>{% endif %}
+
+    {% set related = [] %}
+    {% for r in fields.related|default([]) %}
+        {% set p = r.product ? page(r.product) : null %}
+        {% if p %}{% set related = related|merge([p]) %}{% endif %}
+    {% endfor %}
+    {% if related %}
+        <h2>Related products</h2>
+        <ul>{% for p in related %}<li><a href="{{ p.urlPath }}">{{ p.title }}</a> — {{ page_fields(p).price|number_format(2, '.', ' ') }} €</li>{% endfor %}</ul>
+    {% endif %}
+
+    <details class="explain">
+        <summary>How this page is built</summary>
+        <p>Everything above the text comes from <strong>page fields</strong> declared in
+        <code>site/templates/product.blocks.yaml</code> and stored in the front matter of
+        <code>{{ page.urlPath|trim('/') }}/product.txt</code>. The text in the middle is the
+        page builder, limited to <code>text</code>, <code>gallery</code>, <code>callout</code>
+        and <code>quote</code> blocks. Read <a href="/guide/page-fields">Page fields</a>.</p>
+    </details>
+</article>
+{% endblock %}

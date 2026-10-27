@@ -1,0 +1,12 @@
+Title: Wool throw
+Status: published
+Sort: 30
+Subtitle: 130 × 170 cm, merino
+Price: 64.5
+In_stock: true
+Accent: #4f46e5
+Hero: hero.jpg
+Category: textiles
+---
+A product with no specifications and no related products: empty page fields
+simply render nothing.

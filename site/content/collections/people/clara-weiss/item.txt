@@ -1,0 +1,10 @@
+Title: Clara Weiss
+Status: published
+Sort: 30
+Name: Clara
+Surname: Weiss
+Role: Editor
+Photo: photo.jpg
+Email: clara@example.com
+---
+Runs the blog and the shop, mostly from the admin.

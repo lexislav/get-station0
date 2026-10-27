@@ -1,3 +1,8 @@
+{#
+  A stream: this page has `AllowedChildTemplates: article, blog-categories`,
+  so only those templates can be created below it. child_pages() lists the
+  live children, sorted; the filter keeps the articles.
+#}
 {% extends 'layout.twig' %}
 
 {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
@@ -7,13 +12,22 @@
     <h1>{{ page.title }}</h1>
     <div class="content">{{ content|raw }}</div>
 
+    <p class="category-nav">Categories:
+        {% for cat in collection('blog-categories') %}
+            <a class="badge" href="{{ page.urlPath }}/categories#{{ cat.slug }}" style="background: {{ cat.extra.color ?? '#eef2ff' }}">{{ cat.title }}</a>
+        {% endfor %}
+    </p>
+
     <ul class="article-list">
-        {% for child in child_pages(page.urlPath) %}
+        {% for child in child_pages(page.urlPath)|filter(c => c.template == 'article') %}
+            {% set f = page_fields(child) %}
             <li>
                 <a href="{{ child.urlPath }}">{{ child.title }}</a>
                 {% if child.publishedAt %}
-                    <span class="muted"> — {{ child.publishedAt|date('j. n. Y') }}</span>
+                    <span class="muted"> — {{ child.publishedAt|date('j M Y') }}{% if child.author %} · {{ child.author }}{% endif %}</span>
                 {% endif %}
+                {% include 'partials/category-badges.twig' with {fields: f} %}
+                {% if f.perex %}<p>{{ f.perex }}</p>{% endif %}
             </li>
         {% else %}
             <li class="muted">No articles yet.</li>

@@ -1,0 +1,28 @@
+Title: Members
+Status: published
+Sort: 60
+Access: members
+Subtitle: Only signed-in visitors see this page.
+---
+- type: text
+  body: |-
+    This page has `Access: members` in its front matter. Anonymous visitors
+    are sent to [/login](/login), and the page is missing from their menu —
+    open the site in a private window to check.
+
+    You are here because you are signed in: as a **member** (role `member`,
+    signed in at `/login`) or as an admin or editor of this site. The header
+    shows who you are, from the `visitor` variable.
+
+    Subpages inherit the setting, so a whole section can be closed with one
+    line. Files of this page (`/media/members/…`) are protected too.
+- type: callout
+  tone: info
+  title: Create a test member
+  body: |
+    ```
+    php vendor/bin/console user:create jane jane@example.com member
+    ```
+
+    Then sign in at [/login](/login) in a private window. Read
+    [Members](/guide/members).

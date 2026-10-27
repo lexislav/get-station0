@@ -1,0 +1,80 @@
+Title: Page builder
+Status: published
+Sort: 20
+---
+- type: text
+  body: |-
+    # Page builder
+
+    This page is a **list of blocks** — one of each block type this site
+    has. It uses the `blocks` template, which allows every block type.
+    Open it in the admin to see the form behind each block, or read
+    [Page builder](/guide/page-builder) in the Guide.
+
+    This first one is a `text` block: Markdown in a textarea.
+- type: gallery
+  columns: 4
+  images:
+    - src: one.jpg
+      alt: Pink gradient
+      caption: one.jpg
+    - src: two.jpg
+      alt: Teal gradient
+      caption: two.jpg
+    - src: three.jpg
+      alt: Yellow gradient
+      caption: three.jpg
+    - src: four.jpg
+      alt: Grey gradient
+      caption: four.jpg
+- type: text
+  body: |-
+    Above: a `gallery` block — a `number` field (4 columns) and a `list` of
+    images uploaded into this page's folder. Below: three `callout` blocks,
+    showing a `select` (tone), a `color` (accent) and a `boolean` (compact).
+- type: callout
+  tone: info
+  title: Info
+  body: The default tone. The text is **Markdown**, rendered with the `markdown` filter.
+- type: callout
+  tone: warning
+  title: Warning, compact
+  body: '`compact: true`'
+  compact: true
+- type: callout
+  tone: tip
+  title: Custom accent
+  body: 'The `accent` colour field overrides the tone: `#db2777`.'
+  accent: '#db2777'
+- type: quote
+  text: |-
+    Content is text files. Layout is Twig.
+    The admin just edits the files.
+  author: Ada Novak
+  photo: one.jpg
+- type: features
+  heading: A feature grid
+  items:
+    - icon: 📄
+      title: Flat files
+      text: Every page is a .txt file you can commit.
+      link: /guide/pages
+    - icon: 🧱
+      title: Blocks
+      text: Schema + template per block type.
+      link: /guide/page-builder
+    - icon: 🏷️
+      title: Page fields
+      text: Typed fields per template.
+      link: /guide/page-fields
+- type: person
+  person: ben-okafor
+  note: A person block — a select filled from the people collection.
+- type: shared
+  item: intro-cta
+- type: related
+  heading: Related pages — a list of page selects
+  pages:
+    - path: /guide/page-builder
+    - path: /guide/page-fields
+    - path: /studio

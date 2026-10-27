@@ -1,0 +1,11 @@
+{% set links = [] %}
+{% for row in block.pages|default([]) %}
+    {% set p = page(row.path) %}{# null when the page is gone or not live #}
+    {% if p %}{% set links = links|merge([p]) %}{% endif %}
+{% endfor %}
+{% if links %}
+<nav class="related">
+    <p class="related__heading">{{ block.heading|default('Read next') }}</p>
+    <ul>{% for p in links %}<li><a href="{{ p.urlPath }}">{{ p.title }}</a></li>{% endfor %}</ul>
+</nav>
+{% endif %}

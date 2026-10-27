@@ -1,0 +1,13 @@
+# Shows a `select` filled from a collection: the editor picks a person,
+# the block stores the item's slug.
+label: Person card
+fields:
+  person:
+    type: select
+    label: Person
+    options_from: collection:people
+    option_label: "{title} ({role})"
+    sort_by: surname
+  note:
+    type: text
+    label: Note under the card

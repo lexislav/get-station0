@@ -1,3 +1,8 @@
+{#
+  Pulls headless content from collections (site/content/collections/):
+  collection('name') = live items, sorted by Sort, then title;
+  collection_item('name', 'slug') = one item; render_collection_item(item) = its body.
+#}
 {% extends 'layout.twig' %}
 
 {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
@@ -7,25 +12,34 @@
     <h1>{{ page.title }}</h1>
     <div class="content">{{ content|raw }}</div>
 
-    {# ── Pull a named shared block from the "shared-blocks" collection ── #}
-    {% set cta = collection_item('shared-blocks', 'intro-cta') %}
-    {% if cta %}
-        <div class="shared-block">
-            {{ render_collection_item(cta) }}
-        </div>
-    {% endif %}
-
-    {# ── Loop over the full "shared-blocks" collection ── #}
-    {% set blocks = collection('shared-blocks') %}
-    {% if blocks|length > 1 %}
-        <h2 style="margin-top:2.5rem;">More from the studio</h2>
-        {% for block in blocks %}
-            {% if block.slug != 'intro-cta' %}
-                <div class="shared-block">
-                    {{ render_collection_item(block) }}
+    <h2>The team <small class="muted">— collection('people')</small></h2>
+    <div class="people">
+        {% for p in collection('people') %}
+            <div class="person">
+                {% if p.extra.photo %}
+                    <img src="{{ ('/media/_collections/people/' ~ p.slug ~ '/' ~ p.extra.photo)|thumb(160, 160, 'cover') }}" alt="" width="80" height="80">
+                {% endif %}
+                <div>
+                    <strong>{{ p.title }}</strong>
+                    {% if p.extra.role %}<span class="muted"> · {{ p.extra.role }}</span>{% endif %}
+                    <div class="person__bio">{{ render_collection_item(p) }}</div>
                 </div>
-            {% endif %}
+            </div>
         {% endfor %}
-    {% endif %}
+    </div>
+
+    <h2>One named item <small class="muted">— collection_item('shared-blocks', 'intro-cta')</small></h2>
+    {% set cta = collection_item('shared-blocks', 'intro-cta') %}
+    {% if cta %}<div class="shared-block">{{ render_collection_item(cta) }}</div>{% endif %}
+
+    <h2>Product categories <small class="muted">— collection('categories')</small></h2>
+    <p>
+        {% for c in collection('categories') %}
+            <span class="badge" style="background: {{ c.extra.color ?? '#eee' }}">{{ c.title }}</span>
+        {% endfor %}
+    </p>
+    <p class="muted">The <code>categories</code> collection feeds the <em>Category</em> select of every product
+    (<code>options_from: collection:categories</code>). It shares the admin's <strong>Shop</strong> tab with the
+    <code>/shop</code> pages.</p>
 </article>
 {% endblock %}

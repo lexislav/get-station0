@@ -1,0 +1,8 @@
+# Embeds an item of the shared-blocks collection — edit it once, it changes
+# on every page that uses it.
+label: Shared block
+fields:
+  item:
+    type: select
+    label: Shared block
+    options_from: collection:shared-blocks

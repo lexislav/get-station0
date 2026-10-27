@@ -1,0 +1,13 @@
+Title: Guide
+Status: published
+Sort: 10
+AllowedChildTemplates: topic
+---
+Station0 in fifteen short chapters. Each one explains a feature and points
+to the page of this site that uses it — open that page in the
+[admin](/admin) next to it to see how it is made.
+
+This page is a small **stream**: its front matter says
+`AllowedChildTemplates: topic`, so the admin only lets you add `topic` pages
+below it, and `guide.twig` lists them with `child_pages()`. The line under
+each title is the topic's `summary` page field, read with `page_fields()`.

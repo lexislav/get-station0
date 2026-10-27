@@ -1,0 +1,51 @@
+# Manifest of the `product` template — page fields above the page builder.
+# Every field type in one place; see /guide/page-fields.
+fields:
+  subtitle:
+    type: text
+    label: Subtitle
+  price:
+    type: number
+    label: Price (€)
+    step: 0.01
+    min: 0
+  in_stock:
+    type: boolean
+    label: In stock
+  accent:
+    type: color
+    label: Accent colour
+  hero:
+    type: image
+    label: Hero image
+  category:
+    type: select
+    label: Category
+    options_from: collection:categories
+    placeholder: — no category —
+  specs:
+    type: list
+    label: Specifications
+    item:
+      label:
+        type: text
+        label: Label
+      value:
+        type: text
+        label: Value
+  datasheet:
+    type: file
+    label: Datasheet (PDF)
+  related:
+    type: list
+    label: Related products
+    item:
+      product:
+        type: select
+        label: Product
+        options_from: "pages:/shop"
+        template: product
+        option_label: "{title} — {price} €"
+        sort_by: title
+allowedBlocks: [text, gallery, callout, quote]
+defaultBlocks: [text]

@@ -1,0 +1,56 @@
+Title: Forms and site actions
+Status: published
+Sort: 100
+Summary: Handle a form post with a small PHP file in site/actions/ — validation, rate limiting, flash messages, mail.
+Demo: /contact
+---
+- type: text
+  body: |
+    A **site action** is the site's own request handler — one PHP file in
+    `site/actions/`. The [contact form](/contact) posts to this one:
+
+    ```php
+    // site/actions/contact.php
+    return [
+        'path'    => '/contact/send',
+        'methods' => ['POST'],
+        'handler' => function (ActionContext $ctx) {
+            $email = (string) $ctx->input('email', '');
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $ctx->state()->flash('error', 'invalid');
+                return $ctx->back();
+            }
+            if (!$ctx->throttle()->hit('contact:' . $ctx->ip(), 5, 3600)['allowed']) {
+                $ctx->state()->flash('error', 'throttled');
+                return $ctx->back();
+            }
+            $ctx->log()->info('Contact form: ' . $email);
+            $ctx->state()->flash('sent', true);
+            return $ctx->redirect('/contact');
+        },
+    ];
+    ```
+
+    The form must carry the **CSRF** fields — every POST is checked:
+
+    ```twig
+    <form method="post" action="/contact/send">
+      <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+      <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+      …
+    </form>
+
+    {% set st = action_state('contact') %}   {# read it once per render #}
+    {% if st.sent ?? false %}Thanks!{% endif %}
+    ```
+
+    ## What the handler gets
+
+    `$ctx->input()`, `ip()`, `state()` (session-backed, with `flash()`),
+    `throttle()`, `mail()`, `log()`, `pages()`, `collections()`, `visitor()`,
+    `members()`, `config()`, and the responses `redirect()`, `back()`,
+    `render()`, `json()`. Add `'access' => 'members'` to accept only
+    signed-in visitors.
+
+    Files starting with `_` are ignored — `site/actions/_example.php` is a
+    newsletter sign-up to copy from.

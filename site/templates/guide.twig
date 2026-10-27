@@ -1,0 +1,25 @@
+{#
+  The Guide index. Its children use the `topic` template, whose manifest
+  (topic.blocks.yaml) gives every topic a `summary` page field.
+  page_fields(child) reads the typed fields of another page.
+#}
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article>
+    <h1>{{ page.title }}</h1>
+    <div class="content">{{ content|raw }}</div>
+
+    <ol class="topic-list">
+        {% for child in child_pages(page.urlPath) %}
+            <li>
+                <a href="{{ child.urlPath }}">{{ child.title }}</a>
+                {% set f = page_fields(child) %}
+                {% if f.summary %}<p>{{ f.summary }}</p>{% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</article>
+{% endblock %}

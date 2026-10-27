@@ -4,7 +4,7 @@
     {
       "name": "station0-dev",
       "runtimeExecutable": "php",
-      "runtimeArgs": ["-S", "localhost:8080", "-t", "public"],
+      "runtimeArgs": ["-S", "localhost:8080", "-t", "public", "public/index.php"],
       "port": 8080
     }
   ]

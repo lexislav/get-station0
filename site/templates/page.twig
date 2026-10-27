@@ -1,3 +1,4 @@
+{# The default template: title + body (Markdown or blocks). #}
 {% extends 'layout.twig' %}
 
 {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
@@ -5,6 +6,7 @@
 {% block body %}
 <article>
     <h1>{{ page.title }}</h1>
+    {% if page.extra.subtitle %}<p class="lead">{{ page.extra.subtitle }}</p>{% endif %}
     <div class="content">{{ content|raw }}</div>
 </article>
 {% endblock %}

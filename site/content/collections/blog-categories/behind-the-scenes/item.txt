@@ -1,0 +1,6 @@
+Title: Behind the scenes
+Status: published
+Sort: 30
+Description: How this demo site is put together.
+Color: #fde68a
+---

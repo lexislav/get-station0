@@ -1,0 +1,18 @@
+# Shows a list of `select` fields filled from the page tree — the usual way
+# to model "related pages". Each value is a URL path, read with page().
+label: Related pages
+fields:
+  heading:
+    type: text
+    label: Heading
+    default: Read next
+  pages:
+    type: list
+    label: Pages
+    item:
+      path:
+        type: select
+        label: Page
+        options_from: pages
+        group_by: parent_title
+        option_label: "{title} ({path})"

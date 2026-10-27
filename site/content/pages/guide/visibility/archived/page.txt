@@ -1,0 +1,5 @@
+Title: Archived
+Status: archived
+Sort: 40
+---
+This page is **archived**: kept in the content, gone from the site. Visitors get **410 Gone**.

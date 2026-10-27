@@ -2,7 +2,7 @@
 
 Starter kit for **[Station0](https://github.com/lexislav/station0)**, a lightweight flat-file CMS for PHP 8.4+.
 
-Your pages are plain text files in `site/content/`. There are no database migrations and the whole site is Git-friendly. SQLite is used only for admin logins. Editors get a friendly admin with a block-based page builder, and web designers work with plain Twig templates and a few YAML files.
+Your pages are plain text files in `site/content/`. There are no database migrations and the whole site is Git-friendly. A small SQLite file holds what isn't content: user accounts, member sign-ins, rate limits and — with the redirects plugin — the 404 log (see [What's in the database](#whats-in-the-database)). Editors get a friendly admin with a block-based page builder, and web designers work with plain Twig templates and a few YAML files.
 
 This repository is the **project skeleton**. The CMS itself (`lexislav/station0`) is installed into `vendor/` and updated independently, so your site files are never touched by an update.
 
@@ -20,6 +20,9 @@ This repository is the **project skeleton**. The CMS itself (`lexislav/station0`
 - [Field types reference](#field-types-reference)
 - [Twig reference](#twig-reference)
 - [Users & roles](#users--roles)
+- [Members-only access](#members-only-access)
+- [Site actions (forms)](#site-actions-forms)
+- [Site tasks & hooks](#site-tasks--hooks)
 - [Configuration](#configuration)
 - [Command line](#command-line)
 - [Deployment](#deployment)
@@ -61,26 +64,32 @@ mysite/
 │       ├── page.twig       ← one file per page template
 │       ├── blog.twig, article.twig, …
 │       └── blocks/         ← page-builder block types
-│           ├── text/
-│           └── gallery/
+│           ├── text/, gallery/, callout/, quote/
+│           └── features/, person/, related/, shared/
 ├── writable/               ← cache, sessions, logs, db.sqlite (created automatically)
 ├── vendor/                 ← Station0 core + dependencies
 └── .env                    ← environment settings
 ```
 
-**Demo content** shows each feature:
+**Demo content** explains itself: every page describes the feature it is
+built with, and **`/guide`** walks through all of them in order.
 
 | URL | Template | Shows |
 |---|---|---|
-| `/` | `page` | Plain Markdown page |
-| `/history` | `blocks` | Page builder: `text` + `gallery` blocks, page-local image |
-| `/history/about`, `/history/team` | `page` | Nested pages |
-| `/work` | `blocks` | Blocks with external image URLs |
-| `/blog` | `blog` | A **stream** that lists its child articles |
-| `/blog/…` | `article` | Articles with `PublishedAt` and `Author` |
-| `/studio` | `showcase` | Content pulled from **collections** |
+| `/` | `page` | Plain Markdown page, page-local image, a map of the demo |
+| `/guide` | `guide` | A stream of `topic` pages, one per feature; lists them with `page_fields()` |
+| `/guide/visibility/…` | `page` | Draft, scheduled, expired, archived, unlisted, nav-hidden pages, `Cascade: false` |
+| `/guide/media` | `topic` | Page-local images, `thumb` / `thumb_srcset`, Markdown images |
+| `/work` | `blocks` | The page builder — one block of every type |
+| `/shop`, `/shop/…` | `shop`, `product` | **Page fields** of every type, a stream, `Group: Shop` |
+| `/blog`, `/blog/…` | `blog`, `article` | A **stream**; `PublishedAt`, `Author`, a perex field, a scheduled article, **categories** (`blog-categories` collection, `/blog/categories`) |
+| `/studio` | `showcase` | Content pulled from **collections** (`people`, `shared-blocks`, `categories`) |
+| `/members` | `page` | `Access: members` — sign-in at `/login` (`login.twig`) |
+| `/contact` | `contact` | A **site action** form (`site/actions/contact.php`), `blocks: false` |
 
-The banner bar above the header comes from the `banners` collection (see `layout.twig`).
+Also: the banner bar above the header (`banners` collection), two site tasks
+(`content-report`, the hook `log-blog-saves`), and the redirects plugin with
+example rules in `site/content/_redirects.yaml` (try `/history`, `/old-offer`).
 
 ---
 
@@ -91,11 +100,11 @@ Every page is a directory under `site/content/pages/`. The directory name is the
 ```
 site/content/pages/
 ├── page.txt                  → /
-├── history/
-│   ├── page.txt              → /history
-│   ├── 6715896b8f477dc8.png  ← an image that belongs to this page
-│   └── team/
-│       └── page.txt          → /history/team
+├── guide/
+│   ├── guide.txt             → /guide         (template "guide")
+│   └── media/
+│       ├── topic.txt         → /guide/media   (template "topic")
+│       └── lake.jpg          ← an image that belongs to this page
 └── blog/
     ├── blog.txt              → /blog          (template "blog")
     └── editing-basics/
@@ -108,7 +117,6 @@ A content file is **front matter**, then `---`, then the **body**:
 
 ```
 Title: Editing content the flat-file way
-Template: article
 Status: published
 PublishedAt: 2026-05-10 09:00
 Author: Station0 Team
@@ -358,7 +366,7 @@ AllowedChildTemplates: article
 ```
 
 - New children of `/blog` can only use the `article` template (several templates: `article, event`).
-- The admin gets a **Streams** tab for quick access to stream entries (a stream put into a [menu group](#admin-menu-groups) shows up in its group's tab instead).
+- The admin gets a **Streams** tab for quick access to stream entries (a stream put into a [admin menu group](#admin-menu-groups) shows up in its group's tab instead).
 - The parent template lists its children:
 
 ```twig
@@ -457,12 +465,11 @@ title:
 ```
 # site/content/pages/studio/showcase.txt
 Title: Studio
-Template: showcase
 Group: Marketing
 ---
 ```
 
-In this starter kit the **Marketing** tab holds the `/studio` page and the `banners` collection.
+In this starter kit the **Marketing** tab holds the `/studio` page and the `banners` and `shared-blocks` collections; the **Shop** tab holds the `/shop` subtree and the `categories` collection.
 
 The optional `site/content/_groups.yaml` sets each group's label, icon, the roles that can see it, and the tab order:
 
@@ -569,8 +576,16 @@ product:
 | `collection('name')` | Live items of a collection (published, not scheduled / expired) |
 | `collection_item('name', 'slug')` | One live item, or `null` |
 | `render_collection_item(item)` | The item body as HTML |
+| `action_state('name')` | State / flash messages of a [site action](#site-actions-forms) — read once per render |
 
-Globals: `app.name`, `app.baseUrl`, `app.adminPath`.
+| Filter | Returns |
+|---|---|
+| `src\|thumb(w, h = 0, fit = 'contain')`, `src\|thumb_srcset([400, 800])` | Resized image URL / `srcset` (see [Thumbnails](#thumbnails)) |
+| `text\|markdown` | Markdown → HTML, like a text block: page-local images resolved, thumbnails *(station0 ≥ 0.10.3)*. Pass a page or collection item to resolve images against it: `item.extra.intro\|markdown(item)`. Alias `markdown_to_html`. |
+
+Use `|markdown` for rich text in your own block types: a `textarea` field printed with `{{ block.body|markdown }}`. A block template that throws renders as `<!-- block:<type> render error -->` and the error is logged to `writable/logs/app.log`.
+
+Page templates get `page`, `content` (print with `|raw`), `fields` (typed page fields) and `preview` (an editor viewing a page that isn't live). Globals: `app` (`name`, `baseUrl`, `adminPath`), `csrf` (for POST forms), `visitor` and `access` (see [Members-only access](#members-only-access)).
 
 Rendered page and block HTML is cached in `writable/cache/`. The cache is cleared automatically whenever content is saved in the admin, and when a scheduled `PublishAt` / `ExpireAt` passes. After editing files by hand, run `php vendor/bin/console cache:clear`.
 
@@ -578,12 +593,57 @@ Rendered page and block HTML is cached in `writable/cache/`. The cache is cleare
 
 ## Users & roles
 
+Three fixed roles; an account has exactly one:
+
 | Role | Can |
 |---|---|
 | `admin` | everything, including **Users** and **Settings** |
-| `editor` | pages, streams and collections (except groups restricted by `roles`) |
+| `editor` | all pages, streams, collections and uploads (except collections in groups restricted by `roles`), tasks that list `editor`, exact redirect rules |
+| `member` | no admin access — signs in on the public site to see [members-only pages](#members-only-access) |
 
-Create users in the admin (*Users*) or from the command line. Password reset by e-mail needs working SMTP settings.
+The only finer controls are `roles` on [admin menu groups](#admin-menu-groups) and on [tasks](#site-tasks--hooks), and `admin.roles` in `site/config.php` (who may enter the admin, default `admin` + `editor`). There are **no per-page permissions** and no approval workflow: any editor can publish, move or delete any page.
+
+Create users in the admin (*Users*, admins only) or with `php vendor/bin/console user:create <username> <email> [admin|editor|member]`. Accounts can be created and deleted, not edited. You can't delete your own account or the last admin. Password reset by e-mail needs working SMTP settings. The demo's `/guide/users-and-roles` page has the full permission table.
+
+---
+
+## Members-only access
+
+*(station0 ≥ 0.9)* Off by default. Gate one section or the whole site in `site/config.php`:
+
+```php
+'access' => [
+    'mode'      => 'public',    // 'members' = the whole site needs a sign-in
+    'public'    => ['/'],       // always public in members mode; `*` = prefix
+    'redirect'  => '/login',    // where anonymous visitors of gated pages go
+    'loginPath' => '/login',    // member sign-in page (template site/templates/login.twig)
+],
+```
+
+`Access: members` in a page's front matter gates it and its subpages (`Access: public` opens a page of a closed site). Its media files are gated too. Members sign in at `loginPath` with a password or a one-time link by e-mail; admins and editors signed into the admin count as members. For anonymous visitors, `top_level_pages()`, `child_pages()` and `page()` leave gated pages out (pass `true` as the last argument for teaser lists). Templates get `visitor` (`authenticated`, `member`, `staff`, `label`, `email`) and `access` (`loginPath`, `logoutPath`, …). The demo's `/members` page and `site/templates/login.twig` show it working.
+
+---
+
+## Site actions (forms)
+
+*(station0 ≥ 0.9)* Your own request handlers — one PHP file per action in `site/actions/` (files starting with `_` are ignored; see `site/actions/_example.php` and the demo's `contact.php`):
+
+```php
+return [
+    'path'    => '/contact/send',
+    'methods' => ['POST'],
+    'handler' => function (ActionContext $ctx) {
+        if (!$ctx->throttle()->hit('contact:' . $ctx->ip(), 5, 3600)['allowed']) {
+            $ctx->state()->flash('error', 'throttled');
+            return $ctx->back();
+        }
+        $ctx->state()->flash('sent', true);
+        return $ctx->redirect('/contact');
+    },
+];
+```
+
+Every POST form needs the CSRF fields (`csrf.nameKey` / `csrf.name`, `csrf.valueKey` / `csrf.value`). The template reads the result with `action_state('contact')`. The handler also gets `input()`, `mail()`, `log()`, `pages()`, `collections()`, `visitor()` and `members()`, and `'access' => 'members'` limits an action to signed-in visitors.
 
 ---
 
@@ -655,13 +715,14 @@ everything below it) or a collection name; `*` wildcards work (`page.*`).
 | `ADMIN_PATH` | `/admin` | Where the admin lives |
 | `HTTPS` | `false` | `true` marks the admin session cookie as secure. Set it when serving over HTTPS. |
 | `ADMIN_LOCALE` | `cs` | Admin language: `en` or `cs` |
+| `TIMEZONE` | `Europe/Prague` | Site timezone for `PublishAt`, `ExpireAt` and other front-matter dates |
 | `ADMIN_BLOCK_COLLAPSE` | `remember` | Initial block state in the editor: `remember`, `expanded`, `collapsed` |
 | `SITE_PATH` | `./site` | Move `site/` elsewhere (absolute path) |
-| `MAIL_*` | | SMTP for password-reset e-mails |
+| `MAIL_*` | | SMTP for password resets, member sign-in links and your own actions' e-mail |
 | `TASKS_RUNNER` | `auto` | How site tasks run in the background: `auto`, `spawn`, `fastcgi`, `inline` |
 | `TASKS_PHP` | | PHP CLI binary for `spawn` (detected when empty) |
 
-The site name (`name`), paths and session settings are set in `site/config.php`.
+The site name (`name`), paths, session settings, [`access`](#members-only-access) and [`plugins`](#plugins) are set in `site/config.php`.
 
 ### Plugins
 
@@ -674,7 +735,7 @@ The site name (`name`), paths and session settings are set in `site/config.php`.
 ],
 ```
 
-**Redirects** *(station0 ≥ 0.10.1)*: `"redirects" => []` turns on the bundled redirect manager. When an editor renames a page's slug or moves it in the tree, the old URL and every URL below it get a 301 to the new place automatically. You can add your own rules in `site/content/_redirects.yaml` or in the admin's **Redirects** tab, which also has a log of 404s. Each page's edit form lists the old URLs that lead to it. Details: [docs/redirects.md](https://github.com/lexislav/station0/blob/main/docs/redirects.md).
+**Redirects** *(station0 ≥ 0.10.1)*: `"redirects" => []` turns on the bundled redirect manager. When an editor renames a page's slug or moves it in the tree, the old URL and every URL below it get a 301 to the new place automatically. You can add your own rules in `site/content/_redirects.yaml` or in the admin's **Redirects** tab. The tab also has a log of 404s (stored in SQLite) with filters and a suggested target for each path *(station0 ≥ 0.10.2)*, so fixing broken links is one click. Each page's edit form lists the old URLs that lead to it. Details: [docs/redirects.md](https://github.com/lexislav/station0/blob/main/docs/redirects.md).
 
 A short name loads a plugin bundled with Station0. Plugins can add admin tabs, routes, console commands, and panels on the page edit form. `php vendor/bin/console plugins:list` shows what is enabled. Details: [docs/plugins.md](https://github.com/lexislav/station0/blob/main/docs/plugins.md).
 
@@ -685,7 +746,7 @@ A short name loads a plugin bundled with Station0. Plugins can add admin tabs, r
 Run from the project root:
 
 ```bash
-php vendor/bin/console user:create <username> <email> [admin|editor]
+php vendor/bin/console user:create <username> <email> [admin|editor|member]   # role defaults to editor
 php vendor/bin/console user:reset-password <email>
 php vendor/bin/console cache:clear
 php vendor/bin/console assets:relink --dry-run   # convert old absolute /media links to page-local names
@@ -695,6 +756,9 @@ php vendor/bin/console collections:retitle [name] [--dry-run]   # rebuild comput
 php vendor/bin/console task:list                 # site tasks (site/tasks/)
 php vendor/bin/console task:run <name> [--param=value]
 php vendor/bin/console plugins:list              # enabled plugins, their commands (station0 ≥ 0.10)
+php vendor/bin/console redirects:list            # redirects plugin: rules, test a URL, 404 log
+php vendor/bin/console redirects:test /old/path
+php vendor/bin/console redirects:404
 ```
 
 ---
@@ -743,7 +807,21 @@ Header always set X-Content-Type-Options "nosniff"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 ```
 
-**Backups:** `site/` holds your content and templates, and `writable/db.sqlite` holds your users. Keeping `site/` in Git is the easiest backup.
+**Backups:** `site/` holds your content, templates and redirect rules — keeping it in Git is the easiest backup. Back up `writable/db.sqlite` too: it holds the accounts.
+
+### What's in the database
+
+Content never goes into the database. `writable/db.sqlite` (created automatically, needs `pdo_sqlite`) holds only runtime data:
+
+| Data | Tables | Since |
+|---|---|---|
+| Admin, editor and member accounts, password resets, login throttling | `users*` | always |
+| Member sign-ins (pass cookies) and one-time sign-in links | `station0_passes`, `station0_login_links` | 0.9 |
+| Rate limits for sign-ins and site actions | `station0_throttle` | 0.9 |
+| Which plugin migrations have run | `station0_migrations` | 0.10 |
+| 404 log and redirect hit counts (redirects plugin, only when enabled) | `station0_404`, `station0_redirect_hits` | 0.10.1 |
+
+Losing it means re-creating accounts, and members sign in again; the content is unaffected.
 
 ---
 

@@ -1,3 +1,12 @@
 {% extends 'layout.twig' %}
-{% block title %}404 Not Found · {{ app.name }}{% endblock %}
-{% block body %}<h1>404 — Page not found</h1>{% endblock %}
+{% block title %}Not found · {{ app.name }}{% endblock %}
+{% block body %}
+<article>
+    <h1>404 — Page not found</h1>
+    <p>There is no live page at this address. Station0 answers <strong>404</strong> for a missing page,
+    and also for a page that exists but is a <em>draft</em>, <em>scheduled</em> for later, or inside a
+    hidden section. Signed-in editors see a preview of such pages instead.</p>
+    <p>This page is <code>site/templates/404.twig</code>. See <a href="/guide/visibility">Visibility</a>,
+    or go to the <a href="/">homepage</a>.</p>
+</article>
+{% endblock %}

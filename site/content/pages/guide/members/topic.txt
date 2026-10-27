@@ -1,0 +1,49 @@
+Title: Members
+Status: published
+Sort: 90
+Summary: Gate a page, a section or the whole site to signed-in members, with sign-in by password or e-mailed link.
+Demo: /members
+---
+- type: text
+  body: |
+    Members-only access is off until you configure it. This site has, in
+    `site/config.php`:
+
+    ```php
+    'access' => [
+        'mode'      => 'public',   // 'members' would gate the whole site
+        'redirect'  => '/login',   // where anonymous visitors of gated pages go
+        'loginPath' => '/login',   // the member sign-in page (login.twig)
+    ],
+    ```
+
+    and one page with `Access: members` in its front matter:
+    [/members](/members). The setting is inherited by subpages, so it gates
+    a whole section. With `mode: members`, `Access: public` does the opposite
+    and opens a page of a closed site.
+
+    ## Who is a member
+
+    - An account with the **member** role. Members sign in at `/login`
+      (password, or a one-time link by e-mail) and cannot enter the admin.
+      Create one in the admin (*Users*) or with
+      `php vendor/bin/console user:create jane jane@example.com member`.
+      How members differ from admins and editors: [Users and roles](/guide/users-and-roles).
+    - A signed-in admin or editor — that's why you can open
+      [/members](/members) now.
+    - A visitor with a **guest pass** granted by a [site action](/guide/forms)
+      (`$ctx->visitor()->grantPass(…)`) — e.g. after entering an event code.
+
+    ## In templates
+
+    ```twig
+    {% if visitor.authenticated %}Hi {{ visitor.label }}{% endif %}
+    {% if visitor.member %}…{% endif %}   {# member or staff #}
+    <form method="post" action="{{ access.logoutPath }}">…csrf fields…</form>
+    ```
+
+    For anonymous visitors `top_level_pages()`, `child_pages()` and `page()`
+    leave members-only pages out — that's why *Members* is missing from the
+    menu in a private window. Pass `true` as the last argument to keep them
+    for a teaser list. Files of gated pages (`/media`, `/thumb`) are gated
+    too.

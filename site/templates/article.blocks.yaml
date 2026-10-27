@@ -1,0 +1,17 @@
+# Manifest of the `article` template (blog posts).
+fields:
+  perex:
+    type: textarea
+    label: Perex (shown in the blog list)
+  # Several categories per article: a list whose item is one select filled
+  # from the blog-categories collection. Each value is an item slug.
+  categories:
+    type: list
+    label: Categories
+    item:
+      category:
+        type: select
+        label: Category
+        options_from: collection:blog-categories
+allowedBlocks: [text, quote, gallery, callout, related]
+defaultBlocks: [text]

@@ -1,0 +1,6 @@
+Title: Nav-hidden
+Status: published
+Listing: nav-hidden
+Sort: 60
+---
+This page is **live and nav-hidden**: it appears in `child_pages()` lists (see the list on [Visibility](/guide/visibility)), but never in menus built with `top_level_pages()` or `nav_pages()`. A first-level nav-hidden page would be missing from the header menu of this site.

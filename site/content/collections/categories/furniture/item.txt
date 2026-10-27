@@ -1,0 +1,5 @@
+Title: Furniture
+Status: published
+Sort: 20
+Color: #d9f99d
+---

@@ -1,0 +1,28 @@
+{#
+  A stream of `product` pages (AllowedChildTemplates: product). Each card
+  reads the child's typed page fields with page_fields(child).
+#}
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+<article>
+    <h1>{{ page.title }}</h1>
+    <div class="content">{{ content|raw }}</div>
+
+    <div class="cards">
+        {% for child in child_pages(page.urlPath) %}
+            {% set f = page_fields(child) %}
+            <a class="card" href="{{ child.urlPath }}"{% if f.accent %} style="--card-accent: {{ f.accent }}"{% endif %}>
+                {% if f.hero %}<img src="{{ f.hero|thumb(480, 300, 'cover') }}" alt="" loading="lazy">{% endif %}
+                <strong>{{ child.title }}</strong>
+                {% if f.subtitle %}<span class="muted">{{ f.subtitle }}</span>{% endif %}
+                <span class="price">{{ f.price|number_format(2, '.', ' ') }} €{% if not f.in_stock %} · <em>sold out</em>{% endif %}</span>
+            </a>
+        {% else %}
+            <p class="muted">No products yet.</p>
+        {% endfor %}
+    </div>
+</article>
+{% endblock %}

@@ -1,0 +1,8 @@
+Title: Unlisted
+Status: published
+Listing: unlisted
+Sort: 50
+---
+This page is **live but unlisted**: you can open it by its URL, and a template can load it with `page('/guide/visibility/unlisted')`, but `child_pages()` and the menus leave it out. Good for landing pages of a campaign or a thank-you page.
+
+Back to [Visibility](/guide/visibility).

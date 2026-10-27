@@ -1,0 +1,10 @@
+# Manifest of the `topic` template (Guide pages).
+fields:
+  summary:
+    type: textarea
+    label: Summary (shown in the Guide index)
+  demo:
+    type: text
+    label: Live demo (URL path)
+allowedBlocks: [text, callout, features, related, quote, gallery]
+defaultBlocks: [text]

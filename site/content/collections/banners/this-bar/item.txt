@@ -1,0 +1,8 @@
+Title: This bar is a collection
+Status: published
+Sort: 10
+Subtitle: Each banner is an item of the banners collection.
+Cta_text: How collections work
+Cta_url: /guide/collections
+Color: #2563eb
+---

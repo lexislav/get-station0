@@ -6,7 +6,9 @@ is in [README.md](README.md).
 
 Station0 is a flat-file CMS on Slim 4 + Twig 3. Content is plain text in
 `site/content/`, templates are Twig in `site/templates/`, the admin edits the
-same files. SQLite (`writable/db.sqlite`) holds only user accounts.
+same files. SQLite (`writable/db.sqlite`) holds no content — only runtime
+data: user accounts, member sign-ins and links, rate limits, plugin
+migrations and (redirects plugin) the 404 log and hit counts.
 
 ## Ground rules
 
@@ -42,9 +44,15 @@ same files. SQLite (`writable/db.sqlite`) holds only user accounts.
 | `site/tasks/*.php` | Own scripts (imports, exports), runnable from console and admin — `_*.php` ignored |
 | `public/assets/` | Site CSS / JS / static files |
 
-The demo content shows each feature: `/` (Markdown), `/history` and `/work`
-(blocks), `/blog` (a stream of `article` pages), `/studio` (collections,
-`Group: Marketing`). The `banners` collection feeds the bar in `layout.twig`.
+The demo content explains itself — every page describes the feature it uses,
+and `/guide` (a stream of `topic` pages) covers them in order. Live demos:
+`/` (Markdown), `/guide/visibility/*` (every visibility state), `/work` (one
+block of each type), `/shop` (page fields, `Group: Shop`), `/blog` (a stream
+of `article` pages with categories), `/studio` (collections, `Group: Marketing`), `/members`
+(`Access: members`, `login.twig`), `/contact` (the `contact` site action).
+The `banners` collection feeds the bar in `layout.twig`; redirect rules are
+in `site/content/_redirects.yaml`. When you change a feature's demo, update
+its `/guide` topic too.
 
 ## Pages
 
@@ -123,6 +131,7 @@ A new `site/templates/<name>.twig` appears in the admin's Template dropdown.
 | `render_collection_item(item)` | Item body as HTML |
 | `src\|thumb(w, h = 0, fit = 'contain')` | Resized image URL (`fit: 'cover'` crops); never upscales |
 | `src\|thumb_srcset([400, 800])` | `srcset` string |
+| `text\|markdown(page = current)` | Markdown → HTML like a text block (page-local images, thumbnails) *(≥ 0.10.3)*; alias `markdown_to_html` |
 | `action_state('name')` | Flash / state of a site action — read **once** per render |
 
 Page helpers take an optional last argument `includeGated = true` to keep
@@ -148,8 +157,11 @@ fields:
   <cite>{{ block.author }}</cite></blockquote>
 ```
 
-`text` is built in (Markdown). A new block directory shows up in the admin's
-"+ Add block" bar immediately.
+`text` is built in (Markdown). For rich text in your own block, use a
+`textarea` and print it with `{{ block.body|markdown }}` *(≥ 0.10.3)* — see
+`blocks/callout/`. A block whose template throws renders as
+`<!-- block:<type> render error -->` and is logged to `writable/logs/app.log`.
+A new block directory shows up in the admin's "+ Add block" bar immediately.
 
 ## Template manifest (`<template>.blocks.yaml`)
 
@@ -242,12 +254,12 @@ fields:
 - Use `|thumb` on every image you show at a fixed size. Markdown images are
   thumbnailed automatically.
 
-## Streams and menu groups
+## Streams and admin menu groups
 
 - **Stream** = a page with `AllowedChildTemplates: article`; its template
   lists `child_pages(page.urlPath)`. New children may only use the listed
   templates.
-- **Menu groups**: `Group: Shop` (page front matter, whole subtree) and
+- **Admin menu groups** (tabs in the admin sidebar, not the site menu): `Group: Shop` (page front matter, whole subtree) and
   `group: Shop` (`_collection.yaml`) share one admin tab. Optional
   `site/content/_groups.yaml`:
   ```yaml

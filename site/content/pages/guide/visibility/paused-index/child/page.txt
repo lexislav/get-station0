@@ -1,0 +1,6 @@
+Title: Child of a paused index
+Status: published
+---
+This page is **live**: its parent is a draft, but the parent says `Cascade: false`, so it hides only itself.
+
+Back to [Visibility](/guide/visibility).

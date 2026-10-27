@@ -1,0 +1,10 @@
+Title: Ben Okafor
+Status: published
+Sort: 20
+Name: Ben
+Surname: Okafor
+Role: Designer
+Photo: photo.jpg
+Email: ben@example.com
+---
+Designs the block types editors build pages from.

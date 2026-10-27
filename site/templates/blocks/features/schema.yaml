@@ -1,0 +1,22 @@
+# Shows the `list` field type: repeatable rows of sub-fields.
+label: Feature grid
+fields:
+  heading:
+    type: text
+    label: Heading
+  items:
+    type: list
+    label: Features
+    item:
+      icon:
+        type: text
+        label: Icon (emoji)
+      title:
+        type: text
+        label: Title
+      text:
+        type: textarea
+        label: Text
+      link:
+        type: text
+        label: Link (URL path)

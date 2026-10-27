@@ -1,0 +1,79 @@
+Title: Page builder
+Status: published
+Sort: 30
+Summary: Compose a page from typed blocks. A block type is a folder with a schema (the admin form) and a Twig template (the HTML).
+Demo: /work
+---
+- type: text
+  body: |
+    A page body can be a **list of blocks**. In the admin the editor adds,
+    reorders and collapses them; on disk they are YAML:
+
+    ```yaml
+    - type: text
+      body: |
+        ## Heading
+        Some **Markdown**.
+    - type: gallery
+      columns: 3
+      images:
+        - src: one.jpg
+          alt: Pink
+    ```
+
+    ## Block types
+
+    Each type is a folder in `site/templates/blocks/`:
+
+    ```
+    site/templates/blocks/quote/
+      schema.yaml     ← the fields the admin shows
+      template.twig   ← the HTML; the values are in `block`
+    ```
+
+    ```yaml
+    # schema.yaml
+    label: Quote
+    fields:
+      text:   { type: textarea, label: Quote }
+      author: { type: text, label: Author }
+      photo:  { type: image, label: Photo }
+    ```
+
+    ```twig
+    {# template.twig #}
+    <blockquote>{{ block.text|nl2br }}</blockquote>
+    <cite>{{ block.author }}</cite>
+    ```
+
+    A new folder shows up in the admin's **+ Add block** bar right away.
+
+    ## The block types of this site
+
+    | Type | Shows the field type |
+    |---|---|
+    | `text` | `textarea` with Markdown — rendered by Station0 itself |
+    | `gallery` | `number`, `list` with an `image` sub-field (multi-upload) |
+    | `callout` | `select` with fixed options, `color`, `boolean`; a `textarea` printed with `\|markdown` |
+    | `quote` | `image` — stored as a filename, rendered as a thumbnail |
+    | `features` | `list` of rows with several sub-fields |
+    | `person` | `select` filled from a collection (`options_from: collection:people`) |
+    | `related` | `list` of `select`s filled from the page tree (`options_from: pages`) |
+    | `shared` | embeds an item of the `shared-blocks` collection |
+
+    The [Page builder demo](/work) uses every one of them.
+
+- type: callout
+  tone: info
+  title: Which blocks a template allows
+  body: |
+    A template can limit its palette and pre-fill new pages in its manifest,
+    `site/templates/<template>.blocks.yaml`:
+
+    ```yaml
+    allowedBlocks: [text, gallery, callout, quote]   # the palette, in this order
+    defaultBlocks: [text]                            # inserted into new pages
+    ```
+
+    Here `topic` pages may use six block types, `product` pages four, and the
+    `contact` template switches the builder off with `blocks: false`.

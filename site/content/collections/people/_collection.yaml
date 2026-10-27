@@ -1,0 +1,23 @@
+# No `group:` — this collection sits in the admin's generic "Collections" tab.
+label: People
+# Computed title (station0 >= 0.10): built from the fields on save and
+# stored in Title:. readonly = the editor sees it but can't type it.
+title:
+  from: "{name} {surname}"
+  input: readonly
+fields:
+  name:
+    type: text
+    label: First name
+  surname:
+    type: text
+    label: Surname
+  role:
+    type: text
+    label: Role
+  photo:
+    type: image
+    label: Photo
+  email:
+    type: text
+    label: E-mail
