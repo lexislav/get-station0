@@ -1,0 +1,10 @@
+# Manifest of the `contact` template: a form-style page with no page builder.
+fields:
+  intro:
+    type: textarea
+    label: Text above the form
+  thanks:
+    type: text
+    label: Message after sending
+    default: Thank you — your message has been received.
+blocks: false

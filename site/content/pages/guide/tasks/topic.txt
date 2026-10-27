@@ -1,0 +1,53 @@
+Title: Tasks
+Status: published
+Sort: 110
+Summary: Your own scripts — imports, exports, reports — run from the admin or the console, or automatically after a save.
+---
+- type: text
+  body: |
+    A **task** is a PHP file in `site/tasks/`. It shows up in the admin under
+    **Tasks** (with a form for its parameters and live output) and in the
+    console. This site has two.
+
+    ## content-report — run it by hand
+
+    ```php
+    // site/tasks/content-report.php
+    return [
+        'label'  => 'Content report',
+        'roles'  => ['editor'],
+        'params' => [
+            'section' => ['type' => 'select', 'label' => 'Section', 'options_from' => 'pages'],
+            'not_live_only' => ['type' => 'boolean', 'label' => 'Only pages that are not live'],
+        ],
+        'run' => function (TaskContext $task): int {
+            foreach ($task->pages()->all(true) as $page) {
+                $task->info($page->urlPath . '  ' . $page->state());
+            }
+            return 0;
+        },
+    ];
+    ```
+
+    ```
+    php vendor/bin/console task:list
+    php vendor/bin/console task:run content-report --section=/guide --not_live_only
+    ```
+
+    ## log-blog-saves — a hook
+
+    ```php
+    'on' => ['page.saved:/blog', 'page.deleted:/blog'],
+    ```
+
+    It runs by itself, in the background, after an article under `/blog` is
+    saved or deleted in the admin. Save one, then open *Tasks → Log blog
+    saves* to see the run. `$task->event('path')` tells it which page.
+
+    Events: `page.saved`, `page.moved`, `page.deleted`,
+    `collection.item.saved`, `collection.item.deleted`; the part after `:`
+    filters by path prefix or collection name.
+
+    Keep the top level of a task file free of side effects — it is loaded on
+    every admin page — and save content through `$task->pages()` /
+    `$task->collections()` so the cache and computed titles stay right.

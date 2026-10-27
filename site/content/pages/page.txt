@@ -1,17 +1,40 @@
 Title: Home
-Published: true
+Status: published
+Metatitle: Station0 — a flat-file CMS that explains itself
 ---
+![Station0](home.png)
 
-# Welcome to Station0
+**Station0** is a flat-file CMS built on Slim 4 and Twig 3. Every page of this
+site is a plain text file in `site/content/pages/`, every look is a Twig
+template in `site/templates/`, and the admin at [/admin](/admin) edits the same
+files. A database (SQLite) holds only user accounts.
 
-A lightweight flat-file CMS. Pages live as plain `.txt` files — no database migrations, fully Git-friendly.
+This demo site documents itself: each page explains the feature it is built
+with, and the [Guide](/guide) walks through all of them in order.
 
-## Features
+## What's where
 
-- **Markdown** content with front matter
-- **Block-based** page composition via YAML
-- **Nested pages** with clean URLs (`/history/team`)
-- **Admin panel** with page editor and user management
-- Twig templates with full layout inheritance
+| Feature | Read about it | See it live |
+|---|---|---|
+| Pages, front matter, templates | [Pages are folders](/guide/pages) | this page — `site/content/pages/page.txt` |
+| Draft, scheduled, expired, hidden pages | [Visibility](/guide/visibility) | [the demo pages](/guide/visibility) |
+| Page builder and block types | [Page builder](/guide/page-builder) | [Page builder](/work) |
+| Typed page fields | [Page fields](/guide/page-fields) | [Shop](/shop) |
+| Streams (blog, news) | [Streams](/guide/streams) | [Blog](/blog) |
+| Collections (headless content) | [Collections](/guide/collections) | [Studio](/studio), the bar on top |
+| Images and thumbnails | [Media](/guide/media) | [Media](/guide/media) |
+| Admin menu tabs | [Menu groups](/guide/menu-groups) | [admin](/admin) → Shop, Marketing |
+| Members-only pages | [Members](/guide/members) | [Members](/members) |
+| Forms | [Forms and site actions](/guide/forms) | [Contact](/contact) |
+| Scripts and hooks | [Tasks](/guide/tasks) | admin → Tasks |
+| Redirects (plugin) | [Redirects](/guide/redirects) | [/history](/history), [/old-offer](/old-offer) |
+| Twig helpers | [Templates](/guide/templates) | every page |
+| Command line | [Console](/guide/console) | your terminal |
 
-Browse the demo pages: [History](/history) · [About](/history/about) · [Work](/work)
+## This page
+
+The homepage is the only page whose file sits directly in
+`site/content/pages/` — here `page.txt`, so it uses the `page` template. Its
+body is plain **Markdown**. The image above is `home.png`, a file in the same
+folder; the body refers to it by its bare name and Station0 serves it at
+`/media/~/home.png`, resized to fit (see [Media](/guide/media)).

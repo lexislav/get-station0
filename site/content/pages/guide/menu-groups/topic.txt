@@ -1,0 +1,39 @@
+Title: Menu groups
+Status: published
+Sort: 80
+Summary: Give a part of the site its own tab in the admin — pages and collections together, optionally only for some roles.
+---
+- type: text
+  body: |
+    The admin's sidebar has a tab for the page *Structure*, *Streams* and
+    *Collections*. A **group** adds a tab of its own that collects:
+
+    - a page and its whole subtree — `Group: Shop` in the page's front matter;
+    - collections — `group: Shop` in `_collection.yaml`.
+
+    On this site:
+
+    | Tab | Holds | Visible to |
+    |---|---|---|
+    | 🛒 **Shop** | the `/shop` subtree + the `categories` collection | editors and admins |
+    | 📣 **Marketing** | the `/studio` page + the `banners` and `shared-blocks` collections | admins |
+
+    The `people` collection has no group, so it stays in the generic
+    *Collections* tab.
+
+    Labels, icons, role limits and the tab order live in
+    `site/content/_groups.yaml`:
+
+    ```yaml
+    shop:
+      label: Shop
+      icon: "🛒"
+      roles: [editor]   # admins always pass
+    marketing:
+      label: Marketing
+      icon: "📣"
+      roles: [admin]
+    ```
+
+    For collections the roles are enforced; for pages they only hide the
+    tab — the pages stay editable in *Structure*.

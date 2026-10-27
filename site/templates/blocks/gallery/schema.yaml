@@ -4,16 +4,19 @@ fields:
     type: number
     label: Columns
     default: 3
+    min: 1
+    max: 4
+    step: 1
   images:
     type: list
     label: Images
     item:
       src:
         type: image
-        label: Obrázek
+        label: Image
       caption:
         type: text
-        label: Popisek (Caption)
+        label: Caption
       alt:
         type: text
-        label: Alternativní text (alt)
+        label: Alt text

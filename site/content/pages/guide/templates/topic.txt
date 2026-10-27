@@ -1,0 +1,56 @@
+Title: Templates
+Status: published
+Sort: 130
+Summary: Twig templates in site/templates/, the variables every page gets, and the helpers that load other content.
+---
+- type: text
+  body: |
+    A page template extends `layout.twig` and fills its blocks:
+
+    ```twig
+    {# site/templates/page.twig #}
+    {% extends 'layout.twig' %}
+    {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+    {% block body %}
+      <h1>{{ page.title }}</h1>
+      {{ content|raw }}
+    {% endblock %}
+    ```
+
+    ## Variables
+
+    | Variable | What |
+    |---|---|
+    | `page` | `title`, `urlPath`, `slug`, `template`, `status`, `state`, `isLive`, `listing`, `publishedAt`, `author`, `sort`, `extra` (other front matter) |
+    | `content` | the rendered body — print with `\|raw` |
+    | `fields` | typed [page fields](/guide/page-fields) |
+    | `preview` | true when an editor views a page that is not live |
+    | `app` | `name`, `baseUrl`, `adminPath` |
+    | `visitor`, `access` | see [Members](/guide/members) |
+    | `csrf` | for POST forms, see [Forms](/guide/forms) |
+
+    ## Helpers
+
+    | Helper | Returns |
+    |---|---|
+    | `top_level_pages()` | the main menu — this site's header |
+    | `nav_pages('/path')` | a submenu |
+    | `child_pages('/path')` | children for a listing — the [Blog](/blog) |
+    | `page('/path')` | one live page or `null` |
+    | `page_fields(page)` | typed fields of any page — the [Shop](/shop) cards |
+    | `collection('name')`, `collection_item('name', 'slug')` | [collections](/guide/collections) |
+    | `render_collection_item(item)` | an item's body as HTML |
+    | `src\|thumb(w, h, fit)`, `src\|thumb_srcset([…])` | [thumbnails](/guide/media) |
+    | `action_state('name')` | what a [site action](/guide/forms) flashed |
+    | `markdown_to_html` | filter used by the `text` block |
+
+    ## Special templates
+
+    - `layout.twig` — the base; never offered as a page template.
+    - `404.twig`, `410.twig` — error pages. Try [/nothing-here](/nothing-here)
+      and [an archived page](/guide/visibility/archived).
+    - `login.twig` — the member sign-in page at [/login](/login).
+    - `<template>.blocks.yaml` — the manifest next to a template:
+      page fields, allowed and default blocks.
+
+    The footer of every page names the template that rendered it.

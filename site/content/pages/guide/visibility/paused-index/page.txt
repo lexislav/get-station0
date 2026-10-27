@@ -1,0 +1,6 @@
+Title: Paused index
+Status: draft
+Cascade: false
+Sort: 80
+---
+A draft with `Cascade: false`: only this page is hidden. Its subpages stay online.

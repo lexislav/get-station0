@@ -1,0 +1,5 @@
+Title: Hidden section
+Status: draft
+Sort: 70
+---
+A **draft parent**. Everything below it is hidden too: its pages answer 404 even though they are published themselves.

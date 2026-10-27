@@ -1,0 +1,7 @@
+# Shares the admin's "Shop" tab with the /shop page subtree.
+label: Categories
+group: Shop
+fields:
+  color:
+    type: color
+    label: Badge colour

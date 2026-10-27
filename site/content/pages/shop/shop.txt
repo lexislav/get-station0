@@ -1,0 +1,14 @@
+Title: Shop
+Status: published
+Sort: 30
+AllowedChildTemplates: product
+Group: Shop
+---
+A demo catalogue for [page fields](/guide/page-fields). Each product is a
+page with the `product` template; price, stock, colour, hero image, category,
+specifications, datasheet and related products are **typed page fields**
+declared in `site/templates/product.blocks.yaml`. The cards below read them
+with `page_fields(child)`.
+
+The page has `Group: Shop`, so in the admin it sits — with its products and
+the `categories` collection — in its own **🛒 Shop** tab.

@@ -1,0 +1,35 @@
+Title: Desk lamp
+Status: published
+Sort: 10
+Subtitle: Warm light, adjustable arm
+Price: 89.9
+In_stock: true
+Accent: #d97706
+Hero: hero.jpg
+Category: lighting
+Specs:
+  - label: Height
+    value: 45 cm
+  - label: Bulb
+    value: E27, max. 8 W LED
+  - label: Cable
+    value: 1.8 m, fabric
+Datasheet: datasheet.pdf
+Related:
+  - product: /shop/oak-chair
+  - product: /shop/wool-throw
+---
+- type: text
+  body: |-
+    This text is the page builder below the fields. The product template
+    allows only `text`, `gallery`, `callout` and `quote` blocks.
+- type: gallery
+  columns: 2
+  images:
+    - src: hero.jpg
+      alt: Desk lamp
+    - src: detail.jpg
+      alt: Detail
+- type: callout
+  tone: tip
+  body: The datasheet link below is a `file` field — a PDF stored next to this page.

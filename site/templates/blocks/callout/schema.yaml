@@ -1,0 +1,22 @@
+# Shows the `select` (static options), `color` and `boolean` field types.
+label: Callout
+fields:
+  tone:
+    type: select
+    label: Tone
+    options:
+      info: Info
+      tip: Tip
+      warning: Warning
+  title:
+    type: text
+    label: Title
+  body:
+    type: textarea
+    label: Text (Markdown)
+  accent:
+    type: color
+    label: Accent colour (overrides the tone)
+  compact:
+    type: boolean
+    label: Compact

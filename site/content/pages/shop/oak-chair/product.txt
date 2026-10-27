@@ -1,0 +1,19 @@
+Title: Oak chair
+Status: published
+Sort: 20
+Subtitle: Solid oak, oiled
+Price: 249
+In_stock: false
+Accent: #78350f
+Hero: hero.jpg
+Category: furniture
+Specs:
+  - label: Seat height
+    value: 46 cm
+  - label: Wood
+    value: European oak
+Related:
+  - product: /shop/desk-lamp
+---
+Sold out — `In_stock: false` is a `boolean` page field, and the template
+shows *Sold out* both here and on the card in the [Shop](/shop).

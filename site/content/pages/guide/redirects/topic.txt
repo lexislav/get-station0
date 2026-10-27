@@ -1,0 +1,52 @@
+Title: Redirects
+Status: published
+Sort: 120
+Summary: The bundled redirects plugin keeps old URLs working — automatically when a page is renamed, plus your own rules and a 404 log.
+---
+- type: text
+  body: |
+    Plugins are optional features you switch on in `site/config.php`. This
+    site enables the bundled **redirects** plugin:
+
+    ```php
+    'plugins' => [
+        'redirects' => [],
+    ],
+    ```
+
+    ## Automatic
+
+    Rename a page's slug or drag it elsewhere in the admin's *Structure*
+    tree, and the plugin adds a 301 rule for the page and its subtree. Its
+    files follow too. The page's edit form gets a *Redirects* panel listing
+    the old URLs that lead to it.
+
+    ## Rules
+
+    `site/content/_redirects.yaml` — try each link:
+
+    | Rule | Try |
+    |---|---|
+    | `/history` → `/guide` | [/history](/history) |
+    | `/history/{path*}` → `/guide` (pattern) | [/history/team](/history/team) |
+    | `/docs/{path*}` → `/guide/{path}` | [/docs/media](/docs/media) |
+    | regex `^/blog/\d{4}/(.+)$` → `/blog/$1` | [/blog/2024/editing-basics](/blog/2024/editing-basics) |
+    | `/about` → `/studio`, status 302 | [/about](/about) |
+    | `/old-offer`, status 410 | [/old-offer](/old-offer) |
+
+    Rules apply only where no live page answers, so they cost nothing on
+    normal requests. `force: true` redirects even over an existing page.
+
+    ## Admin and console
+
+    The **Redirects** tab lists the rules, tests a URL, and shows the **404
+    log** with a *Create redirect* button. From the console:
+
+    ```
+    php vendor/bin/console redirects:list
+    php vendor/bin/console redirects:test /history/team
+    php vendor/bin/console redirects:404
+    ```
+
+    Prefer a rule here over a placeholder page or a site action when you
+    move content.

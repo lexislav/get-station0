@@ -1,3 +1,7 @@
+{#
+  A stream: this page has `AllowedChildTemplates: article`, so only article
+  pages can be created below it. child_pages() lists the live ones, sorted.
+#}
 {% extends 'layout.twig' %}
 
 {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
@@ -12,8 +16,9 @@
             <li>
                 <a href="{{ child.urlPath }}">{{ child.title }}</a>
                 {% if child.publishedAt %}
-                    <span class="muted"> — {{ child.publishedAt|date('j. n. Y') }}</span>
+                    <span class="muted"> — {{ child.publishedAt|date('j M Y') }}{% if child.author %} · {{ child.author }}{% endif %}</span>
                 {% endif %}
+                {% if page_fields(child).perex %}<p>{{ page_fields(child).perex }}</p>{% endif %}
             </li>
         {% else %}
             <li class="muted">No articles yet.</li>

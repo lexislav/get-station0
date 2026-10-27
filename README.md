@@ -61,26 +61,32 @@ mysite/
 │       ├── page.twig       ← one file per page template
 │       ├── blog.twig, article.twig, …
 │       └── blocks/         ← page-builder block types
-│           ├── text/
-│           └── gallery/
+│           ├── text/, gallery/, callout/, quote/
+│           └── features/, person/, related/, shared/
 ├── writable/               ← cache, sessions, logs, db.sqlite (created automatically)
 ├── vendor/                 ← Station0 core + dependencies
 └── .env                    ← environment settings
 ```
 
-**Demo content** shows each feature:
+**Demo content** explains itself: every page describes the feature it is
+built with, and **`/guide`** walks through all of them in order.
 
 | URL | Template | Shows |
 |---|---|---|
-| `/` | `page` | Plain Markdown page |
-| `/history` | `blocks` | Page builder: `text` + `gallery` blocks, page-local image |
-| `/history/about`, `/history/team` | `page` | Nested pages |
-| `/work` | `blocks` | Blocks with external image URLs |
-| `/blog` | `blog` | A **stream** that lists its child articles |
-| `/blog/…` | `article` | Articles with `PublishedAt` and `Author` |
-| `/studio` | `showcase` | Content pulled from **collections** |
+| `/` | `page` | Plain Markdown page, page-local image, a map of the demo |
+| `/guide` | `guide` | A stream of `topic` pages, one per feature; lists them with `page_fields()` |
+| `/guide/visibility/…` | `page` | Draft, scheduled, expired, archived, unlisted, nav-hidden pages, `Cascade: false` |
+| `/guide/media` | `topic` | Page-local images, `thumb` / `thumb_srcset`, Markdown images |
+| `/work` | `blocks` | The page builder — one block of every type |
+| `/shop`, `/shop/…` | `shop`, `product` | **Page fields** of every type, a stream, `Group: Shop` |
+| `/blog`, `/blog/…` | `blog`, `article` | A **stream**; `PublishedAt`, `Author`, a perex field, a scheduled article |
+| `/studio` | `showcase` | Content pulled from **collections** (`people`, `shared-blocks`, `categories`) |
+| `/members` | `page` | `Access: members` — sign-in at `/login` (`login.twig`) |
+| `/contact` | `contact` | A **site action** form (`site/actions/contact.php`), `blocks: false` |
 
-The banner bar above the header comes from the `banners` collection (see `layout.twig`).
+Also: the banner bar above the header (`banners` collection), two site tasks
+(`content-report`, the hook `log-blog-saves`), and the redirects plugin with
+example rules in `site/content/_redirects.yaml` (try `/history`, `/old-offer`).
 
 ---
 
@@ -91,11 +97,11 @@ Every page is a directory under `site/content/pages/`. The directory name is the
 ```
 site/content/pages/
 ├── page.txt                  → /
-├── history/
-│   ├── page.txt              → /history
-│   ├── 6715896b8f477dc8.png  ← an image that belongs to this page
-│   └── team/
-│       └── page.txt          → /history/team
+├── guide/
+│   ├── guide.txt             → /guide         (template "guide")
+│   └── media/
+│       ├── topic.txt         → /guide/media   (template "topic")
+│       └── lake.jpg          ← an image that belongs to this page
 └── blog/
     ├── blog.txt              → /blog          (template "blog")
     └── editing-basics/
@@ -108,7 +114,6 @@ A content file is **front matter**, then `---`, then the **body**:
 
 ```
 Title: Editing content the flat-file way
-Template: article
 Status: published
 PublishedAt: 2026-05-10 09:00
 Author: Station0 Team
@@ -457,12 +462,11 @@ title:
 ```
 # site/content/pages/studio/showcase.txt
 Title: Studio
-Template: showcase
 Group: Marketing
 ---
 ```
 
-In this starter kit the **Marketing** tab holds the `/studio` page and the `banners` collection.
+In this starter kit the **Marketing** tab holds the `/studio` page and the `banners` and `shared-blocks` collections; the **Shop** tab holds the `/shop` subtree and the `categories` collection.
 
 The optional `site/content/_groups.yaml` sets each group's label, icon, the roles that can see it, and the tab order:
 

@@ -1,0 +1,6 @@
+{# Callout block — `tone` is a select, `accent` a color, `compact` a boolean. #}
+<aside class="callout callout--{{ block.tone|default('info') }}{{ block.compact ? ' callout--compact' }}"
+       {% if block.accent %}style="--callout-accent: {{ block.accent }}"{% endif %}>
+    {% if block.title %}<p class="callout__title">{{ block.title }}</p>{% endif %}
+    {{ block.body|default('')|markdown_to_html }}
+</aside>

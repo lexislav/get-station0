@@ -1,0 +1,10 @@
+{% if block.heading %}<h2>{{ block.heading }}</h2>{% endif %}
+<div class="features">
+    {% for f in block.items|default([]) %}
+        <div class="feature">
+            {% if f.icon %}<span class="feature__icon" aria-hidden="true">{{ f.icon }}</span>{% endif %}
+            <h3>{% if f.link %}<a href="{{ f.link }}">{{ f.title }}</a>{% else %}{{ f.title }}{% endif %}</h3>
+            {% if f.text %}<p>{{ f.text }}</p>{% endif %}
+        </div>
+    {% endfor %}
+</div>

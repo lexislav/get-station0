@@ -1,0 +1,9 @@
+Title: Contact
+Status: published
+Sort: 70
+Intro: |
+  Send us a message. This form is handled by a site action — it validates
+  your input, allows five messages per hour, and writes the message to
+  writable/logs/app.log instead of sending mail.
+Thanks: Thank you — your message is in writable/logs/app.log.
+---

@@ -1,0 +1,7 @@
+# Manifest of the `article` template (blog posts).
+fields:
+  perex:
+    type: textarea
+    label: Perex (shown in the blog list)
+allowedBlocks: [text, quote, gallery, callout, related]
+defaultBlocks: [text]

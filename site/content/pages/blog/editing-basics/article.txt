@@ -1,34 +1,42 @@
-Title: Editing content the flat-file way
-Template: article
-Published: true
-PublishedAt: 2026-05-10 09:00
-Author: Station0 Team
-Updated: 2026-05-22 13:36:30
-Sort: 10
+Title: Writing in Markdown
+Status: published
+PublishedAt: 2026-10-10 09:00
+Author: Ada Novak
+Sort: 20
+Perex: A plain Markdown body, and everything Markdown can do here — tables, code, images.
 ---
+This article has a plain **Markdown** body, no blocks. Station0 treats it as
+one `text` block, so you can switch it to blocks in the admin at any time.
 
-In Station0 every page is just a plain `.txt` file. There is no database to
-migrate and no build step — you edit text, save, and the page is live.
+## Text
 
-## Front matter
+*Emphasis*, **strong**, `code`, [links](/guide), ~~strikethrough~~.
 
-The block above the `---` separator is **front matter**. It sets the title,
-publish state, template, and any custom fields:
+> A blockquote.
 
+1. Numbered
+2. lists
+   - and nested bullets
+
+## Tables
+
+| Syntax | Result |
+|---|---|
+| `**bold**` | **bold** |
+| `[text](/path)` | a link |
+
+## Code
+
+```php
+return ['path' => '/contact/send', 'handler' => fn ($ctx) => $ctx->back()];
 ```
-Title: My Article
-Published: true
-Template: article
-PublishedAt: 2026-05-10 09:00
----
-```
 
-Everything below the separator is the body, written in Markdown.
+## Images
 
-## Why this is nice
+Images by bare name come from this page's folder; absolute URLs pass
+through unchanged:
 
-- Content is **Git-friendly** — diffs are readable, history is free.
-- Moving a page renames its folder; assets travel with it.
-- No admin lock-in: edit in the browser *or* in your editor.
+![The homepage image](/media/~/home.png)
 
-Next up: [Blocks and Markdown](/blog/blocks-and-markdown).
+Old URLs like `/blog/2024/editing-basics` still lead here — a
+[redirect rule](/guide/redirects) takes care of it.

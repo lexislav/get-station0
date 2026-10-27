@@ -8,7 +8,7 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-{# ── Banners — loaded from the "banners" collection ──────────────────── #}
+{# ── Banners — the live items of the "banners" collection (/guide/collections) #}
 {% set banners = collection('banners') %}
 {% if banners %}
 <div class="site-banners">
@@ -33,15 +33,36 @@
 
 <header class="site-header">
     <a class="brand" href="/">{{ app.name }}</a>
+    {# top_level_pages() = live first-level pages, minus nav-hidden / unlisted ones #}
     <nav class="site-nav">
         {% for p in top_level_pages() %}
-            <a href="{{ p.urlPath }}">{{ p.title }}</a>
+            <a href="{{ p.urlPath }}"{% if page is defined and (page.urlPath == p.urlPath or page.urlPath starts with p.urlPath ~ '/') %} aria-current="page"{% endif %}>{{ p.title }}</a>
         {% endfor %}
-        <a href="{{ app.adminPath }}">Admin</a>
     </nav>
+    {# `visitor` = who is looking at the public site (/guide/members) #}
+    <div class="site-visitor">
+        {% if visitor.authenticated %}
+            <span class="muted">{{ visitor.label }}</span>
+            {% if visitor.staff %}<a href="{{ app.adminPath }}">Admin</a>{% endif %}
+            {% if access.logoutPath ?? false %}
+                <form method="post" action="{{ access.logoutPath }}">
+                    <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+                    <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+                    <button type="submit" class="link">Sign out</button>
+                </form>
+            {% endif %}
+        {% else %}
+            {% if access.loginPath ?? false %}<a href="{{ access.loginPath }}">Sign in</a>{% endif %}
+            <a href="{{ app.adminPath }}">Admin</a>
+        {% endif %}
+    </div>
 </header>
 <main class="container">
     {% block body %}{% endblock %}
 </main>
+<footer class="site-footer">
+    <p>Built with Station0 · every page here explains the feature it uses — start at the <a href="/guide">Guide</a>.
+       Rendered by <code>site/templates/{{ (page.template ?? 'layout') }}.twig</code>.</p>
+</footer>
 </body>
 </html>

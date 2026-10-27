@@ -1,0 +1,4 @@
+Title: Child of a hidden section
+Status: published
+---
+This page is published, but its parent is a draft, so visitors get a 404 — a hidden parent hides its whole subtree.

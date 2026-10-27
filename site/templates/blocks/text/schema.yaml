@@ -1,3 +1,4 @@
+label: Text
 fields:
   body:
     type: textarea

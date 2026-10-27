@@ -1,0 +1,91 @@
+Title: Page fields
+Status: published
+Sort: 40
+Summary: Give a template its own typed fields — price, hero image, specs — edited above the page builder and stored in the front matter.
+Demo: /shop/desk-lamp
+---
+- type: text
+  body: |
+    Blocks are for free-form content. When every page of a kind has the
+    same data — a product's price, an article's perex — declare **page
+    fields** in the template's manifest:
+
+    ```yaml
+    # site/templates/product.blocks.yaml
+    fields:
+      price:    { type: number, label: Price (€), step: 0.01 }
+      in_stock: { type: boolean, label: In stock }
+      hero:     { type: image, label: Hero image }
+      category:
+        type: select
+        label: Category
+        options_from: collection:categories
+      specs:
+        type: list
+        label: Specifications
+        item:
+          label: { type: text, label: Label }
+          value: { type: text, label: Value }
+    allowedBlocks: [text, gallery, callout, quote]
+    ```
+
+    The admin shows them in a *Page fields* panel above the blocks, and saves
+    them into the front matter:
+
+    ```
+    Title: Desk lamp
+    Price: 89.9
+    In_stock: true
+    Hero: hero.jpg
+    Category: lighting
+    Specs:
+      - label: Height
+        value: 45 cm
+    ---
+    ```
+
+    In the template they arrive **typed** in `fields` — numbers as numbers,
+    booleans as booleans, images and files as `/media/…` URLs:
+
+    ```twig
+    {{ fields.price|number_format(2) }} €
+    {% if fields.in_stock %}In stock{% endif %}
+    <img src="{{ fields.hero|thumb(1200) }}">
+    {% for s in fields.specs %}{{ s.label }}: {{ s.value }}{% endfor %}
+    ```
+
+    For another page — a child in a listing — use `page_fields(child)`. The
+    [Shop](/shop) cards do exactly that.
+
+    ## Field types
+
+    | Type | Value in Twig | Options |
+    |---|---|---|
+    | `text`, `textarea` | string | `default` |
+    | `number` | number | `min`, `max`, `step` |
+    | `boolean` | `true` / `false` | |
+    | `select` | the stored value | `options` or `options_from`, `placeholder` |
+    | `color` | `#rrggbb` | |
+    | `image`, `file` | `/media/…` URL | |
+    | `list` | array of rows | `item:` = the sub-fields |
+
+    The same types work in block schemas, collection schemas and task
+    parameters.
+
+    ## Selects that point at content
+
+    ```yaml
+    options_from: collection:categories   # value = item slug
+    options_from: collections:a,b         # value = "a/slug"
+    options_from: pages:/shop             # value = URL path; read it with page()
+    template: product                     # only pages with this template
+    option_label: "{title} — {price} €"   # placeholders: title, slug, any field
+    group_by: category
+    sort_by: -price                       # "-" = descending
+    ```
+
+    Several relations ("related products") are a `list` whose item is one
+    `select` — see *Related products* on the [desk lamp](/shop/desk-lamp).
+
+    Field names must not clash with reserved keys (`title`, `status`, `sort`,
+    `group`, `listing`, …) — such fields are dropped. Use `snake_case`.

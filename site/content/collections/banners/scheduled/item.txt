@@ -1,0 +1,10 @@
+Title: Scheduled banner
+Status: published
+PublishAt: 2026-01-01 00:00
+ExpireAt: 2099-12-31 23:59
+Sort: 20
+Subtitle: Live from PublishAt until ExpireAt, like a page.
+Cta_text: Visibility rules
+Cta_url: /guide/visibility
+Color: #16a34a
+---

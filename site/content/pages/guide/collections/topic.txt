@@ -1,0 +1,65 @@
+Title: Collections
+Status: published
+Sort: 60
+Summary: Headless content with no URL of its own — banners, people, categories, reusable blocks — loaded by templates.
+Demo: /studio
+---
+- type: text
+  body: |
+    A **collection** is a folder of items in `site/content/collections/`.
+    Items look like pages (front matter + body) but have no URL; templates
+    pull them in.
+
+    ```
+    site/content/collections/
+      people/
+        _collection.yaml     ← label, fields, admin tab, computed title
+        ada-novak/
+          item.txt
+          photo.jpg          ← the item's files
+    ```
+
+    ```yaml
+    # _collection.yaml
+    label: People
+    title:
+      from: "{name} {surname}"   # computed title (≥ 0.10)
+      input: readonly
+    fields:
+      name:    { type: text, label: First name }
+      surname: { type: text, label: Surname }
+      role:    { type: text, label: Role }
+      photo:   { type: image, label: Photo }
+    ```
+
+    ## In templates
+
+    ```twig
+    {% for p in collection('people') %}      {# live items, by Sort then title #}
+      {{ p.title }} — {{ p.extra.role }}
+      {{ render_collection_item(p) }}        {# the body as HTML #}
+    {% endfor %}
+
+    {% set cta = collection_item('shared-blocks', 'intro-cta') %}
+    ```
+
+    Item files are served from `/media/_collections/<name>/<slug>/<file>`.
+
+    ## The collections of this site
+
+    | Collection | Used by | Shows |
+    |---|---|---|
+    | `banners` | the bar at the top, `layout.twig` | `color` fields; a draft and a scheduled item |
+    | `people` | [Studio](/studio), the `person` block | computed title, `image` field |
+    | `categories` | product *Category* select | a collection in the same admin tab as pages |
+    | `shared-blocks` | [Studio](/studio), the `shared` block | items whose body is blocks |
+
+    Items have `Status`, `PublishAt` and `ExpireAt` like pages — the top bar
+    shows two banners because the third is a draft.
+
+    ## Computed titles
+
+    `title: "{name} {surname}"` builds the title from the fields when the item
+    is saved. `input: editable` lets the editor override it; `hidden` hides
+    the title input. After changing the pattern, update existing items with
+    `php vendor/bin/console collections:retitle people`.

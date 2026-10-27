@@ -1,3 +1,4 @@
+{# Like page.twig, but the title comes from the first block — for landing pages. #}
 {% extends 'layout.twig' %}
 
 {% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}

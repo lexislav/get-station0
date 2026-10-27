@@ -1,0 +1,64 @@
+{#
+  Member sign-in page at access.loginPath (/login), see site/config.php.
+  Station0 handles the POSTs; this template gets `login`:
+  error, notice, email, next, retryAfter, paths (login, link, password, logout).
+#}
+{% extends 'layout.twig' %}
+
+{% block title %}Sign in · {{ app.name }}{% endblock %}
+
+{% set errors = {
+    invalid: 'Wrong e-mail or password.',
+    throttled: 'Too many attempts. Try again later.',
+    link_invalid: 'That sign-in link has expired or was already used.',
+    password_short: 'The password must have at least 8 characters.',
+    password_mismatch: 'The passwords do not match.',
+    not_signed_in: 'Sign in first.',
+} %}
+{% set notices = {
+    link_sent: 'If that address belongs to a member, a sign-in link is on its way.',
+    password_set: 'Your password has been changed.',
+    signed_out: 'You are signed out.',
+} %}
+
+{% block body %}
+<article class="narrow">
+    <h1>Sign in</h1>
+    {% if login.error %}<p class="notice notice--error">{{ errors[login.error] ?? login.error }}</p>{% endif %}
+    {% if login.notice %}<p class="notice notice--ok">{{ notices[login.notice] ?? login.notice }}</p>{% endif %}
+
+    {% if visitor.member %}
+        <p>You are signed in as <strong>{{ visitor.label }}</strong>. Go to the <a href="/members">members area</a>.</p>
+        {% if not visitor.staff %}
+        <form class="form" method="post" action="{{ login.paths.password }}">
+            <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+            <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+            <h2>Change password</h2>
+            <label>New password <input type="password" name="password" minlength="8" required autocomplete="new-password"></label>
+            <label>Repeat it <input type="password" name="password_confirm" minlength="8" required autocomplete="new-password"></label>
+            <button type="submit">Change password</button>
+        </form>
+        {% endif %}
+    {% else %}
+        <p>The <a href="/members">members area</a> is for signed-in visitors. Member accounts
+        have the <code>member</code> role — they can sign in here, not in the admin.</p>
+        <form class="form" method="post" action="{{ login.paths.login }}">
+            <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+            <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+            {% if login.next %}<input type="hidden" name="next" value="{{ login.next }}">{% endif %}
+            <label>E-mail <input type="email" name="email" value="{{ login.email }}" required autocomplete="username"></label>
+            <label>Password <input type="password" name="password" required autocomplete="current-password"></label>
+            <label class="checkbox"><input type="checkbox" name="remember" value="1" checked> Remember me</label>
+            <button type="submit">Sign in</button>
+        </form>
+        <form class="form" method="post" action="{{ login.paths.link }}">
+            <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+            <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+            <h2>Or get a sign-in link</h2>
+            <p class="muted">We e-mail you a one-time link, valid for 20 minutes (needs working mail settings in <code>.env</code>).</p>
+            <label>E-mail <input type="email" name="email" value="{{ login.email }}" required></label>
+            <button type="submit">Send me a link</button>
+        </form>
+    {% endif %}
+</article>
+{% endblock %}

@@ -42,9 +42,15 @@ same files. SQLite (`writable/db.sqlite`) holds only user accounts.
 | `site/tasks/*.php` | Own scripts (imports, exports), runnable from console and admin — `_*.php` ignored |
 | `public/assets/` | Site CSS / JS / static files |
 
-The demo content shows each feature: `/` (Markdown), `/history` and `/work`
-(blocks), `/blog` (a stream of `article` pages), `/studio` (collections,
-`Group: Marketing`). The `banners` collection feeds the bar in `layout.twig`.
+The demo content explains itself — every page describes the feature it uses,
+and `/guide` (a stream of `topic` pages) covers them in order. Live demos:
+`/` (Markdown), `/guide/visibility/*` (every visibility state), `/work` (one
+block of each type), `/shop` (page fields, `Group: Shop`), `/blog` (a stream
+of `article` pages), `/studio` (collections, `Group: Marketing`), `/members`
+(`Access: members`, `login.twig`), `/contact` (the `contact` site action).
+The `banners` collection feeds the bar in `layout.twig`; redirect rules are
+in `site/content/_redirects.yaml`. When you change a feature's demo, update
+its `/guide` topic too.
 
 ## Pages
 

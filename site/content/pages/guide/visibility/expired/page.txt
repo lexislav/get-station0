@@ -1,0 +1,7 @@
+Title: Expired
+Status: published
+PublishAt: 2025-06-01 00:00
+ExpireAt: 2026-01-01 00:00
+Sort: 30
+---
+This page **expired** on 1 January 2026 (`ExpireAt`). Visitors get **410 Gone** and the `410.twig` page.

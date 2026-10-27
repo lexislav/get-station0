@@ -1,0 +1,71 @@
+Title: Pages are folders
+Status: published
+Sort: 10
+Summary: A page is a directory with one .txt file. The directory tree is the URL tree, the file name picks the template.
+---
+- type: text
+  body: |
+    Every page lives in `site/content/pages/`. The **directory** gives the
+    URL, the **file name** gives the template:
+
+    ```
+    site/content/pages/
+      page.txt                    → /            (template page)
+      guide/
+        guide.txt                 → /guide       (template guide)
+        pages/
+          topic.txt               → /guide/pages (template topic) ← you are here
+      shop/
+        shop.txt                  → /shop
+        desk-lamp/
+          product.txt             → /shop/desk-lamp
+          hero.jpg                → a file of that page
+    ```
+
+    `site/templates/<name>.twig` renders a page whose file is `<name>.txt`.
+    Add a new template file and it appears in the admin's *Template* menu.
+
+    ## Front matter
+
+    The lines above `---` are **front matter**; everything below it is the
+    body. This is the top of the file you are reading:
+
+    ```
+    Title: Pages are folders
+    Status: published
+    Sort: 10
+    Summary: A page is a directory with one .txt file. …
+    ---
+    ```
+
+    | Key | What it does |
+    |---|---|
+    | `Title` | Required. The page title. |
+    | `Status` | `draft`, `published` or `archived` — see [Visibility](/guide/visibility). |
+    | `PublishAt`, `ExpireAt` | Schedule: live from / until a date and time. |
+    | `PublishedAt` | The date shown to readers and used to sort articles. |
+    | `Listing` | `listed` (default), `nav-hidden` or `unlisted`. |
+    | `Sort` | Order among siblings (the admin sets it by drag & drop). |
+    | `Metatitle` | Overrides the `<title>` tag. |
+    | `AllowedChildTemplates` | Turns the page into a [stream](/guide/streams). |
+    | `Group` | Puts the page and its subtree into an [admin tab](/guide/menu-groups). |
+    | `Access` | `members` or `public` — see [Members](/guide/members). |
+    | anything else | Your own data, in Twig as `page.extra.<key>` — or declared as a [page field](/guide/page-fields). |
+
+    Keys are case-insensitive. A one-line value is taken literally, so colons
+    and quotes are safe; multi-line values and lists are indented YAML.
+
+    ## The body
+
+    The body is either **Markdown** (like the [homepage](/)) or a **YAML list
+    of blocks** (like this page — see the [page builder](/guide/page-builder)).
+    A Markdown body is treated as one `text` block, so a page can switch to
+    blocks at any time.
+
+- type: callout
+  tone: tip
+  title: Editing by hand
+  body: |
+    You can edit these files in your editor and commit them to Git. After a
+    hand edit run `php vendor/bin/console cache:clear` — saving in the admin
+    clears the cache by itself.

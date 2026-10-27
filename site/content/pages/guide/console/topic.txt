@@ -1,0 +1,46 @@
+Title: Console
+Status: published
+Sort: 140
+Summary: Everything you can do from the terminal — run it from the project root.
+---
+- type: text
+  body: |
+    ```
+    php vendor/bin/console                         # the full list
+    ```
+
+    | Command | Does |
+    |---|---|
+    | `cache:clear` | Clears the page cache — run it after editing files by hand |
+    | `user:create <user> <email> [role]` | Creates an account: `admin`, `editor` or `member` |
+    | `user:reset-password <email>` | Sets a new password |
+    | `thumbs:clear`, `thumbs:warm` | Deletes / pre-generates thumbnails |
+    | `assets:relink [--dry-run]` | Turns old absolute `/media/…` links into bare file names |
+    | `collections:retitle <name> [--dry-run]` | Rebuilds computed collection titles |
+    | `task:list`, `task:run <name> --param=value` | Site [tasks](/guide/tasks) |
+    | `plugins:list` | Enabled plugins, their commands and migrations |
+    | `redirects:list`, `redirects:test <url>`, `redirects:404` | The [redirects](/guide/redirects) plugin |
+
+    ## Running the site locally
+
+    ```
+    php -S localhost:8080 -t public public/index.php
+    ```
+
+    The last argument is the router: without it, clean URLs such as
+    `/guide/console` don't reach Station0.
+
+    ## Settings in `.env`
+
+    `BASE_URL`, `DEBUG` (detailed errors), `ADMIN_PATH`, `ADMIN_LOCALE`
+    (`en` / `cs`), `TIMEZONE`, `HTTPS`, `MAIL_*` for sign-in links and your
+    own mail, `TASKS_RUNNER`. Errors are logged to `writable/logs/app.log`.
+
+    ## Updating Station0
+
+    ```
+    composer update lexislav/station0
+    ```
+
+    Never edit `vendor/`. What changed per version:
+    `vendor/lexislav/station0/CHANGELOG.md`.

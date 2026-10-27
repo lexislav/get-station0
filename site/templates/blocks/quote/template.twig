@@ -1,0 +1,7 @@
+<figure class="quote">
+    {% if block.photo %}
+        <img class="quote__photo" src="{{ block.photo|thumb(96, 96, 'cover') }}" alt="" width="48" height="48">
+    {% endif %}
+    <blockquote>{{ block.text|nl2br }}</blockquote>
+    {% if block.author %}<figcaption>— {{ block.author }}</figcaption>{% endif %}
+</figure>

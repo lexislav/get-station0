@@ -1,3 +1,11 @@
+# Admin menu tabs (see /guide/menu-groups). A tab collects page subtrees
+# (`Group: X` in a page's front matter) and collections (`group: X` in
+# _collection.yaml). This file adds a label, an icon, role limits and order.
+shop:
+  label: Shop
+  icon: "🛒"
+  roles: [editor]
 marketing:
+  label: Marketing
   icon: "📣"
   roles: [admin]

@@ -1,0 +1,21 @@
+# Redirect rules (redirects plugin, see /guide/redirects). The admin's
+# Redirects tab rewrites this file, so comments here may be lost.
+- from: /history
+  to: /guide
+  note: The skeleton's old demo section
+- from: /history/{path*}
+  to: /guide
+  note: Pattern — {path*} = any number of segments
+- from: /docs/{path*}
+  to: /guide/{path}
+  note: Pattern that carries the rest of the path over
+- from: '^/blog/\d{4}/(.+)$'
+  type: regex
+  to: /blog/$1
+  note: Regex — old dated blog URLs
+- from: /about
+  to: /studio
+  status: 302
+- from: /old-offer
+  status: 410
+  note: Gone for good — renders 410.twig

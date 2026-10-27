@@ -1,12 +1,12 @@
-Title: About Callout
-Published: true
+Title: Try the admin
+Status: published
 Sort: 20
 ---
-
-- type: text
+- type: callout
+  tone: tip
+  title: Everything here is editable
   body: |
-    ## A small studio with a big portfolio
-
-    Founded in 2018, we've helped over 50 clients tell their stories through
-    thoughtful design and honest craft. Our work spans print, digital, and
-    spatial — always rooted in clear thinking.
+    Open [the admin](/admin): every page, block and collection item on this
+    site is a plain text file under `site/content/`, and the admin edits the
+    same files. A collection item can hold blocks too — this one is a
+    *callout* block.

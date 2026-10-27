@@ -1,0 +1,44 @@
+{#
+  The form posts to the site action site/actions/contact.php (path /contact/send).
+  action_state('contact') returns what the action flashed — read it once.
+#}
+{% extends 'layout.twig' %}
+
+{% block title %}{{ page.metatitle ?? page.title }} · {{ app.name }}{% endblock %}
+
+{% block body %}
+{% set st = action_state('contact') %}
+<article>
+    <h1>{{ page.title }}</h1>
+    {% if fields.intro %}<p>{{ fields.intro|nl2br }}</p>{% endif %}
+
+    {% if st.sent ?? false %}
+        <p class="notice notice--ok">{{ fields.thanks }}</p>
+    {% else %}
+        {% if st.error ?? false %}
+            <p class="notice notice--error">
+                {{ {throttled: 'Too many messages from your address — try again in an hour.',
+                    invalid: 'Please fill in your name, a valid e-mail and a message.'}[st.error] ?? st.error }}
+            </p>
+        {% endif %}
+        {% set old = st.old ?? {} %}
+        <form class="form" method="post" action="/contact/send">
+            <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
+            <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
+            <label>Name <input name="name" value="{{ old.name ?? visitor.label ?? '' }}" required></label>
+            <label>E-mail <input type="email" name="email" value="{{ old.email ?? visitor.email ?? '' }}" required></label>
+            <label>Message <textarea name="message" rows="5" required>{{ old.message ?? '' }}</textarea></label>
+            <button type="submit">Send</button>
+        </form>
+    {% endif %}
+
+    <details class="explain">
+        <summary>How this page is built</summary>
+        <p>The page uses the <code>contact</code> template, whose manifest says <code>blocks: false</code>:
+        the admin shows only the two page fields (intro and thank-you text), no page builder.
+        The form posts to <code>/contact/send</code>, handled by <code>site/actions/contact.php</code>,
+        which validates, rate-limits (5 per hour per IP) and logs the message to
+        <code>writable/logs/app.log</code>. Read <a href="/guide/forms">Forms and site actions</a>.</p>
+    </details>
+</article>
+{% endblock %}
