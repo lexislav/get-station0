@@ -32,11 +32,14 @@ Categories:
 - type: quote
   text: Save an article in the admin and the "Log blog saves" task runs by itself.
   author: The task hook in site/tasks/log-blog-saves.php
-- type: text
-  body: |-
-    > **Scheduling.** Set `PublishAt` to a future date and the article goes live by itself —
+- type: callout
+  tone: tip
+  title: Scheduling
+  body: |
+    Set `PublishAt` to a future date and the article goes live by itself —
     like [the one coming in 2030](/blog/coming-soon), which you can open only
     because you are signed in. See [Visibility](/guide/visibility).
+
 - type: related
   heading: Read next
   pages:

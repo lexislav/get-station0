@@ -94,12 +94,12 @@ Demo: /studio
       `php vendor/bin/console collections:retitle people --dry-run`, then
       without `--dry-run`.
 
-- type: text
+- type: callout
+  tone: warning
+  title: Collections only
   body: |
-    > **Collections only**
-    >
-    > Titles built from fields are a collection feature. **Pages** always have
-    > a typed `Title:` — a page template's manifest has no `title:` pattern.
-    > For a product page you can still *show* a composed heading in the
-    > template, e.g. `{{ fields.brand }} {{ fields.model }}`, while the stored
-    > title stays what the editor typed.
+    Titles built from fields are a collection feature. **Pages** always have
+    a typed `Title:` — a page template's manifest has no `title:` pattern.
+    For a product page you can still *show* a composed heading in the
+    template, e.g. `{{ fields.brand }} {{ fields.model }}`, while the stored
+    title stays what the editor typed.

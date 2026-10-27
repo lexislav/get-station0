@@ -1,6 +1,7 @@
 {#
-  Not used for rendering: Station0 converts `text` blocks (Markdown) itself,
-  with image thumbnails. The block type still needs this folder and its
-  schema.yaml so the admin offers it.
+  Station0 renders `text` blocks itself (Markdown, page-local images,
+  thumbnails), so this template is not used — the folder and schema.yaml
+  are what the admin needs. It shows the pattern for your own rich-text
+  blocks: a textarea printed with the `markdown` filter (station0 >= 0.10.3).
 #}
-<div class="block block--text">{{ block.body ?? '' }}</div>
+<div class="block block--text">{{ (block.body ?? '')|markdown }}</div>

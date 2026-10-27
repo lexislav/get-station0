@@ -62,8 +62,10 @@ Summary: A page is a directory with one .txt file. The directory tree is the URL
     A Markdown body is treated as one `text` block, so a page can switch to
     blocks at any time.
 
-- type: text
+- type: callout
+  tone: tip
+  title: Editing by hand
   body: |
-    > **Editing by hand.** You can edit these files in your editor and commit them to Git. After a
+    You can edit these files in your editor and commit them to Git. After a
     hand edit run `php vendor/bin/console cache:clear` — saving in the admin
     clears the cache by itself.

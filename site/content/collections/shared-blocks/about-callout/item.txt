@@ -5,6 +5,8 @@ Sort: 20
 - type: callout
   tone: tip
   title: Everything here is editable
-  body: |-
-    Open the admin at /admin: every page, block and collection item on this site is a plain text file under site/content/, and the admin edits the same files.
-    A collection item can hold blocks too — this one is a callout block.
+  body: |
+    Open [the admin](/admin): every page, block and collection item on this
+    site is a plain text file under `site/content/`, and the admin edits the
+    same files. A collection item can hold blocks too — this one is a
+    *callout* block.

@@ -129,6 +129,7 @@ A new `site/templates/<name>.twig` appears in the admin's Template dropdown.
 | `render_collection_item(item)` | Item body as HTML |
 | `src\|thumb(w, h = 0, fit = 'contain')` | Resized image URL (`fit: 'cover'` crops); never upscales |
 | `src\|thumb_srcset([400, 800])` | `srcset` string |
+| `text\|markdown(page = current)` | Markdown → HTML like a text block (page-local images, thumbnails) *(≥ 0.10.3)*; alias `markdown_to_html` |
 | `action_state('name')` | Flash / state of a site action — read **once** per render |
 
 Page helpers take an optional last argument `includeGated = true` to keep
@@ -154,8 +155,11 @@ fields:
   <cite>{{ block.author }}</cite></blockquote>
 ```
 
-`text` is built in (Markdown). A new block directory shows up in the admin's
-"+ Add block" bar immediately.
+`text` is built in (Markdown). For rich text in your own block, use a
+`textarea` and print it with `{{ block.body|markdown }}` *(≥ 0.10.3)* — see
+`blocks/callout/`. A block whose template throws renders as
+`<!-- block:<type> render error -->` and is logged to `writable/logs/app.log`.
+A new block directory shows up in the admin's "+ Add block" bar immediately.
 
 ## Template manifest (`<template>.blocks.yaml`)
 

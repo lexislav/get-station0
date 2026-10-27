@@ -90,12 +90,12 @@ Demo: /shop/desk-lamp
     Field names must not clash with reserved keys (`title`, `status`, `sort`,
     `group`, `listing`, …) — such fields are dropped. Use `snake_case`.
 
-- type: text
+- type: callout
+  tone: info
+  title: Can the page title come from the fields?
   body: |
-    > **Can the page title come from the fields?**
-    >
-    > Not for pages — a page's `Title:` is always typed by the editor. Building
-    > the title from fields (`title: "{brand} {model}"`) is a feature of
-    > [collections](/guide/collections). If a page should *display* a title
-    > made of its fields, compose it in the template:
-    > `<h1>{{ fields.brand }} {{ fields.model }}</h1>`.
+    Not for pages — a page's `Title:` is always typed by the editor. Building
+    the title from fields (`title: "{brand} {model}"`) is a feature of
+    [collections](/guide/collections). If a page should *display* a title
+    made of its fields, compose it in the template:
+    `<h1>{{ fields.brand }} {{ fields.model }}</h1>`.
