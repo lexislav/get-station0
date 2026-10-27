@@ -42,7 +42,11 @@ Summary: Twig templates in site/templates/, the variables every page gets, and t
     | `render_collection_item(item)` | an item's body as HTML |
     | `src\|thumb(w, h, fit)`, `src\|thumb_srcset([…])` | [thumbnails](/guide/media) |
     | `action_state('name')` | what a [site action](/guide/forms) flashed |
-    | `markdown_to_html` | filter used by the `text` block |
+
+    There is no Markdown filter for templates: Markdown is rendered only in
+    `text` blocks (and plain Markdown bodies), by Station0 itself. Other
+    block types print their fields as text — the `callout` block keeps line
+    breaks with `|nl2br`.
 
     ## Special templates
 

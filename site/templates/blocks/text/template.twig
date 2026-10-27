@@ -1,1 +1,6 @@
-<div class="block block--text">{{ block.body|markdown_to_html }}</div>
+{#
+  Not used for rendering: Station0 converts `text` blocks (Markdown) itself,
+  with image thumbnails. The block type still needs this folder and its
+  schema.yaml so the admin offers it.
+#}
+<div class="block block--text">{{ block.body ?? '' }}</div>

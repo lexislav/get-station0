@@ -35,16 +35,16 @@ Sort: 20
 - type: callout
   tone: info
   title: Info
-  body: The default tone.
+  body: The default tone. A callout's text is plain — no Markdown.
 - type: callout
   tone: warning
   title: Warning, compact
-  body: '`compact: true`'
+  body: 'compact: true'
   compact: true
 - type: callout
   tone: tip
   title: Custom accent
-  body: 'The `accent` colour field overrides the tone: `#db2777`.'
+  body: 'The accent colour field overrides the tone: #db2777.'
   accent: '#db2777'
 - type: quote
   text: |-

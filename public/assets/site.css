@@ -181,3 +181,13 @@ a.badge:hover { text-decoration: underline; }
 .category h2 { margin-bottom: .25rem; }
 .category h2 .badge { font-size: 1.1rem; padding: .2rem .75rem; }
 .category:target h2 .badge { outline: 2px solid var(--fg); }
+
+/* ── Notes: a Markdown quote (`> …`) in a text block ─────────────────── */
+article .content blockquote {
+    margin: 1.5rem 0; padding: 1rem 1.25rem; border-left: 4px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, white); border-radius: 0 var(--radius) var(--radius) 0;
+}
+article .content blockquote > :first-child { margin-top: 0; }
+article .content blockquote > :last-child { margin-bottom: 0; }
+article .content .quote blockquote { padding: 0; border: 0; background: none; margin: 0; }
+.callout p:last-child { margin-bottom: 0; }

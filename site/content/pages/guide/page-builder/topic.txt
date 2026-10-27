@@ -52,9 +52,9 @@ Demo: /work
 
     | Type | Shows the field type |
     |---|---|
-    | `text` | `textarea` with Markdown |
+    | `text` | `textarea` with Markdown — rendered by Station0 itself |
     | `gallery` | `number`, `list` with an `image` sub-field (multi-upload) |
-    | `callout` | `select` with fixed options, `color`, `boolean` |
+    | `callout` | `select` with fixed options, `color`, `boolean`; plain text |
     | `quote` | `image` — stored as a filename, rendered as a thumbnail |
     | `features` | `list` of rows with several sub-fields |
     | `person` | `select` filled from a collection (`options_from: collection:people`) |
@@ -63,17 +63,17 @@ Demo: /work
 
     The [Page builder demo](/work) uses every one of them.
 
-- type: callout
-  tone: info
-  title: Which blocks a template allows
+- type: text
   body: |
-    A template can limit its palette and pre-fill new pages in its manifest,
-    `site/templates/<template>.blocks.yaml`:
-
-    ```yaml
-    allowedBlocks: [text, gallery, callout, quote]   # the palette, in this order
-    defaultBlocks: [text]                            # inserted into new pages
-    ```
-
-    Here `topic` pages may use six block types, `product` pages four, and the
-    `contact` template switches the builder off with `blocks: false`.
+    > **Which blocks a template allows**
+    >
+    > A template can limit its palette and pre-fill new pages in its manifest,
+    > `site/templates/<template>.blocks.yaml`:
+    >
+    > ```yaml
+    > allowedBlocks: [text, gallery, callout, quote]   # the palette, in this order
+    > defaultBlocks: [text]                            # inserted into new pages
+    > ```
+    >
+    > Here `topic` pages may use six block types, `product` pages four, and the
+    > `contact` template switches the builder off with `blocks: false`.

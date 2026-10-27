@@ -1,6 +1,11 @@
-{# Callout block — `tone` is a select, `accent` a color, `compact` a boolean. #}
-<aside class="callout callout--{{ block.tone|default('info') }}{{ block.compact ? ' callout--compact' }}"
-       {% if block.accent %}style="--callout-accent: {{ block.accent }}"{% endif %}>
-    {% if block.title %}<p class="callout__title">{{ block.title }}</p>{% endif %}
-    {{ block.body|default('')|markdown_to_html }}
+{#
+  Callout block — `tone` is a select, `accent` a color, `compact` a boolean.
+  The text is plain (line breaks kept): Station0 renders Markdown only in
+  `text` blocks, block templates have no Markdown filter. For a note with
+  links or code, use a text block with a Markdown quote (`> …`) instead.
+#}
+<aside class="callout callout--{{ block.tone|default('info') }}{{ (block.compact ?? false) ? ' callout--compact' }}"
+       {% if block.accent ?? false %}style="--callout-accent: {{ block.accent }}"{% endif %}>
+    {% if block.title ?? false %}<p class="callout__title">{{ block.title }}</p>{% endif %}
+    <p>{{ (block.body ?? '')|nl2br }}</p>
 </aside>

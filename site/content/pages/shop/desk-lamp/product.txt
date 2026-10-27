@@ -32,4 +32,4 @@ Related:
       alt: Detail
 - type: callout
   tone: tip
-  body: The datasheet link below is a `file` field — a PDF stored next to this page.
+  body: The datasheet link below is a file field — a PDF stored next to this page.
