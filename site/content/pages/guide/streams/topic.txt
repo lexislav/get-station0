@@ -1,7 +1,7 @@
 Title: Streams
 Status: published
 Sort: 50
-Summary: A blog or a news section: a parent page that accepts only one kind of child page and lists them.
+Summary: A blog or a news section: a parent page that accepts only one kind of child page and lists them — with categories.
 Demo: /blog
 ---
 - type: text
@@ -31,6 +31,80 @@ Demo: /blog
     Articles carry `PublishedAt` (the date shown) and `Author`.
 
     A comma list allows several templates: `AllowedChildTemplates: article, video`.
+
+    ## Categories
+
+    The [Blog](/blog) sorts its articles into categories. Three pieces:
+
+    1. **A collection** holds the categories, so editors can add and
+       rename them without touching templates:
+
+       ```yaml
+       # site/content/collections/blog-categories/_collection.yaml
+       label: Blog categories
+       fields:
+         description: { type: textarea, label: Description }
+         color:       { type: color, label: Badge colour }
+       ```
+
+    2. **A page field** on articles picks them — a `list` of `select`s, so an
+       article can have several:
+
+       ```yaml
+       # site/templates/article.blocks.yaml
+       fields:
+         categories:
+           type: list
+           label: Categories
+           item:
+             category:
+               type: select
+               label: Category
+               options_from: collection:blog-categories
+       ```
+
+       Saved into the article's front matter as:
+
+       ```
+       Categories:
+         - category: how-to
+         - category: behind-the-scenes
+       ```
+
+    3. **Templates** show and group them. The badges are a partial,
+       `site/templates/partials/category-badges.twig` (in a subfolder, so the
+       admin doesn't offer it as a page template):
+
+       ```twig
+       {% for row in page_fields(child).categories %}
+         {% set c = collection_item('blog-categories', row.category) %}
+         <a href="/blog/categories#{{ c.slug }}">{{ c.title }}</a>
+       {% endfor %}
+       ```
+
+       and [/blog/categories](/blog/categories) — a page with the
+       `blog-categories` template, allowed under `/blog` by
+       `AllowedChildTemplates: article, blog-categories` — lists every
+       category with its articles:
+
+       ```twig
+       {% for cat in collection('blog-categories') %}
+         <h2 id="{{ cat.slug }}">{{ cat.title }}</h2>
+         {% for a in articles|filter(a => cat.slug in
+               page_fields(a).categories|map(r => r.category)) %}
+           <a href="{{ a.urlPath }}">{{ a.title }}</a>
+         {% endfor %}
+       {% endfor %}
+       ```
+
+    Why one page with anchors and not `/blog?category=news`? Station0 caches
+    whole pages and templates don't see the query string. For a separate URL
+    per category, add a page per category instead — e.g. a `blog-category`
+    template whose page field selects the category it lists.
+
+    *News* shows "No articles in this category yet": its only article is
+    [scheduled for 2030](/blog/coming-soon), and lists contain live pages
+    only.
 
     This site has three streams: the [Blog](/blog) (articles), the
     [Shop](/shop) (products) and this [Guide](/guide) (topics).

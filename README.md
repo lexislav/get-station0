@@ -79,7 +79,7 @@ built with, and **`/guide`** walks through all of them in order.
 | `/guide/media` | `topic` | Page-local images, `thumb` / `thumb_srcset`, Markdown images |
 | `/work` | `blocks` | The page builder — one block of every type |
 | `/shop`, `/shop/…` | `shop`, `product` | **Page fields** of every type, a stream, `Group: Shop` |
-| `/blog`, `/blog/…` | `blog`, `article` | A **stream**; `PublishedAt`, `Author`, a perex field, a scheduled article |
+| `/blog`, `/blog/…` | `blog`, `article` | A **stream**; `PublishedAt`, `Author`, a perex field, a scheduled article, **categories** (`blog-categories` collection, `/blog/categories`) |
 | `/studio` | `showcase` | Content pulled from **collections** (`people`, `shared-blocks`, `categories`) |
 | `/members` | `page` | `Access: members` — sign-in at `/login` (`login.twig`) |
 | `/contact` | `contact` | A **site action** form (`site/actions/contact.php`), `blocks: false` |

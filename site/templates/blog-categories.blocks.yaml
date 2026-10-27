@@ -1,0 +1,2 @@
+# Manifest of the `blog-categories` template: an intro text, no other blocks.
+allowedBlocks: [text]

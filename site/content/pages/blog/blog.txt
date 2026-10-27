@@ -1,10 +1,11 @@
 Title: Blog
 Status: published
 Sort: 40
-AllowedChildTemplates: article
+AllowedChildTemplates: article, blog-categories
 ---
-A **stream**: this page says `AllowedChildTemplates: article`, so only
-`article` pages can be added below it, and `blog.twig` lists the live ones
-with `child_pages()`. Dates come from `PublishedAt`, the text under each title
-from the article's `perex` page field. A third article is scheduled for 2030
-and is not listed yet. More in [Streams](/guide/streams).
+A **stream**: this page says `AllowedChildTemplates: article, blog-categories`,
+so only articles and the [categories page](/blog/categories) can be added
+below it, and `blog.twig` lists the articles with `child_pages()`. Dates come
+from `PublishedAt`, the text under each title from the article's `perex` page
+field, the coloured badges from its `categories` field. A third article is
+scheduled for 2030 and is not listed yet. More in [Streams](/guide/streams).

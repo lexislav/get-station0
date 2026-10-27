@@ -46,7 +46,7 @@ The demo content explains itself — every page describes the feature it uses,
 and `/guide` (a stream of `topic` pages) covers them in order. Live demos:
 `/` (Markdown), `/guide/visibility/*` (every visibility state), `/work` (one
 block of each type), `/shop` (page fields, `Group: Shop`), `/blog` (a stream
-of `article` pages), `/studio` (collections, `Group: Marketing`), `/members`
+of `article` pages with categories), `/studio` (collections, `Group: Marketing`), `/members`
 (`Access: members`, `login.twig`), `/contact` (the `contact` site action).
 The `banners` collection feeds the bar in `layout.twig`; redirect rules are
 in `site/content/_redirects.yaml`. When you change a feature's demo, update

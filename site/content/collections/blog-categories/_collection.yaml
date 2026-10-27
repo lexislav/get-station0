@@ -1,0 +1,11 @@
+# Categories for blog articles. An article picks them in its `categories`
+# page field (see site/templates/article.blocks.yaml); /blog/categories
+# lists the articles of each one. See /guide/streams.
+label: Blog categories
+fields:
+  description:
+    type: textarea
+    label: Description
+  color:
+    type: color
+    label: Badge colour

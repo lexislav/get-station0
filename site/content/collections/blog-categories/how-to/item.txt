@@ -1,0 +1,6 @@
+Title: How-to
+Status: published
+Sort: 20
+Description: Step-by-step guides for editors and developers.
+Color: #bbf7d0
+---

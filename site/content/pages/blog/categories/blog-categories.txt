@@ -1,0 +1,10 @@
+Title: Categories
+Status: published
+Listing: nav-hidden
+Sort: 0
+---
+Articles by category. The categories are items of the **blog-categories**
+collection — add, rename or recolour them in the admin under
+*Collections → Blog categories*. An article picks its categories in the
+*Categories* field above its text; the list below follows by itself.
+See *Categories* in [Streams](/guide/streams).

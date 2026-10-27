@@ -4,6 +4,8 @@ PublishedAt: 2026-10-10 09:00
 Author: Ada Novak
 Sort: 20
 Perex: A plain Markdown body, and everything Markdown can do here — tables, code, images.
+Categories:
+  - category: how-to
 ---
 This article has a plain **Markdown** body, no blocks. Station0 treats it as
 one `text` block, so you can switch it to blocks in the admin at any time.

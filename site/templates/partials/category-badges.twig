@@ -1,0 +1,18 @@
+{#
+  Category badges of one article. A partial in a subfolder, so it is not
+  offered as a page template. Include with `fields` = the article's page
+  fields: {% include 'partials/category-badges.twig' with {fields: page_fields(child)} %}
+  Each badge links to the category's section on /blog/categories.
+#}
+{% set cats = [] %}
+{% for row in fields.categories|default([]) %}
+    {% set c = row.category ? collection_item('blog-categories', row.category) : null %}
+    {% if c %}{% set cats = cats|merge([c]) %}{% endif %}
+{% endfor %}
+{% if cats %}
+<span class="categories">
+    {% for c in cats %}
+        <a class="badge" href="/blog/categories#{{ c.slug }}" style="background: {{ c.extra.color ?? '#eef2ff' }}">{{ c.title }}</a>
+    {% endfor %}
+</span>
+{% endif %}

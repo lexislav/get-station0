@@ -171,3 +171,13 @@ details.explain summary { cursor: pointer; font-weight: 600; }
     .container { padding: 0 1rem; margin-top: 1.5rem; }
     .gallery--cols-3, .gallery--cols-4 { --cols: 2; }
 }
+
+/* ── Blog categories ─────────────────────────────────────────────────── */
+.categories { display: inline-flex; flex-wrap: wrap; gap: .3rem; margin-left: .4rem; vertical-align: middle; }
+a.badge { text-decoration: none; }
+a.badge:hover { text-decoration: underline; }
+.category-nav { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; color: var(--muted); font-size: .92rem; }
+.category { scroll-margin-top: 1rem; }
+.category h2 { margin-bottom: .25rem; }
+.category h2 .badge { font-size: 1.1rem; padding: .2rem .75rem; }
+.category:target h2 .badge { outline: 2px solid var(--fg); }

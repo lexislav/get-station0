@@ -5,6 +5,8 @@ PublishedAt: 2030-01-01 09:00
 Author: Clara Weiss
 Sort: 30
 Perex: A scheduled article — not in the list, 404 for visitors until 1 January 2030.
+Categories:
+  - category: news
 ---
 You see this only because you are signed in: it is **scheduled**
 (`PublishAt: 2030-01-01 09:00`). On that date it appears in the blog by
