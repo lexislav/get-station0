@@ -40,7 +40,7 @@ Summary: A page is a directory with one .txt file. The directory tree is the URL
 
     | Key | What it does |
     |---|---|
-    | `Title` | Required. The page title. |
+    | `Title` | Required. The page title, typed by the editor. (Collection items can [build theirs from fields](/guide/collections).) |
     | `Status` | `draft`, `published` or `archived` — see [Visibility](/guide/visibility). |
     | `PublishAt`, `ExpireAt` | Schedule: live from / until a date and time. |
     | `PublishedAt` | The date shown to readers and used to sort articles. |

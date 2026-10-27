@@ -1,7 +1,7 @@
 Title: Collections
 Status: published
 Sort: 60
-Summary: Headless content with no URL of its own — banners, people, categories, reusable blocks — loaded by templates.
+Summary: Headless content with no URL of its own — banners, people, categories, reusable blocks — loaded by templates. Item titles can be built from the fields.
 Demo: /studio
 ---
 - type: text
@@ -57,9 +57,49 @@ Demo: /studio
     Items have `Status`, `PublishAt` and `ExpireAt` like pages — the top bar
     shows two banners because the third is a draft.
 
-    ## Computed titles
+    ## Titles built from fields
 
-    `title: "{name} {surname}"` builds the title from the fields when the item
-    is saved. `input: editable` lets the editor override it; `hidden` hides
-    the title input. After changing the pattern, update existing items with
-    `php vendor/bin/console collections:retitle people`.
+    An item's title doesn't have to be typed: the collection can **build it
+    from the item's fields** *(station0 ≥ 0.10)*. The `people` collection
+    does — open [Ada Novak](/admin/collections/people/ada-novak/edit) in the
+    admin: the *Title* input is greyed out and fills itself in as you type
+    the first name and surname.
+
+    ```yaml
+    # _collection.yaml
+    title: "{name} {surname}"            # short form = input: readonly
+
+    title:                               # long form
+      from: "{brand} – {model} ({year})"
+      input: editable                    # readonly | editable | hidden
+    ```
+
+    | `input` | The editor sees |
+    |---|---|
+    | `readonly` (default) | the title, filled in live, can't be changed |
+    | `editable` | the title fills itself in until the editor types their own; clearing it (or *Use built title*) makes it follow the fields again |
+    | `hidden` | no title input, just a line with the result |
+
+    - Placeholders are the collection's fields, plus `{slug}` and `{collection}`.
+      Text between them is kept.
+    - When a field is empty, the separator next to it is dropped:
+      `{brand} – {model}` with no model gives just the brand, and an empty
+      `({year})` disappears.
+    - A select gives its stored value (the slug), an image its file name.
+    - The result is **saved** into `Title:` like a typed title, so
+      `item.title`, lists, slugs and imports by tasks all work as usual. A new
+      item gets its slug from it.
+    - After adding or changing the pattern, existing items update on their
+      next save, or all at once:
+      `php vendor/bin/console collections:retitle people --dry-run`, then
+      without `--dry-run`.
+
+- type: callout
+  tone: warning
+  title: Collections only
+  body: |
+    Titles built from fields are a collection feature. **Pages** always have
+    a typed `Title:` — a page template's manifest has no `title:` pattern.
+    For a product page you can still *show* a composed heading in the
+    template, e.g. `{{ fields.brand }} {{ fields.model }}`, while the stored
+    title stays what the editor typed.

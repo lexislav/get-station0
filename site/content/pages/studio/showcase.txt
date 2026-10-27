@@ -6,7 +6,10 @@ Group: Marketing
 This page is built from **collections** — content with no URL of its own,
 kept in `site/content/collections/` and pulled in by the `showcase`
 template. Edit the people in the admin's *Collections → People*; the page
-follows. More in [Collections](/guide/collections).
+follows. Nobody typed the people's names as titles: the `people` collection
+builds each title from the *First name* and *Surname* fields
+(`title: "{name} {surname}"` in its `_collection.yaml`). More in
+[Collections](/guide/collections).
 
 The page has `Group: Marketing`, so in the admin it shares the
 **📣 Marketing** tab with the `banners` and `shared-blocks` collections.

@@ -22,6 +22,7 @@ with, and the [Guide](/guide) walks through all of them in order.
 | Typed page fields | [Page fields](/guide/page-fields) | [Shop](/shop) |
 | Streams (blog, news) | [Streams](/guide/streams) | [Blog](/blog) |
 | Collections (headless content) | [Collections](/guide/collections) | [Studio](/studio), the bar on top |
+| Titles built from fields | [Collections → Titles built from fields](/guide/collections) | the people on [Studio](/studio) |
 | Images and thumbnails | [Media](/guide/media) | [Media](/guide/media) |
 | Tabs in the admin's sidebar | [Admin menu groups](/guide/admin-menu-groups) | [admin](/admin) → Shop, Marketing |
 | Members-only pages | [Members](/guide/members) | [Members](/members) |
