@@ -48,6 +48,10 @@ Summary: Your own scripts — imports, exports, reports — run from the admin o
     `collection.item.saved`, `collection.item.deleted`; the part after `:`
     filters by path prefix or collection name.
 
+    `roles` decides who may run a task in the admin; without it only admins
+    can (see [Users and roles](/guide/users-and-roles)). The console runs any
+    task.
+
     Keep the top level of a task file free of side effects — it is loaded on
     every admin page — and save content through `$task->pages()` /
     `$task->collections()` so the cache and computed titles stay right.

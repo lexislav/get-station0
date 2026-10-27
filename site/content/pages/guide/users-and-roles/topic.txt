@@ -1,0 +1,97 @@
+Title: Users and roles
+Status: published
+Sort: 85
+Summary: Who can do what in the admin. Three fixed roles — admin, editor, member — plus a few per-feature limits. No per-page permissions.
+---
+- type: text
+  body: |
+    User accounts are the only thing Station0 keeps in a database
+    (`writable/db.sqlite`). Every account has one **role**. There are three,
+    and they are fixed — a site can't define its own.
+
+    | Role | Who it's for | Admin access |
+    |---|---|---|
+    | `admin` | the people who run the site | everything |
+    | `editor` | people who write and maintain content | content, not accounts or settings |
+    | `member` | visitors of [members-only pages](/guide/members) | none — signs in at `/login` on the site |
+
+    ## What each role can do
+
+    | In the admin | admin | editor | member |
+    |---|:-:|:-:|:-:|
+    | Pages: create, edit, move, delete — **any** page | ✓ | ✓ | — |
+    | Collections: create, edit, delete items | ✓ | ✓ ¹ | — |
+    | Upload images and files | ✓ | ✓ | — |
+    | Preview draft and scheduled pages on the site | ✓ | ✓ | — |
+    | [Admin menu group](/guide/admin-menu-groups) tabs | all | per group ¹ | — |
+    | [Tasks](/guide/tasks): run | all | those with `editor` in `roles` | — |
+    | [Redirects](/guide/redirects): exact rules | ✓ | ✓ | — |
+    | Redirects: patterns, regexes, `force` rules; clear the 404 log | ✓ | — | — |
+    | **Users**: list, create, delete | ✓ | — | — |
+    | **Settings** (site info, versions, templates) | ✓ | — | — |
+    | See members-only pages on the site | ✓ | ✓ | ✓ |
+
+    ¹ Unless the group the collection belongs to is limited to other roles.
+
+    ## The per-feature limits
+
+    These are the only places where you decide who sees what:
+
+    - **Admin menu groups** — `roles` in `site/content/_groups.yaml`. On this
+      site *🛒 Shop* is for `[editor]` (and admins), *📣 Marketing* for
+      `[admin]` only. For **collections** in a group this is enforced: an
+      editor gets *403 Forbidden* on the `banners` and `shared-blocks`
+      collections. For **pages** it only hides the tab — an editor can still
+      edit `/studio` through *Structure*.
+    - **Tasks** — `'roles' => ['editor']` in the task file. Without `roles`
+      only admins can run the task. Both tasks of this site allow editors.
+    - **Redirects plugin** — editors manage exact rules; anything that
+      redirects broadly or overrides a live page needs an admin.
+    - **Who may enter the admin at all** — `admin.roles` in
+      `site/config.php`, default `['admin', 'editor']`.
+
+    ## What is *not* there
+
+    It's fair to say what Station0 doesn't do:
+
+    - **No per-page or per-section permissions.** Any editor can edit, move
+      or delete any page. You can't give someone "only the blog".
+    - **No approval workflow.** There is no "submit for review": an editor
+      can publish. `Status: draft` is a visibility setting, not a lock.
+    - **No custom roles**, and an account has exactly one role.
+    - **No editing of an account** in the admin: you can create and delete
+      users, not change their e-mail or role. To change a role, delete the
+      account and create it again.
+    - **No history of who changed what** in the admin. Content is plain
+      files — keep it in Git to get history and blame.
+
+    If you need more control, keep the content in Git and review changes
+    there, or split the site into sections that different people deploy.
+
+    ## Managing accounts
+
+    - **The first admin** is created in the browser: on a fresh install
+      `/admin` opens a setup form. Once any user exists, setup switches
+      itself off.
+    - **More accounts:** *Users → New user* in the admin (admins only), or
+      the console:
+
+      ```
+      php vendor/bin/console user:create ada ada@example.com editor
+      php vendor/bin/console user:create jane jane@example.com member
+      ```
+
+      The role defaults to `editor`. The command asks for the password
+      (at least 8 characters).
+    - **Passwords:** *Forgot password* on the admin login page sends a reset
+      link (needs `MAIL_*` in `.env`), or
+      `php vendor/bin/console user:reset-password ada@example.com`. Members
+      change theirs at `/login`.
+    - **Safety nets:** you can't delete your own account, nor the last
+      admin. Deleting a member ends their sign-ins on the next request.
+
+    ## Try it
+
+    Create an editor, sign in to [the admin](/admin) in a private window and
+    compare: no *Users* and *Settings* tabs, no *📣 Marketing* tab, but all
+    pages in *Structure*. Members are in the [Members](/guide/members) topic.

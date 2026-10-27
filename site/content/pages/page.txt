@@ -25,6 +25,7 @@ with, and the [Guide](/guide) walks through all of them in order.
 | Titles built from fields | [Collections → Titles built from fields](/guide/collections) | the people on [Studio](/studio) |
 | Images and thumbnails | [Media](/guide/media) | [Media](/guide/media) |
 | Tabs in the admin's sidebar | [Admin menu groups](/guide/admin-menu-groups) | [admin](/admin) → Shop, Marketing |
+| Admin users, roles and their limits | [Users and roles](/guide/users-and-roles) | admin → Users |
 | Members-only pages | [Members](/guide/members) | [Members](/members) |
 | Forms | [Forms and site actions](/guide/forms) | [Contact](/contact) |
 | Scripts and hooks | [Tasks](/guide/tasks) | admin → Tasks |

@@ -41,4 +41,5 @@ Summary: Give a part of the site its own tab in the admin's sidebar — pages an
     ```
 
     For collections the roles are enforced; for pages they only hide the
-    tab — the pages stay editable in *Structure*.
+    tab — the pages stay editable in *Structure*. What each role may do is
+    in [Users and roles](/guide/users-and-roles).

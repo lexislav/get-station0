@@ -28,6 +28,7 @@ Demo: /members
       (password, or a one-time link by e-mail) and cannot enter the admin.
       Create one in the admin (*Users*) or with
       `php vendor/bin/console user:create jane jane@example.com member`.
+      How members differ from admins and editors: [Users and roles](/guide/users-and-roles).
     - A signed-in admin or editor — that's why you can open
       [/members](/members) now.
     - A visitor with a **guest pass** granted by a [site action](/guide/forms)
