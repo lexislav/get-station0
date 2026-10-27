@@ -1,4 +1,4 @@
-# Admin menu tabs (see /guide/menu-groups). A tab collects page subtrees
+# Admin menu groups — tabs in the admin's sidebar (see /guide/admin-menu-groups). A tab collects page subtrees
 # (`Group: X` in a page's front matter) and collections (`group: X` in
 # _collection.yaml). This file adds a label, an icon, role limits and order.
 shop:

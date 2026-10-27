@@ -23,7 +23,7 @@ with, and the [Guide](/guide) walks through all of them in order.
 | Streams (blog, news) | [Streams](/guide/streams) | [Blog](/blog) |
 | Collections (headless content) | [Collections](/guide/collections) | [Studio](/studio), the bar on top |
 | Images and thumbnails | [Media](/guide/media) | [Media](/guide/media) |
-| Admin menu tabs | [Menu groups](/guide/menu-groups) | [admin](/admin) → Shop, Marketing |
+| Tabs in the admin's sidebar | [Admin menu groups](/guide/admin-menu-groups) | [admin](/admin) → Shop, Marketing |
 | Members-only pages | [Members](/guide/members) | [Members](/members) |
 | Forms | [Forms and site actions](/guide/forms) | [Contact](/contact) |
 | Scripts and hooks | [Tasks](/guide/tasks) | admin → Tasks |

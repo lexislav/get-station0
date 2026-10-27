@@ -248,12 +248,12 @@ fields:
 - Use `|thumb` on every image you show at a fixed size. Markdown images are
   thumbnailed automatically.
 
-## Streams and menu groups
+## Streams and admin menu groups
 
 - **Stream** = a page with `AllowedChildTemplates: article`; its template
   lists `child_pages(page.urlPath)`. New children may only use the listed
   templates.
-- **Menu groups**: `Group: Shop` (page front matter, whole subtree) and
+- **Admin menu groups** (tabs in the admin sidebar, not the site menu): `Group: Shop` (page front matter, whole subtree) and
   `group: Shop` (`_collection.yaml`) share one admin tab. Optional
   `site/content/_groups.yaml`:
   ```yaml

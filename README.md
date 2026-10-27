@@ -363,7 +363,7 @@ AllowedChildTemplates: article
 ```
 
 - New children of `/blog` can only use the `article` template (several templates: `article, event`).
-- The admin gets a **Streams** tab for quick access to stream entries (a stream put into a [menu group](#admin-menu-groups) shows up in its group's tab instead).
+- The admin gets a **Streams** tab for quick access to stream entries (a stream put into a [admin menu group](#admin-menu-groups) shows up in its group's tab instead).
 - The parent template lists its children:
 
 ```twig

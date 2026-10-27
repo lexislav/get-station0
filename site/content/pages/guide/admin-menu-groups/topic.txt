@@ -1,12 +1,17 @@
-Title: Menu groups
+Title: Admin menu groups
 Status: published
 Sort: 80
-Summary: Give a part of the site its own tab in the admin — pages and collections together, optionally only for some roles.
+Summary: Give a part of the site its own tab in the admin's sidebar — pages and collections together, optionally only for some roles. Not the site's menu.
 ---
 - type: text
   body: |
-    The admin's sidebar has a tab for the page *Structure*, *Streams* and
-    *Collections*. A **group** adds a tab of its own that collects:
+    An **admin menu group** is a tab in the **admin's sidebar** — it has
+    nothing to do with the menu visitors see on the site (that one is built
+    by `top_level_pages()` in `layout.twig`, see [Templates](/guide/templates)).
+
+    Out of the box the sidebar has tabs for the page *Structure*, *Streams*
+    and *Collections*. A group adds a tab of its own, so an editor finds
+    everything about one part of the site in one place. It collects:
 
     - a page and its whole subtree — `Group: Shop` in the page's front matter;
     - collections — `group: Shop` in `_collection.yaml`.

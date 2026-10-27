@@ -48,7 +48,7 @@ Summary: A page is a directory with one .txt file. The directory tree is the URL
     | `Sort` | Order among siblings (the admin sets it by drag & drop). |
     | `Metatitle` | Overrides the `<title>` tag. |
     | `AllowedChildTemplates` | Turns the page into a [stream](/guide/streams). |
-    | `Group` | Puts the page and its subtree into an [admin tab](/guide/menu-groups). |
+    | `Group` | Puts the page and its subtree into an [admin menu group](/guide/admin-menu-groups). |
     | `Access` | `members` or `public` — see [Members](/guide/members). |
     | anything else | Your own data, in Twig as `page.extra.<key>` — or declared as a [page field](/guide/page-fields). |
 

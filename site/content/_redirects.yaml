@@ -19,3 +19,6 @@
 - from: /old-offer
   status: 410
   note: Gone for good — renders 410.twig
+- from: /guide/menu-groups
+  to: /guide/admin-menu-groups
+  note: Topic renamed — the old URL keeps working

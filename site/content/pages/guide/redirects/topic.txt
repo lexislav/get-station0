@@ -33,6 +33,7 @@ Summary: The bundled redirects plugin keeps old URLs working — automatically w
     | regex `^/blog/\d{4}/(.+)$` → `/blog/$1` | [/blog/2024/editing-basics](/blog/2024/editing-basics) |
     | `/about` → `/studio`, status 302 | [/about](/about) |
     | `/old-offer`, status 410 | [/old-offer](/old-offer) |
+    | `/guide/menu-groups` → `/guide/admin-menu-groups` (a renamed topic) | [/guide/menu-groups](/guide/menu-groups) |
 
     Rules apply only where no live page answers, so they cost nothing on
     normal requests. `force: true` redirects even over an existing page.
