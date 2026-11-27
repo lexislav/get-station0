@@ -80,6 +80,7 @@ built with, and **`/guide`** walks through all of them in order.
 | `/guide` | `guide` | A stream of `topic` pages, one per feature; lists them with `page_fields()` |
 | `/guide/visibility/…` | `page` | Draft, scheduled, expired, archived, unlisted, nav-hidden pages, `Cascade: false` |
 | `/guide/media` | `topic` | Page-local images, `thumb` / `thumb_srcset`, Markdown images |
+| `/guide/multilingual` | `topic` | Translations, `translate: false`, translated slugs, `t()`, per-language redirects |
 | `/work` | `blocks` | The page builder — one block of every type |
 | `/shop`, `/shop/…` | `shop`, `product` | **Page fields** of every type, a stream, `Group: Shop` |
 | `/blog`, `/blog/…` | `blog`, `article` | A **stream**; `PublishedAt`, `Author`, a perex field, a scheduled article, **categories** (`blog-categories` collection, `/blog/categories`) |
@@ -494,6 +495,15 @@ Uploaded files are stored **next to the page** they belong to, in the page's dir
 - A new page must be **saved once** before files can be uploaded to it.
 - Absolute URLs (`https://…`, `/…`) are left untouched, so external images work too.
 
+**SVG files are cleaned on upload** *(station0 ≥ 0.11)*. An SVG can carry scripts, so before an uploaded SVG is stored Station0 strips scripts, `on*` event handlers, embedded HTML (`<foreignObject>`, `<iframe>`, …), links that aren't a `#fragment` or a raster `data:image/…`, external `url()` / `@import` in CSS, and animations that rewrite links. A file that isn't a valid SVG (say, HTML renamed to `.svg`) or that declares entities in a DOCTYPE is refused with an error in the admin. Clean files are stored byte for byte. A direct link to `/media/…/logo.svg` now shows the image instead of downloading it, still under a sandbox CSP.
+
+Files copied into `site/content/` by hand, or uploaded before 0.11, were never checked. Clean them once:
+
+```bash
+php vendor/bin/console assets:sanitize-svg --dry-run   # list what would change
+php vendor/bin/console assets:sanitize-svg             # clean them
+```
+
 ### Thumbnails
 
 *(station0 ≥ 0.7.8)* Don't send a 5 MB photo into a 200px gallery cell. The `thumb` filter turns a `/media/…` URL into a resized copy, which is generated on the first request and cached:
@@ -577,6 +587,7 @@ product:
 | `collection_item('name', 'slug')` | One live item, or `null` |
 | `render_collection_item(item)` | The item body as HTML |
 | `action_state('name')` | State / flash messages of a [site action](#site-actions-forms) — read once per render |
+| `t('key', {name: …}, 'fallback')` | An interface string from `site/lang/<lang>.yaml` *(station0 ≥ 0.11, see [Languages](#languages))* |
 | `url(page)`, `url('/path')` | The public URL of a page or path in the current language *(station0 ≥ 0.11)*. On a one-language site it is the path itself. Use it for every internal link (see [Languages](#languages)) |
 | `translations(page)` | Languages the page is live in: `[{code, label, url, current}]`, for a language switcher and `hreflang` *(station0 ≥ 0.11)* |
 
@@ -587,7 +598,7 @@ product:
 
 Use `|markdown` for rich text in your own block types: a `textarea` field printed with `{{ block.body|markdown }}`. A block template that throws renders as `<!-- block:<type> render error -->` and the error is logged to `writable/logs/app.log`.
 
-Page templates get `page`, `content` (print with `|raw`), `fields` (typed page fields) and `preview` (an editor viewing a page that isn't live). Globals: `app` (`name`, `baseUrl`, `adminPath`), `csrf` (for POST forms), `visitor` and `access` (see [Members-only access](#members-only-access)).
+Page templates get `page`, `content` (print with `|raw`), `fields` (typed page fields) and `preview` (an editor viewing a page that isn't live). Globals: `app` (`name`, `baseUrl`, `adminPath`), `csrf` (for POST forms), `visitor` and `access` (see [Members-only access](#members-only-access)), and `lang` / `languages` (see [Languages](#languages)).
 
 Rendered page and block HTML is cached in `writable/cache/`. The cache is cleared automatically whenever content is saved in the admin, and when a scheduled `PublishAt` / `ExpireAt` passes. After editing files by hand, run `php vendor/bin/console cache:clear`.
 
@@ -744,7 +755,30 @@ Templates need two things:
 - **Link with `url()`**, never with `page.urlPath`: `<a href="{{ url(p) }}">`, `<a href="{{ url('/guide') }}">`. `url()` adds the language prefix and translated slugs. `page.urlPath` stays the folder path that identifies a page in every language (`page('/o-nas')`, comparisons).
 - **Say which language a page is in:** `<html lang="{{ lang|default('en') }}">`, plus a switcher from `translations(page)`. The skeleton's `layout.twig` has both; they appear only once `languages` is set.
 
-Interface text that isn't content goes in `site/lang/<code>.yaml` and is printed with `{{ t('nav.menu') }}`. Leave links that editors type in fields (`/media/…`, external URLs) as they are. Details: [docs/multilingual.md](https://github.com/lexislav/station0/blob/main/docs/multilingual.md).
+Interface text that isn't content goes in `site/lang/<code>.yaml` and is printed with `{{ t('nav.menu') }}`. Leave links that editors type in fields (`/media/…`, external URLs) as they are.
+
+```yaml
+# site/lang/en.yaml
+nav:
+  menu: Menu
+greeting: Hello {name}
+```
+
+`{{ t('greeting', {name: visitor.label}) }}` fills the placeholder. A missing key falls back to the default language, then to the third argument of `t()`, then to the key itself.
+
+**What is shared and what isn't.** The page's structure — `Template`, `Sort`, `AllowedChildTemplates`, `Group`, `Listing`, `Cascade`, `Access` — always comes from the default file, so the tree is the same in every language. `Status` and the publish dates can differ, so a translation can stay a draft while the original is live. Values that shouldn't be translated, such as a price or a product photo, get `translate: false` in the template manifest; they are edited on the default tab only:
+
+```yaml
+fields:
+  subtitle: { type: text, label: Subtitle }                     # translated
+  price:    { type: number, label: Price, translate: false }    # one value for all
+```
+
+**Untranslated pages.** With `"languageFallback" => "404"` (the default) a page without an English file is a 404 under `/en/…` and doesn't appear in English menus or listings. With `"content"` it is served with the default text, and `page.translated` is `false` so the template can say so.
+
+**Redirects.** A rule in `_redirects.yaml` without `lang` matches in every language and sends visitors to the target in their own language. `lang: en` limits a rule to English requests; its `from` and `to` are then English public paths without the prefix. Changing a translated slug in the admin adds such a rule automatically, and the 404 log keeps each miss's language prefix.
+
+Collections are single-language for now, and a block body is translated as a whole. The demo's `/guide/multilingual` walks through all of it. Details: [docs/multilingual.md](https://github.com/lexislav/station0/blob/main/docs/multilingual.md).
 
 ### Plugins
 
@@ -772,7 +806,8 @@ php vendor/bin/console user:create <username> <email> [admin|editor|member]   # 
 php vendor/bin/console user:reset-password <email>
 php vendor/bin/console cache:clear
 php vendor/bin/console assets:relink --dry-run   # convert old absolute /media links to page-local names
-php vendor/bin/console thumbs:warm [baseUrl]      # pre-generate thumbnails (site must be running)
+php vendor/bin/console assets:sanitize-svg [--dry-run]   # clean SVGs stored by hand or before 0.11 (station0 ≥ 0.11)
+php vendor/bin/console thumbs:warm [baseUrl]      # pre-generate thumbnails, every language (site must be running)
 php vendor/bin/console thumbs:clear              # delete generated thumbnails
 php vendor/bin/console collections:retitle [name] [--dry-run]   # rebuild computed collection titles (station0 ≥ 0.10)
 php vendor/bin/console task:list                 # site tasks (site/tasks/)

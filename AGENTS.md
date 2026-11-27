@@ -42,6 +42,7 @@ migrations and (redirects plugin) the 404 log and hit counts.
 | `site/templates/404.twig`, `410.twig` | Error pages (410 = archived / expired) |
 | `site/actions/*.php` | Own request handlers (forms) — `_*.php` ignored |
 | `site/tasks/*.php` | Own scripts (imports, exports), runnable from console and admin — `_*.php` ignored |
+| `site/lang/<code>.yaml` | Interface strings for `t('key')` on a multilingual site *(≥ 0.11)* — optional |
 | `public/assets/` | Site CSS / JS / static files |
 
 The demo content explains itself — every page describes the feature it uses,
@@ -133,6 +134,7 @@ A new `site/templates/<name>.twig` appears in the admin's Template dropdown.
 | `src\|thumb_srcset([400, 800])` | `srcset` string |
 | `text\|markdown(page = current)` | Markdown → HTML like a text block (page-local images, thumbnails) *(≥ 0.10.3)*; alias `markdown_to_html` |
 | `action_state('name')` | Flash / state of a site action — read **once** per render |
+| `t('key', {name: …}, 'fallback')` | Site string from `site/lang/<lang>.yaml`; falls back to the default language, the third argument, the key *(≥ 0.11)* |
 | `url(page)` / `url('/path')` | Public URL in the current language *(≥ 0.11)* — use for **every** internal link, never `page.urlPath` |
 | `translations(page)` | Languages the page is live in (`code`, `label`, `url`, `current`) — switcher, `hreflang` *(≥ 0.11)* |
 
@@ -252,6 +254,11 @@ fields:
   `/media/_collections/<name>/<slug>/<file>`).
 - Uploads: jpg, png, gif, webp, svg (8 MB); documents via `file` fields.
   `.txt` files can't be uploaded to pages (the `.txt` is the content file).
+- SVG uploads are sanitized *(≥ 0.11)*: scripts, `on*` handlers, embeds,
+  external links and external CSS are stripped; a file that isn't valid SVG
+  or declares DOCTYPE entities is rejected. SVGs placed by hand (or stored
+  before 0.11) are not checked — run
+  `php vendor/bin/console assets:sanitize-svg --dry-run`, then without it.
 - Absolute URLs (`https://…`, `/…`) pass through unchanged.
 - Use `|thumb` on every image you show at a fixed size. Markdown images are
   thumbnailed automatically.
@@ -333,6 +340,19 @@ every language, so use it for lookups and comparisons only. Don't wrap
 `languages`; site strings: `t('key')` from `site/lang/<code>.yaml`. See
 `vendor/lexislav/station0/docs/multilingual.md`.
 
+- Structure keys (`Template`, `Sort`, `AllowedChildTemplates`, `Group`,
+  `Listing`, `Cascade`, `Access`) always come from the default file;
+  `Status` and the publish dates can differ per translation.
+- Manifest fields with `translate: false` (price, image) are edited on the
+  default tab and read from the default file in every language.
+- Untranslated page: `"languageFallback" => "404"` (default) → 404 in that
+  language and left out of its listings; `"content"` → default text,
+  `page.translated` false.
+- Redirect rules without `lang` match the folder path in every language;
+  `lang: en` scopes a rule to English requests (`from` / `to` are then
+  English public paths without the prefix; not with `force`).
+- Collections are single-language; a block body is translated as a whole.
+
 ## Plugins *(≥ 0.10, experimental)*
 
 Optional features are enabled in `site/config.php` under `"plugins"`: a short
@@ -344,7 +364,7 @@ enabled; failures are in `writable/logs/app.log` (`Plugin '…' skipped`).
 
 Bundled: `"redirects" => []` *(≥ 0.10.1)* — automatic 301s on slug change /
 move, rules in `site/content/_redirects.yaml` (exact, `{slug}` / `{path*}`
-patterns, regex, 410), 404 log. Redirect old URLs with a rule there rather
+patterns, regex, 410; `lang:` per language *(≥ 0.11)*), 404 log. Redirect old URLs with a rule there rather
 than with a page or a site action. See
 `vendor/lexislav/station0/docs/redirects.md`.
 
@@ -381,6 +401,7 @@ than with a page or a site action. See
 - `vendor/lexislav/station0/docs/visibility.md` — publication, scheduling, inheritance.
 - `vendor/lexislav/station0/docs/plugins.md` — plugin config and API.
 - `vendor/lexislav/station0/docs/redirects.md` — the redirect manager.
+- `vendor/lexislav/station0/docs/multilingual.md` — languages, translations, slugs.
 - `vendor/lexislav/station0/README.md` — library README (select options, thumbnails, access, actions in depth).
 - `vendor/lexislav/station0/CHANGELOG.md` — what each version added.
 - `vendor/lexislav/station0/CLAUDE.md` — core internals; only needed when a

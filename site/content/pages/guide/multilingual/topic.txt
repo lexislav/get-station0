@@ -1,0 +1,172 @@
+Title: Multilingual pages
+Status: published
+Sort: 125
+Summary: Serve the same page tree in several languages. A translation is one more file next to the page; folders, images and sub-pages are shared. (station0 ≥ 0.11)
+---
+- type: text
+  body: |
+    Languages are off until you list them in `site/config.php`. This demo
+    site stays in one language, but its config already has the block
+    commented out, ready to switch on:
+
+    ```php
+    'languages' => [
+        'cs' => ['label' => 'Čeština'],                       // first = default
+        'en' => ['label' => 'English', 'locale' => 'en_GB'],
+    ],
+    'languageFallback' => '404',   // or 'content'
+    ```
+
+    The **first** language is the default and keeps today's URLs: `/o-nas`.
+    Every other language gets its code in front: `/en/o-nas`, and `/en` for
+    the homepage. The admin, `/media` and `/thumb` never get a prefix. Leave
+    `languages` out (or list just one) and nothing changes.
+
+    ## A translation is a file
+
+    Next to the page's content file, named `<template>.<code>.txt`:
+
+    ```
+    site/content/pages/
+      page.txt          ← home, Czech
+      page.en.txt       ← home, English
+      o-nas/
+        page.txt
+        page.en.txt
+        team.jpg        ← one file for both languages
+    ```
+
+    The translation has the usual format and holds only what differs:
+
+    ```
+    Title: About us
+    Slug: about-us
+    Status: published
+    ---
+    The English text, Markdown or blocks.
+    ```
+
+    Keys it leaves out come from the default file; an empty body falls back
+    to the default body. `Template`, `Sort`, `AllowedChildTemplates`,
+    `Group`, `Listing`, `Cascade` and `Access` always come from the default
+    file, so the tree is the same in every language. `Status` and the
+    publish dates can differ: a translation can stay a draft while the
+    original is live.
+
+    In the admin the page form gets **a tab per language**. Saving a tab
+    writes that file; *Delete translation* removes only it. The page tree
+    shows a badge per language — dashed means not translated yet.
+
+    ## Values shared by all languages
+
+    A price or a product photo shouldn't be typed twice. Mark the field in
+    the template's manifest:
+
+    ```yaml
+    # site/templates/product.blocks.yaml
+    fields:
+      subtitle: { type: text, label: Subtitle }                    # translated
+      price:    { type: number, label: Price, translate: false }   # shared
+    ```
+
+    `translate: false` fields are edited on the default tab and read from
+    the default file in every language.
+
+    ## Pages without a translation
+
+    | `languageFallback` | `/en/page` | English menus and listings |
+    |---|---|---|
+    | `'404'` (default) | 404 | left out |
+    | `'content'` | the default text, `page.translated` is false | included |
+
+    ## Translated slugs
+
+    `Slug: about-us` in `o-nas/page.en.txt` puts the English page at
+    `/en/about-us`; `/en/o-nas` answers a 301 to it. The **folder path is
+    still the page's identity**: `page.urlPath`, `page('/o-nas')`,
+    `Access:` inheritance, `/media` URLs and `options_from: pages` values are
+    the same in every language.
+
+- type: callout
+  tone: warning
+  title: Links go through url()
+  body: |
+    `page.urlPath` is the folder path, the same in every language — use it
+    for lookups and comparisons. Build links with `url(p)` or
+    `url('/guide')`: it adds the language prefix and the translated slug.
+    Every template in this demo already does, so turning languages on needs
+    no template changes. Leave `/media/…` URLs and links typed by editors as
+    they are.
+
+- type: text
+  body: |
+    ## Templates
+
+    This demo's `layout.twig` already sets `<html lang>`, prints the
+    `hreflang` links and shows a CS · EN switcher once `languages` is set.
+    The pattern:
+
+    ```twig
+    <html lang="{{ lang }}">
+    {% for l in translations(page) %}
+      <link rel="alternate" hreflang="{{ l.code }}" href="{{ app.baseUrl ~ l.url }}">
+    {% endfor %}
+
+    <nav>
+      {% for p in top_level_pages() %}<a href="{{ url(p) }}">{{ p.title }}</a>{% endfor %}
+    </nav>
+
+    <ul class="switcher">
+      {% for l in translations(page) %}
+        <li><a href="{{ l.url }}"{% if l.current %} aria-current="true"{% endif %}>{{ l.label }}</a></li>
+      {% endfor %}
+    </ul>
+    ```
+
+    | | |
+    |---|---|
+    | `lang` | the current code — empty on a one-language site |
+    | `languages` | every language, with a link to its homepage |
+    | `url(page)`, `url('/o-nas')`, `url(page, 'en')` | public URL in the current (or given) language |
+    | `translations(page)` | the languages this page is live in — `code`, `label`, `url`, `current` |
+    | `page.lang`, `page.translated`, `page.translations` | the page's language, whether it has a translation, which ones |
+
+    `page()`, `child_pages()`, `nav_pages()` and `top_level_pages()` return
+    pages in the current language.
+
+    ## Interface strings
+
+    Text that isn't content — "Read more", "Menu", form labels — goes in
+    `site/lang/<code>.yaml`:
+
+    ```yaml
+    # site/lang/en.yaml
+    nav:
+      menu: Menu
+    greeting: Hello {name}
+    ```
+
+    `{{ t('nav.menu') }}`, `{{ t('greeting', {name: visitor.label}) }}`.
+    A missing key falls back to the default language, then to the third
+    argument, then to the key itself.
+
+    ## Redirects
+
+    A rule in `_redirects.yaml` without `lang` matches in every language and
+    sends the visitor to the target in their own language. `lang: en` limits
+    a rule to English requests — its paths are then English paths without
+    the prefix:
+
+    ```yaml
+    - from: /about-us/{path*}
+      to: /who-we-are/{path}
+      lang: en
+    ```
+
+    Changing a translated slug in the admin adds such a rule for you.
+
+    ## Not yet
+
+    Collections are single-language, and a block body is translated as a
+    whole. The full reference is
+    `vendor/lexislav/station0/docs/multilingual.md`.
