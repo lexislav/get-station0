@@ -6,7 +6,7 @@
     <p>The page was <em>archived</em> or reached its <em>ExpireAt</em> date, so Station0 answers
     <strong>410 Gone</strong>: search engines drop it faster than a 404. A redirect rule with
     <code>status: 410</code> renders this page too.</p>
-    <p>This page is <code>site/templates/410.twig</code>. See <a href="/guide/visibility">Visibility</a>,
-    or go to the <a href="/">homepage</a>.</p>
+    <p>This page is <code>site/templates/410.twig</code>. See <a href="{{ url('/guide/visibility') }}">Visibility</a>,
+    or go to the <a href="{{ url('/') }}">homepage</a>.</p>
 </article>
 {% endblock %}

@@ -14,7 +14,7 @@
     <div class="cards">
         {% for child in child_pages(page.urlPath) %}
             {% set f = page_fields(child) %}
-            <a class="card" href="{{ child.urlPath }}"{% if f.accent %} style="--card-accent: {{ f.accent }}"{% endif %}>
+            <a class="card" href="{{ url(child) }}"{% if f.accent %} style="--card-accent: {{ f.accent }}"{% endif %}>
                 {% if f.hero %}<img src="{{ f.hero|thumb(480, 300, 'cover') }}" alt="" loading="lazy">{% endif %}
                 <strong>{{ child.title }}</strong>
                 {% if f.subtitle %}<span class="muted">{{ f.subtitle }}</span>{% endif %}

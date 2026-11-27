@@ -4,7 +4,7 @@
 
 {% block body %}
 <article>
-    <p class="crumb"><a href="/guide">← Guide</a></p>
+    <p class="crumb"><a href="{{ url('/guide') }}">← Guide</a></p>
     <h1>{{ page.title }}</h1>
     {% if fields.summary %}<p class="lead">{{ fields.summary }}</p>{% endif %}
     {% if fields.demo %}<p><a class="button" href="{{ fields.demo }}">See it live: {{ fields.demo }} →</a></p>{% endif %}
@@ -17,7 +17,7 @@
         <h2>Pages in this section</h2>
         <ul>
             {% for c in children %}
-                <li><a href="{{ c.urlPath }}">{{ c.title }}</a>{% if not c.inNav %} <span class="muted">(nav-hidden — not in nav_pages())</span>{% endif %}</li>
+                <li><a href="{{ url(c) }}">{{ c.title }}</a>{% if not c.inNav %} <span class="muted">(nav-hidden — not in nav_pages())</span>{% endif %}</li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -27,8 +27,8 @@
     {% for s in siblings %}
         {% if s.urlPath == page.urlPath %}
             <nav class="pager">
-                {% if not loop.first %}{% set prev = siblings[loop.index0 - 1] %}<a href="{{ prev.urlPath }}">← {{ prev.title }}</a>{% else %}<span></span>{% endif %}
-                {% if not loop.last %}{% set next = siblings[loop.index0 + 1] %}<a href="{{ next.urlPath }}">{{ next.title }} →</a>{% endif %}
+                {% if not loop.first %}{% set prev = siblings[loop.index0 - 1] %}<a href="{{ url(prev) }}">← {{ prev.title }}</a>{% else %}<span></span>{% endif %}
+                {% if not loop.last %}{% set next = siblings[loop.index0 + 1] %}<a href="{{ url(next) }}">{{ next.title }} →</a>{% endif %}
             </nav>
         {% endif %}
     {% endfor %}

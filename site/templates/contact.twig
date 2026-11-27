@@ -22,7 +22,7 @@
             </p>
         {% endif %}
         {% set old = st.old ?? {} %}
-        <form class="form" method="post" action="/contact/send">
+        <form class="form" method="post" action="{{ url('/contact/send') }}">
             <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
             <input type="hidden" name="{{ csrf.valueKey }}" value="{{ csrf.value }}">
             <label>Name <input name="name" value="{{ old.name ?? visitor.label ?? '' }}" required></label>
@@ -38,7 +38,7 @@
         the admin shows only the two page fields (intro and thank-you text), no page builder.
         The form posts to <code>/contact/send</code>, handled by <code>site/actions/contact.php</code>,
         which validates, rate-limits (5 per hour per IP) and logs the message to
-        <code>writable/logs/app.log</code>. Read <a href="/guide/forms">Forms and site actions</a>.</p>
+        <code>writable/logs/app.log</code>. Read <a href="{{ url('/guide/forms') }}">Forms and site actions</a>.</p>
     </details>
 </article>
 {% endblock %}

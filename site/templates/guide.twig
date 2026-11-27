@@ -15,7 +15,7 @@
     <ol class="topic-list">
         {% for child in child_pages(page.urlPath) %}
             <li>
-                <a href="{{ child.urlPath }}">{{ child.title }}</a>
+                <a href="{{ url(child) }}">{{ child.title }}</a>
                 {% set f = page_fields(child) %}
                 {% if f.summary %}<p>{{ f.summary }}</p>{% endif %}
             </li>

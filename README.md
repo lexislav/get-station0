@@ -577,6 +577,8 @@ product:
 | `collection_item('name', 'slug')` | One live item, or `null` |
 | `render_collection_item(item)` | The item body as HTML |
 | `action_state('name')` | State / flash messages of a [site action](#site-actions-forms) — read once per render |
+| `url(page)`, `url('/path')` | The public URL of a page or path in the current language *(station0 ≥ 0.11)*. On a one-language site it is the path itself. Use it for every internal link (see [Languages](#languages)) |
+| `translations(page)` | Languages the page is live in: `[{code, label, url, current}]`, for a language switcher and `hreflang` *(station0 ≥ 0.11)* |
 
 | Filter | Returns |
 |---|---|
@@ -723,6 +725,26 @@ everything below it) or a collection name; `*` wildcards work (`page.*`).
 | `TASKS_PHP` | | PHP CLI binary for `spawn` (detected when empty) |
 
 The site name (`name`), paths, session settings, [`access`](#members-only-access) and [`plugins`](#plugins) are set in `site/config.php`.
+
+### Languages
+
+*(station0 ≥ 0.11)* One content tree can be served in several languages. Turn it on in `site/config.php`:
+
+```php
+"languages" => [
+    "cs" => ["label" => "Čeština"],                      // first = default, no prefix: /o-nas
+    "en" => ["label" => "English", "locale" => "en_GB"], // /en/…
+],
+```
+
+A translation is a file next to the page: `site/content/pages/o-nas/page.en.txt` holds the English title, fields and body. Anything it leaves out comes from `page.txt`, and assets and sub-pages are shared. `Slug: about-us` in the translation gives the page its own English URL (`/en/about-us`). In the admin, each page gets a tab per language.
+
+Templates need two things:
+
+- **Link with `url()`**, never with `page.urlPath`: `<a href="{{ url(p) }}">`, `<a href="{{ url('/guide') }}">`. `url()` adds the language prefix and translated slugs. `page.urlPath` stays the folder path that identifies a page in every language (`page('/o-nas')`, comparisons).
+- **Say which language a page is in:** `<html lang="{{ lang|default('en') }}">`, plus a switcher from `translations(page)`. The skeleton's `layout.twig` has both; they appear only once `languages` is set.
+
+Interface text that isn't content goes in `site/lang/<code>.yaml` and is printed with `{{ t('nav.menu') }}`. Leave links that editors type in fields (`/media/…`, external URLs) as they are. Details: [docs/multilingual.md](https://github.com/lexislav/station0/blob/main/docs/multilingual.md).
 
 ### Plugins
 
