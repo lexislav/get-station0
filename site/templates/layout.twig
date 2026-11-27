@@ -23,7 +23,7 @@
                 <span class="site-banner-subtitle">{{ banner.extra.subtitle }}</span>
             {% endif %}
             {% if banner.extra.cta_url %}
-                <a class="site-banner-cta" href="{{ banner.extra.cta_url }}"
+                <a class="site-banner-cta" href="{{ url(banner.extra.cta_url) }}"
                    {% if banner.extra.color %}style="color:{{ banner.extra.color }}"{% endif %}>
                     {{ banner.extra.cta_text ?? 'Learn more' }} →
                 </a>

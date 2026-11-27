@@ -755,7 +755,7 @@ Templates need two things:
 - **Link with `url()`**, never with `page.urlPath`: `<a href="{{ url(p) }}">`, `<a href="{{ url('/guide') }}">`. `url()` adds the language prefix and translated slugs. `page.urlPath` stays the folder path that identifies a page in every language (`page('/o-nas')`, comparisons).
 - **Say which language a page is in:** `<html lang="{{ lang|default('en') }}">`, plus a switcher from `translations(page)`. The skeleton's `layout.twig` has both; they appear only once `languages` is set.
 
-Interface text that isn't content goes in `site/lang/<code>.yaml` and is printed with `{{ t('nav.menu') }}`. Leave links that editors type in fields (`/media/…`, external URLs) as they are.
+Interface text that isn't content goes in `site/lang/<code>.yaml` and is printed with `{{ t('nav.menu') }}`. Links that editors type into fields can go through `url()` as well *(station0 ≥ 0.11.1)*: a page path like `/shop` gets the language, while external URLs, `/media/…` files and `#anchors` come back unchanged.
 
 ```yaml
 # site/lang/en.yaml
