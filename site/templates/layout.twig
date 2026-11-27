@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ lang|default('en') }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ app.name }}{% endblock %}</title>
     <link rel="stylesheet" href="/assets/site.css">
+    {% if page is defined and page %}{% for l in translations(page) %}
+    <link rel="alternate" hreflang="{{ l.code }}" href="{{ app.baseUrl ~ l.url }}">
+    {% endfor %}{% endif %}
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -32,15 +35,24 @@
 {% endif %}
 
 <header class="site-header">
-    <a class="brand" href="/">{{ app.name }}</a>
+    <a class="brand" href="{{ url('/') }}">{{ app.name }}</a>
     {# top_level_pages() = live first-level pages, minus nav-hidden / unlisted ones #}
     <nav class="site-nav">
         {% for p in top_level_pages() %}
-            <a href="{{ p.urlPath }}"{% if page is defined and (page.urlPath == p.urlPath or page.urlPath starts with p.urlPath ~ '/') %} aria-current="page"{% endif %}>{{ p.title }}</a>
+            <a href="{{ url(p) }}"{% if page is defined and (page.urlPath == p.urlPath or page.urlPath starts with p.urlPath ~ '/') %} aria-current="page"{% endif %}>{{ p.title }}</a>
         {% endfor %}
     </nav>
     {# `visitor` = who is looking at the public site (/guide/members) #}
     <div class="site-visitor">
+        {# Language switcher — only on a multilingual site (`languages` in site/config.php).
+           translations(page) = the languages this page is live in; pages without
+           one (404) fall back to each language's home. #}
+        {% set langs = page is defined and page ? translations(page) : (languages ?? []) %}
+        {% if langs|length > 1 %}
+            <span class="site-langs">
+                {% for l in langs %}<a href="{{ l.url }}" hreflang="{{ l.code }}" lang="{{ l.code }}"{% if l.current %} aria-current="true"{% endif %}>{{ l.code|upper }}</a>{% endfor %}
+            </span>
+        {% endif %}
         {% if visitor.authenticated %}
             <span class="muted">{{ visitor.label }}</span>
             {% if visitor.staff %}<a href="{{ app.adminPath }}">Admin</a>{% endif %}
@@ -61,7 +73,7 @@
     {% block body %}{% endblock %}
 </main>
 <footer class="site-footer">
-    <p>Built with Station0 · every page here explains the feature it uses — start at the <a href="/guide">Guide</a>.
+    <p>Built with Station0 · every page here explains the feature it uses — start at the <a href="{{ url('/guide') }}">Guide</a>.
        Rendered by <code>site/templates/{{ (page.template ?? 'layout') }}.twig</code>.</p>
 </footer>
 </body>

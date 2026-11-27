@@ -14,7 +14,7 @@
 
     <p class="category-nav">Categories:
         {% for cat in collection('blog-categories') %}
-            <a class="badge" href="{{ page.urlPath }}/categories#{{ cat.slug }}" style="background: {{ cat.extra.color ?? '#eef2ff' }}">{{ cat.title }}</a>
+            <a class="badge" href="{{ url(page.urlPath ~ '/categories#' ~ cat.slug) }}" style="background: {{ cat.extra.color ?? '#eef2ff' }}">{{ cat.title }}</a>
         {% endfor %}
     </p>
 
@@ -22,7 +22,7 @@
         {% for child in child_pages(page.urlPath)|filter(c => c.template == 'article') %}
             {% set f = page_fields(child) %}
             <li>
-                <a href="{{ child.urlPath }}">{{ child.title }}</a>
+                <a href="{{ url(child) }}">{{ child.title }}</a>
                 {% if child.publishedAt %}
                     <span class="muted"> — {{ child.publishedAt|date('j M Y') }}{% if child.author %} · {{ child.author }}{% endif %}</span>
                 {% endif %}

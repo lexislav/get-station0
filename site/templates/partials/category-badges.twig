@@ -12,7 +12,7 @@
 {% if cats %}
 <span class="categories">
     {% for c in cats %}
-        <a class="badge" href="/blog/categories#{{ c.slug }}" style="background: {{ c.extra.color ?? '#eef2ff' }}">{{ c.title }}</a>
+        <a class="badge" href="{{ url('/blog/categories#' ~ c.slug) }}" style="background: {{ c.extra.color ?? '#eef2ff' }}">{{ c.title }}</a>
     {% endfor %}
 </span>
 {% endif %}

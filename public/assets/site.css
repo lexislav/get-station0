@@ -95,6 +95,9 @@ button.link { background: none; border: 0; padding: 0; color: var(--accent); cur
 .site-visitor { margin-left: auto; display: flex; gap: 1rem; align-items: center; font-size: .9rem; }
 .site-visitor form { margin: 0; }
 .site-visitor a { color: var(--muted); }
+.site-langs { display: flex; gap: .5rem; }
+.site-langs a { text-decoration: none; font-size: .8rem; letter-spacing: .03em; }
+.site-langs a[aria-current] { color: var(--fg); font-weight: 600; }
 .site-footer { border-top: 1px solid var(--border); padding: 1.5rem; text-align: center; color: var(--muted); font-size: .85rem; }
 .site-footer code { font-family: var(--mono); }
 details.explain { margin: 2.5rem 0 0; padding: 1rem 1.25rem; background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius); font-size: .92rem; }

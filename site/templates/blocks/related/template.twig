@@ -6,6 +6,6 @@
 {% if links %}
 <nav class="related">
     <p class="related__heading">{{ block.heading|default('Read next') }}</p>
-    <ul>{% for p in links %}<li><a href="{{ p.urlPath }}">{{ p.title }}</a></li>{% endfor %}</ul>
+    <ul>{% for p in links %}<li><a href="{{ url(p) }}">{{ p.title }}</a></li>{% endfor %}</ul>
 </nav>
 {% endif %}

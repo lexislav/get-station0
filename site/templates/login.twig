@@ -28,7 +28,7 @@
     {% if login.notice %}<p class="notice notice--ok">{{ notices[login.notice] ?? login.notice }}</p>{% endif %}
 
     {% if visitor.member %}
-        <p>You are signed in as <strong>{{ visitor.label }}</strong>. Go to the <a href="/members">members area</a>.</p>
+        <p>You are signed in as <strong>{{ visitor.label }}</strong>. Go to the <a href="{{ url('/members') }}">members area</a>.</p>
         {% if not visitor.staff %}
         <form class="form" method="post" action="{{ login.paths.password }}">
             <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">
@@ -40,7 +40,7 @@
         </form>
         {% endif %}
     {% else %}
-        <p>The <a href="/members">members area</a> is for signed-in visitors. Member accounts
+        <p>The <a href="{{ url('/members') }}">members area</a> is for signed-in visitors. Member accounts
         have the <code>member</code> role — they can sign in here, not in the admin.</p>
         <form class="form" method="post" action="{{ login.paths.login }}">
             <input type="hidden" name="{{ csrf.nameKey }}" value="{{ csrf.name }}">

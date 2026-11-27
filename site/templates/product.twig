@@ -8,7 +8,7 @@
 
 {% block body %}
 <article class="product"{% if fields.accent %} style="--card-accent: {{ fields.accent }}"{% endif %}>
-    <p class="crumb"><a href="/shop">← Shop</a></p>
+    <p class="crumb"><a href="{{ url('/shop') }}">← Shop</a></p>
     <h1>{{ page.title }}</h1>
     {% if fields.subtitle %}<p class="lead">{{ fields.subtitle }}</p>{% endif %}
 
@@ -41,7 +41,7 @@
     {% endfor %}
     {% if related %}
         <h2>Related products</h2>
-        <ul>{% for p in related %}<li><a href="{{ p.urlPath }}">{{ p.title }}</a> — {{ page_fields(p).price|number_format(2, '.', ' ') }} €</li>{% endfor %}</ul>
+        <ul>{% for p in related %}<li><a href="{{ url(p) }}">{{ p.title }}</a> — {{ page_fields(p).price|number_format(2, '.', ' ') }} €</li>{% endfor %}</ul>
     {% endif %}
 
     <details class="explain">
@@ -50,7 +50,7 @@
         <code>site/templates/product.blocks.yaml</code> and stored in the front matter of
         <code>{{ page.urlPath|trim('/') }}/product.txt</code>. The text in the middle is the
         page builder, limited to <code>text</code>, <code>gallery</code>, <code>callout</code>
-        and <code>quote</code> blocks. Read <a href="/guide/page-fields">Page fields</a>.</p>
+        and <code>quote</code> blocks. Read <a href="{{ url('/guide/page-fields') }}">Page fields</a>.</p>
     </details>
 </article>
 {% endblock %}

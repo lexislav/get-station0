@@ -15,6 +15,16 @@ return function (
         "debug" => filter_var($_ENV["DEBUG"] ?? false, FILTER_VALIDATE_BOOLEAN),
         "adminPath" => rtrim($_ENV["ADMIN_PATH"] ?? "/admin", "/"),
 
+        // Languages (station0 >= 0.11). The first one is the default and has no
+        // URL prefix; the others are served under /en/… from the same content
+        // tree, with translations in page.en.txt next to each page. Templates
+        // link with url(page) / url('/path'). See station0 docs/multilingual.md.
+        // "languages" => [
+        //     "cs" => ["label" => "Čeština"],
+        //     "en" => ["label" => "English", "locale" => "en_GB"],
+        // ],
+        // "languageFallback" => "404",  // '404' | 'content' (untranslated pages show the default text)
+
         // Admin UI language (station0 >= 0.5). Shipped translations: 'en', 'cs'.
         // Unknown locales and missing keys fall back to the English base.
         "admin_locale" => $_ENV["ADMIN_LOCALE"] ?? "cs",

@@ -133,6 +133,8 @@ A new `site/templates/<name>.twig` appears in the admin's Template dropdown.
 | `src\|thumb_srcset([400, 800])` | `srcset` string |
 | `text\|markdown(page = current)` | Markdown → HTML like a text block (page-local images, thumbnails) *(≥ 0.10.3)*; alias `markdown_to_html` |
 | `action_state('name')` | Flash / state of a site action — read **once** per render |
+| `url(page)` / `url('/path')` | Public URL in the current language *(≥ 0.11)* — use for **every** internal link, never `page.urlPath` |
+| `translations(page)` | Languages the page is live in (`code`, `label`, `url`, `current`) — switcher, `hreflang` *(≥ 0.11)* |
 
 Page helpers take an optional last argument `includeGated = true` to keep
 members-only pages for anonymous visitors (teaser lists).
@@ -318,6 +320,18 @@ php vendor/bin/console task:run <name> --param=value --flag
 ```
 
 Hooks: `'on' => ['page.saved:/blog', 'collection.item.*:products']`.
+
+## Languages *(≥ 0.11)*
+
+`"languages" => ["cs" => [...], "en" => [...]]` in `site/config.php` (first =
+default, no prefix; others under `/en/…`). A translation is
+`<content file>.<code>.txt` next to the page (`page.en.txt`), merged over the
+default file; `Slug:` there gives the page its own URL segment. Link with
+`url(page)` / `url('/path')` — `page.urlPath` is the folder path, the same in
+every language, so use it for lookups and comparisons only. Don't wrap
+`/media/…` URLs or editor-typed links in `url()`. Globals: `lang`,
+`languages`; site strings: `t('key')` from `site/lang/<code>.yaml`. See
+`vendor/lexislav/station0/docs/multilingual.md`.
 
 ## Plugins *(≥ 0.10, experimental)*
 
