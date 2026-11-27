@@ -335,8 +335,9 @@ default, no prefix; others under `/en/…`). A translation is
 `<content file>.<code>.txt` next to the page (`page.en.txt`), merged over the
 default file; `Slug:` there gives the page its own URL segment. Link with
 `url(page)` / `url('/path')` — `page.urlPath` is the folder path, the same in
-every language, so use it for lookups and comparisons only. Don't wrap
-`/media/…` URLs or editor-typed links in `url()`. Globals: `lang`,
+every language, so use it for lookups and comparisons only. Editor-typed
+link fields go through `url()` too *(≥ 0.11.1)*: external URLs, `/media`,
+`/thumb`, admin paths, relative links and `#…` are returned unchanged. Globals: `lang`,
 `languages`; site strings: `t('key')` from `site/lang/<code>.yaml`. See
 `vendor/lexislav/station0/docs/multilingual.md`.
 

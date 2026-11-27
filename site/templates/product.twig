@@ -32,7 +32,7 @@
         </table>
     {% endif %}
 
-    {% if fields.datasheet %}<p><a href="{{ fields.datasheet }}">Download the datasheet</a></p>{% endif %}
+    {% if fields.datasheet %}<p><a href="{{ url(fields.datasheet) }}">Download the datasheet</a></p>{% endif %}
 
     {% set related = [] %}
     {% for r in fields.related|default([]) %}
